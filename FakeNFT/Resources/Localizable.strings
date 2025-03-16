@@ -1,5 +1,7 @@
 "Tab.catalog" = "Каталог";
 "Tab.profile" = "Профиль";
+"Profile.MyNFT.title" = "Мои NFT";
+"Profile.FavoritesNFT.title" = "Избранные NFT";
 "Catalog.openNft" = "Открыть Nft";
 "Error.network" = "Произошла ошибка сети";
 "Error.unknown" = "Произошла неизвестная ошибка";

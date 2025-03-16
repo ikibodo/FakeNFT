@@ -81,9 +81,20 @@ final class ProfileController: UIViewController {
         return tableView
     }()
     
+    private lazy var rightBarButton: UIBarButtonItem = {
+        let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
+        let button = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil", withConfiguration: boldConfig),
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(openEditProfile))
+        button.tintColor = UIColor.black
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = rightBarButton
         view.backgroundColor = .systemBackground
         
         avatatarImageView.image = UIImage(named: mockUserProfile.avatar)
@@ -120,6 +131,10 @@ final class ProfileController: UIViewController {
             profileTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             profileTableView.heightAnchor.constraint(equalToConstant: 162)
         ])
+    }
+    
+    @objc private func openEditProfile() {
+        present(UINavigationController(rootViewController: EditProfile()), animated: true, completion: nil)
     }
 }
 
@@ -160,9 +175,13 @@ extension ProfileController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            print("Вы выбрали \"Мои NFT\"")
+            let controller = MyNFT()
+            let navigationController = UINavigationController(rootViewController: controller)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
         case 1:
-            print("Вы выбрали \"Избранные NFT\"")
+            let controller = FavoritesNFT()
+            navigationController?.pushViewController(controller, animated: true)
         case 2:
             print("Вы выбрали \"О разработчике\"")
         default:

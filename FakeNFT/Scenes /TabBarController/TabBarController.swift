@@ -22,7 +22,7 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         
         let catalogController = TestCatalogViewController( servicesAssembly: servicesAssembly )
-        let profileController = ProfileController( servicesAssembly: servicesAssembly )
+        let profileController = UINavigationController(rootViewController: ProfileController( servicesAssembly: servicesAssembly ))
         
         catalogController.tabBarItem = catalogTabBarItem
         profileController.tabBarItem = profileTabBarItem
