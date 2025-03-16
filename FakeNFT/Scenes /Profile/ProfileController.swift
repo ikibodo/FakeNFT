@@ -20,14 +20,7 @@ final class ProfileController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let mockUserProfile = UserProfile(name: "Студентус Практикумус",
-                                              avatar: "mock_avatar",
-                                              description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
-                                              website: "https://practicum.yandex.ru/ios-developer",
-                                              nfts: ["68","69","71","72","73","74","75","76","77","78","79","80","81"],
-                                              likes: ["5","13","19","26","27","33","35","39","41","47","56","66"])
-    
-    private lazy var avatatarImageView: UIImageView = {
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 35
         imageView.clipsToBounds = true
@@ -97,28 +90,28 @@ final class ProfileController: UIViewController {
         navigationItem.rightBarButtonItem = rightBarButton
         view.backgroundColor = .systemBackground
         
-        avatatarImageView.image = UIImage(named: mockUserProfile.avatar)
+        avatarImageView.image = UIImage(named: mockUserProfile.avatar)
         nameLabel.text = mockUserProfile.name
         descriptionTextView.text = mockUserProfile.description
         websiteTextView.text = mockUserProfile.website
         
-        view.addSubview(avatatarImageView)
+        view.addSubview(avatarImageView)
         view.addSubview(nameLabel)
         view.addSubview(descriptionTextView)
         view.addSubview(websiteTextView)
         view.addSubview(profileTableView)
         
         NSLayoutConstraint.activate([
-            avatatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            avatatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            avatatarImageView.widthAnchor.constraint(equalToConstant: 70),
-            avatatarImageView.heightAnchor.constraint(equalToConstant: 70),
+            avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 70),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             
-            nameLabel.centerYAnchor.constraint(equalTo: avatatarImageView.centerYAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: avatatarImageView.trailingAnchor, constant: 16),
+            nameLabel.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
             nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
             
-            descriptionTextView.topAnchor.constraint(equalTo: avatatarImageView.bottomAnchor, constant: 20),
+            descriptionTextView.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20),
             descriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18),
             
@@ -134,7 +127,9 @@ final class ProfileController: UIViewController {
     }
     
     @objc private func openEditProfile() {
-        present(UINavigationController(rootViewController: EditProfile()), animated: true, completion: nil)
+        let editProfileVC = EditProfile()
+        editProfileVC.delegate = self  // Устанавливаем делегат
+        present(UINavigationController(rootViewController: editProfileVC), animated: true, completion: nil)
     }
 }
 
@@ -188,5 +183,14 @@ extension ProfileController: UITableViewDelegate {
             break
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension ProfileController: EditProfileDelegate {
+    func didUpdateProfile() {
+        avatarImageView.image = UIImage(named: mockUserProfile.avatar)
+        nameLabel.text = mockUserProfile.name
+        descriptionTextView.text = mockUserProfile.description
+        websiteTextView.text = mockUserProfile.website
     }
 }
