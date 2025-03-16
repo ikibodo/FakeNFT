@@ -70,6 +70,17 @@ final class ProfileController: UIViewController {
         return textView
     }()
     
+    private lazy var profileTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.isScrollEnabled = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,6 +95,7 @@ final class ProfileController: UIViewController {
         view.addSubview(nameLabel)
         view.addSubview(descriptionTextView)
         view.addSubview(websiteTextView)
+        view.addSubview(profileTableView)
         
         NSLayoutConstraint.activate([
             avatatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -101,7 +113,61 @@ final class ProfileController: UIViewController {
             
             websiteTextView.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 8),
             websiteTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            websiteTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            websiteTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            profileTableView.topAnchor.constraint(equalTo: websiteTextView.bottomAnchor, constant: 40),
+            profileTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            profileTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            profileTableView.heightAnchor.constraint(equalToConstant: 162)
         ])
+    }
+}
+
+extension ProfileController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        switch indexPath.section {
+        case 0:
+            cell.textLabel?.text = "Мои NFT (\(mockUserProfile.nfts.count))"
+        case 1:
+            cell.textLabel?.text = "Избранные NFT (\(mockUserProfile.likes.count))"
+        case 2:
+            cell.textLabel?.text = "О разработчике"
+        default:
+            break
+        }
+        
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        cell.textLabel?.textColor = UIColor.black
+        
+        let imageView = UIImageView(image: UIImage(systemName: "chevron.forward"))
+        imageView.tintColor = UIColor.black
+        cell.accessoryView = imageView
+        return cell
+    }
+}
+
+extension ProfileController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            print("Вы выбрали \"Мои NFT\"")
+        case 1:
+            print("Вы выбрали \"Избранные NFT\"")
+        case 2:
+            print("Вы выбрали \"О разработчике\"")
+        default:
+            break
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
