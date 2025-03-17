@@ -20,6 +20,15 @@ final class ProfileController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var userProfile: UserProfile?
+    
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 35
@@ -87,49 +96,96 @@ final class ProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = rightBarButton
         view.backgroundColor = .systemBackground
         
-        avatarImageView.image = UIImage(named: mockUserProfile.avatar)
-        nameLabel.text = mockUserProfile.name
-        descriptionTextView.text = mockUserProfile.description
-        websiteTextView.text = mockUserProfile.website
+        view.addSubview(contentView)
         
-        view.addSubview(avatarImageView)
-        view.addSubview(nameLabel)
-        view.addSubview(descriptionTextView)
-        view.addSubview(websiteTextView)
-        view.addSubview(profileTableView)
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(descriptionTextView)
+        contentView.addSubview(websiteTextView)
+        contentView.addSubview(profileTableView)
         
+        setupConstraints()
+        loadProfile()
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
-            avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            avatarImageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
+            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             
             nameLabel.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             descriptionTextView.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20),
-            descriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18),
+            descriptionTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            descriptionTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             websiteTextView.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 8),
-            websiteTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            websiteTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            websiteTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            websiteTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             profileTableView.topAnchor.constraint(equalTo: websiteTextView.bottomAnchor, constant: 40),
-            profileTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            profileTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            profileTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            profileTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             profileTableView.heightAnchor.constraint(equalToConstant: 162)
         ])
     }
     
     @objc private func openEditProfile() {
-        let editProfileVC = EditProfile()
+        guard let userProfile else { return }
+        let editProfileVC = EditProfile(servicesAssembly: servicesAssembly, userProfile: userProfile)
         editProfileVC.delegate = self  // Устанавливаем делегат
         present(UINavigationController(rootViewController: editProfileVC), animated: true, completion: nil)
+    }
+    
+    private func loadProfile() {
+        servicesAssembly.profileService.loadProfile { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let profile):
+                    self.userProfile = profile
+                    self.avatarImageView.image = UIImage(named: profile.avatar)
+                    self.nameLabel.text = profile.name
+                    self.descriptionTextView.text = profile.description ?? "Описание отсутствует"
+                    self.websiteTextView.text = profile.website
+                    
+                    self.profileTableView.reloadData()
+                    
+                    self.navigationItem.rightBarButtonItem = self.rightBarButton
+                    self.contentView.isHidden = false // Показываем контент
+                case .failure(let error):
+                    self.showErrorAlert(error: error)
+                }
+            }
+        }
+    }
+    
+    private func showErrorAlert(error: Error) {
+        let alert = UIAlertController(
+            title: "Ошибка",
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "Повторить попытку", style: .default) { [weak self] _ in
+            self?.loadProfile()
+        })
+        
+        present(alert, animated: true)
     }
 }
 
@@ -145,11 +201,16 @@ extension ProfileController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
+        guard let profile = userProfile else {
+            cell.textLabel?.text = "Загрузка..."
+            return cell
+        }
+        
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = "Мои NFT (\(mockUserProfile.nfts.count))"
+            cell.textLabel?.text = "Мои NFT (\(profile.nfts.count))"
         case 1:
-            cell.textLabel?.text = "Избранные NFT (\(mockUserProfile.likes.count))"
+            cell.textLabel?.text = "Избранные NFT (\(profile.likes.count))"
         case 2:
             cell.textLabel?.text = "О разработчике"
         default:
@@ -187,10 +248,12 @@ extension ProfileController: UITableViewDelegate {
 }
 
 extension ProfileController: EditProfileDelegate {
-    func didUpdateProfile() {
-        avatarImageView.image = UIImage(named: mockUserProfile.avatar)
-        nameLabel.text = mockUserProfile.name
-        descriptionTextView.text = mockUserProfile.description
-        websiteTextView.text = mockUserProfile.website
+    func didUpdateProfile(with updatedProfile: UserProfile) {
+        self.userProfile = updatedProfile
+        avatarImageView.image = UIImage(named: updatedProfile.avatar)
+        nameLabel.text = updatedProfile.name
+        descriptionTextView.text = updatedProfile.description
+        websiteTextView.text = updatedProfile.website
+        profileTableView.reloadData()
     }
 }

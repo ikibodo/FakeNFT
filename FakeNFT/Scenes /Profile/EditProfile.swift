@@ -8,10 +8,23 @@
 import UIKit
 
 protocol EditProfileDelegate: AnyObject {
-    func didUpdateProfile()
+    func didUpdateProfile(with updatedProfile: UserProfile)
 }
 
 final class EditProfile: UIViewController {
+    
+    let servicesAssembly: ServicesAssembly
+    var userProfile: UserProfile
+    
+    init(servicesAssembly: ServicesAssembly, userProfile: UserProfile) {
+        self.servicesAssembly = servicesAssembly
+        self.userProfile = userProfile
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -89,6 +102,7 @@ final class EditProfile: UIViewController {
         textField.layer.masksToBounds = true
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 44))
         textField.leftViewMode = .always
+        textField.clearButtonMode = .whileEditing
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -134,6 +148,7 @@ final class EditProfile: UIViewController {
         textField.layer.masksToBounds = true
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 44))
         textField.leftViewMode = .always
+        textField.clearButtonMode = .whileEditing
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -143,10 +158,10 @@ final class EditProfile: UIViewController {
         view.backgroundColor = UIColor.white
         navigationItem.rightBarButtonItem = closeButton
         
-        avatarImageView.image = UIImage(named: mockUserProfile.avatar)
-        nameTextField.text = mockUserProfile.name
-        descriptionTextView.text = mockUserProfile.description
-        websiteTextField.text = mockUserProfile.website
+        avatarImageView.image = UIImage(named: userProfile.avatar)
+        nameTextField.text = userProfile.name
+        descriptionTextView.text = userProfile.description
+        websiteTextField.text = userProfile.website
         
         setupKeyboardObservers()
         setupTapGesture()
@@ -248,21 +263,101 @@ final class EditProfile: UIViewController {
         view.endEditing(true)
     }
     
+    private func updateProfile(profile: UserProfile) {
+//        UIBlockingProgressHUD.show()
+        navigationItem.rightBarButtonItem = nil
+        servicesAssembly.profileService.updateProfile(profile: profile) { result in
+//            UIBlockingProgressHUD.dismiss()
+            
+            switch result {
+            case .success(let updateProfile):
+                print("""
+                        "name": "\(updateProfile.name)"
+                        "avatar": "\(updateProfile.avatar)"
+                        "description": "\(updateProfile.description ?? "null")"
+                        "website": "\(updateProfile.website)"
+                        "nfts": "\(updateProfile.nfts)"
+                        "likes": "\(updateProfile.likes)"
+                      """)
+                self.showSnackbar(message: "Профиль обновлен!", isSuccess: true)
+                self.delegate?.didUpdateProfile(with: updateProfile)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    self.dismiss(animated: true)
+                }
+                
+            case .failure(let error):
+                print(error)
+                self.showSnackbar(message: "Ошибка обновления профиля!", isSuccess: false)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    self.navigationItem.rightBarButtonItem = self.closeButton
+                }
+            }
+        }
+    }
+    
     @objc private func modalCloseButtonTapped() {
-        delegate?.didUpdateProfile()
-        dismiss(animated: true)
+        let currentProfile = servicesAssembly.profileService.getProfile()
+        
+        if userProfile != currentProfile {
+            updateProfile(profile: userProfile)
+        } else {
+            dismiss(animated: true)
+        }
     }
     
     @objc private func avatarTapped() {
         
         if avatarImageView.image == UIImage(named: "mock_avatar") {
-            mockUserProfile.avatar = "mock_avatar_batman"
+            userProfile.avatar = "mock_avatar_batman"
             avatarImageView.image = UIImage(named: "mock_avatar_batman")
             print("[Аватарка] изображение изменено на mock_avatar_batman")
         } else {
-            mockUserProfile.avatar = "mock_avatar"
+            userProfile.avatar = "mock_avatar"
             avatarImageView.image = UIImage(named: "mock_avatar")
             print("[Аватарка] изображение изменено на mock_avatar")
+        }
+    }
+    
+    private func showSnackbar(message: String, isSuccess: Bool) {
+        let snackbarHeight: CGFloat = 50
+        let snackbar = UIView()
+        snackbar.backgroundColor = isSuccess ? UIColor.green : UIColor.red
+        snackbar.alpha = 0.0
+        snackbar.layer.cornerRadius = 25
+        snackbar.layer.masksToBounds = true
+        
+        let label = UILabel()
+        label.text = message
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        
+        snackbar.addSubview(label)
+        view.addSubview(snackbar)
+        
+        snackbar.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            snackbar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            snackbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            snackbar.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            snackbar.heightAnchor.constraint(equalToConstant: snackbarHeight),
+            
+            label.centerXAnchor.constraint(equalTo: snackbar.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: snackbar.centerYAnchor)
+        ])
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            snackbar.alpha = 1.0
+        }) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                UIView.animate(withDuration: 0.3, animations: {
+                    snackbar.alpha = 0.0
+                }) { _ in
+                    snackbar.removeFromSuperview()
+                }
+            }
         }
     }
 }
@@ -272,10 +367,10 @@ extension EditProfile: UITextFieldDelegate {
         // Используем tag для различения полей
         switch textField.tag {
         case 1:
-            mockUserProfile.name = textField.text ?? ""
+            userProfile.name = textField.text ?? ""
             print("[Имя] Сохранено значение: \(textField.text ?? "")")
         case 2:
-            mockUserProfile.website = textField.text ?? ""
+            userProfile.website = textField.text ?? ""
             print("[Сайт] Сохранено значение: \(textField.text ?? "")")
         default:
             break
@@ -287,7 +382,7 @@ extension EditProfile: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         // Сохраняем введенное значение
         if let enteredText = textView.text {
-            mockUserProfile.description = enteredText
+            userProfile.description = enteredText
             print("[Описание] Сохраненное значение: \(enteredText)")
         }
     }
