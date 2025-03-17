@@ -5,6 +5,7 @@
 //  Created by Aleksandr Dugaev on 15.03.2025.
 //
 
+import Kingfisher
 import UIKit
 
 final class ProfileController: UIViewController {
@@ -143,7 +144,7 @@ final class ProfileController: UIViewController {
     
     @objc private func openEditProfile() {
         guard let userProfile else { return }
-        let editProfileVC = EditProfile(servicesAssembly: servicesAssembly, userProfile: userProfile)
+        let editProfileVC = EditProfileController(servicesAssembly: servicesAssembly, userProfile: userProfile)
         editProfileVC.delegate = self  // Устанавливаем делегат
         present(UINavigationController(rootViewController: editProfileVC), animated: true, completion: nil)
     }
@@ -156,7 +157,25 @@ final class ProfileController: UIViewController {
                 switch result {
                 case .success(let profile):
                     self.userProfile = profile
-                    self.avatarImageView.image = UIImage(named: profile.avatar)
+                    if let url = URL(string: profile.avatar) {
+                        print("\n \(url) \n")
+                        self.avatarImageView.kf.setImage(
+                            with: url,
+                            placeholder: UIImage(systemName: "person.circle.fill"),
+                            options: [
+                                .transition(.fade(0.3))
+                            ],
+                            completionHandler: { result in
+                                switch result {
+                                case .success(let value):
+                                    print("Загружено изображение: \(value.source.url?.absoluteString ?? "")")
+                                case .failure(let error):
+                                    print("Ошибка загрузки: \(error.localizedDescription)")
+                                }
+                            }
+                        )
+                    }
+                    
                     self.nameLabel.text = profile.name
                     self.descriptionTextView.text = profile.description ?? "Описание отсутствует"
                     self.websiteTextView.text = profile.website
@@ -249,11 +268,6 @@ extension ProfileController: UITableViewDelegate {
 
 extension ProfileController: EditProfileDelegate {
     func didUpdateProfile(with updatedProfile: UserProfile) {
-        self.userProfile = updatedProfile
-        avatarImageView.image = UIImage(named: updatedProfile.avatar)
-        nameLabel.text = updatedProfile.name
-        descriptionTextView.text = updatedProfile.description
-        websiteTextView.text = updatedProfile.website
-        profileTableView.reloadData()
+        loadProfile()
     }
 }

@@ -11,7 +11,7 @@ protocol EditProfileDelegate: AnyObject {
     func didUpdateProfile(with updatedProfile: UserProfile)
 }
 
-final class EditProfile: UIViewController {
+final class EditProfileController: UIViewController {
     
     let servicesAssembly: ServicesAssembly
     var userProfile: UserProfile
@@ -155,6 +155,7 @@ final class EditProfile: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = UIColor.white
         navigationItem.rightBarButtonItem = closeButton
         
@@ -308,11 +309,11 @@ final class EditProfile: UIViewController {
     @objc private func avatarTapped() {
         
         if avatarImageView.image == UIImage(named: "mock_avatar") {
-            userProfile.avatar = "mock_avatar_batman"
+            userProfile.avatar = "https://img.championat.com/s/1350x900/news/big/k/k/obzor-filma-betmen-2022_16469273721670946255.jpg"
             avatarImageView.image = UIImage(named: "mock_avatar_batman")
             print("[Аватарка] изображение изменено на mock_avatar_batman")
         } else {
-            userProfile.avatar = "mock_avatar"
+            userProfile.avatar = "https://www.innov.ru/upload/iblock/ad4/ad41054842078faec12bdda7eb2a98a4.jpg"
             avatarImageView.image = UIImage(named: "mock_avatar")
             print("[Аватарка] изображение изменено на mock_avatar")
         }
@@ -362,7 +363,7 @@ final class EditProfile: UIViewController {
     }
 }
 
-extension EditProfile: UITextFieldDelegate {
+extension EditProfileController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         // Используем tag для различения полей
         switch textField.tag {
@@ -378,7 +379,7 @@ extension EditProfile: UITextFieldDelegate {
     }
 }
 
-extension EditProfile: UITextViewDelegate {
+extension EditProfileController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         // Сохраняем введенное значение
         if let enteredText = textView.text {
