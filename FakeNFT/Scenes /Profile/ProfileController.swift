@@ -8,11 +8,17 @@
 import Kingfisher
 import UIKit
 
+protocol ProfileControllerProtocol: AnyObject {
+    func displayProfileData(_ profile: UserProfile)
+    func showError(_ error: Error)
+}
+
 final class ProfileController: UIViewController {
     
     // MARK: - Private Properties
     private let servicesAssembly: ServicesAssembly
     private var userProfile: UserProfile?
+    private var presenter: ProfilePresenterProtocol?
     
     private lazy var contentView: UIView = {
         let view = UIView()
@@ -103,6 +109,8 @@ final class ProfileController: UIViewController {
         
         view.addSubview(contentView)
         
+        presenter = ProfilePresenter(view: self, servicesAssembly: servicesAssembly)
+        
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(descriptionTextView)
@@ -110,7 +118,7 @@ final class ProfileController: UIViewController {
         contentView.addSubview(profileTableView)
         
         setupConstraints()
-        loadProfile()
+        presenter?.fetchUserProfile()
     }
     
     // MARK: - Private Methods
@@ -145,48 +153,6 @@ final class ProfileController: UIViewController {
         ])
     }
     
-    private func loadProfile() {
-        servicesAssembly.profileService.loadProfile { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let profile):
-                    self.userProfile = profile
-                    if let url = URL(string: profile.avatar) {
-                        print("\n \(url) \n")
-                        self.avatarImageView.kf.setImage(
-                            with: url,
-                            placeholder: UIImage(systemName: "person.circle.fill"),
-                            options: [
-                                .transition(.fade(0.3))
-                            ],
-                            completionHandler: { result in
-                                switch result {
-                                case .success(let value):
-                                    print("Загружено изображение: \(value.source.url?.absoluteString ?? "")")
-                                case .failure(let error):
-                                    print("Ошибка загрузки: \(error.localizedDescription)")
-                                }
-                            }
-                        )
-                    }
-                    
-                    self.nameLabel.text = profile.name
-                    self.descriptionTextView.text = profile.description ?? "Описание отсутствует"
-                    self.websiteTextView.text = profile.website
-                    
-                    self.profileTableView.reloadData()
-                    
-                    self.navigationItem.rightBarButtonItem = self.rightBarButton
-                    self.contentView.isHidden = false // Показываем контент
-                case .failure(let error):
-                    self.showErrorAlert(error: error)
-                }
-            }
-        }
-    }
-    
     private func showErrorAlert(error: Error) {
         let alert = UIAlertController(
             title: "Ошибка",
@@ -197,7 +163,7 @@ final class ProfileController: UIViewController {
         alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
         
         alert.addAction(UIAlertAction(title: "Повторить попытку", style: .default) { [weak self] _ in
-            self?.loadProfile()
+            self?.presenter?.fetchUserProfile()
         })
         
         present(alert, animated: true)
@@ -207,7 +173,7 @@ final class ProfileController: UIViewController {
     @objc private func openEditProfile() {
         guard let userProfile else { return }
         let editProfileVC = EditProfileController(servicesAssembly: servicesAssembly, userProfile: userProfile)
-        editProfileVC.delegate = self  // Устанавливаем делегат
+        editProfileVC.delegate = self
         present(UINavigationController(rootViewController: editProfileVC), animated: true, completion: nil)
     }
 }
@@ -273,8 +239,31 @@ extension ProfileController: UITableViewDelegate {
 }
 
 // MARK: - EditProfileDelegate
-extension ProfileController: EditProfileDelegate {
+extension ProfileController: EditProfileControllerDelegate {
     func didUpdateProfile(with updatedProfile: UserProfile) {
-        loadProfile()
+        presenter?.fetchUserProfile()
+    }
+}
+
+// MARK: - ProfileView
+extension ProfileController: ProfileControllerProtocol {
+    func displayProfileData(_ profile: UserProfile) {
+        userProfile = profile
+        if let url = URL(string: profile.avatar) {
+            print("\n \(url) \n")
+            self.avatarImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle.fill"))
+        }
+        
+        self.nameLabel.text = profile.name
+        self.descriptionTextView.text = profile.description ?? "Описание отсутствует"
+        self.websiteTextView.text = profile.website
+        
+        self.profileTableView.reloadData()
+        self.navigationItem.rightBarButtonItem = self.rightBarButton
+        self.contentView.isHidden = false
+    }
+    
+    func showError(_ error: Error) {
+        showErrorAlert(error: error)
     }
 }

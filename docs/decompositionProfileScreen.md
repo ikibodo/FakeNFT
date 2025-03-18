@@ -41,4 +41,4 @@
 
 **3.3** webView **≈ 1h30m**
   * Реализовать экран WebViewController. **1h**
-  * Открывать ссылки из профиля и "О разработчике". в WebViewController **30m**
+  * Открывать "О разработчике". в WebViewController **30m**

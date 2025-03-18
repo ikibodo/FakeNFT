@@ -5,20 +5,27 @@
 //  Created by Aleksandr Dugaev on 16.03.2025.
 //
 
+import Kingfisher
 import UIKit
 
-protocol EditProfileDelegate: AnyObject {
+protocol EditProfileControllerDelegate: AnyObject {
     func didUpdateProfile(with updatedProfile: UserProfile)
+}
+
+protocol EditProfileControllerProtocol: AnyObject {
+    func displayUpdatedProfileData(_ updatedProfile: UserProfile)
+    func showError(_ error: Error)
 }
 
 final class EditProfileController: UIViewController {
     
     // MARK: - Public Properties
-    weak var delegate: EditProfileDelegate?
+    weak var delegate: EditProfileControllerDelegate?
     
     // MARK: - Private Properties
     private let servicesAssembly: ServicesAssembly
     private var userProfile: UserProfile
+    private var presenter: EditProfilePresenterProtocol?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -163,7 +170,12 @@ final class EditProfileController: UIViewController {
         view.backgroundColor = UIColor.white
         navigationItem.rightBarButtonItem = closeButton
         
-        avatarImageView.image = UIImage(named: userProfile.avatar)
+        presenter = EditProfilePresenter(view: self, servicesAssembly: servicesAssembly)
+        
+        if let url = URL(string: userProfile.avatar) {
+            print("\n \(url) \n")
+            avatarImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle.fill"))
+        }
         nameTextField.text = userProfile.name
         descriptionTextView.text = userProfile.description
         websiteTextField.text = userProfile.website
@@ -256,35 +268,6 @@ final class EditProfileController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    private func updateProfile(profile: UserProfile) {
-        navigationItem.rightBarButtonItem = nil
-        servicesAssembly.profileService.updateProfile(profile: profile) { result in
-            switch result {
-            case .success(let updateProfile):
-                print("""
-                        "name": "\(updateProfile.name)"
-                        "avatar": "\(updateProfile.avatar)"
-                        "description": "\(updateProfile.description ?? "null")"
-                        "website": "\(updateProfile.website)"
-                        "nfts": "\(updateProfile.nfts)"
-                        "likes": "\(updateProfile.likes)"
-                      """)
-                self.showSnackbar(message: "Профиль обновлен!", isSuccess: true)
-                self.delegate?.didUpdateProfile(with: updateProfile)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                    self.dismiss(animated: true)
-                }
-                
-            case .failure(let error):
-                print(error)
-                self.showSnackbar(message: "Ошибка обновления профиля!", isSuccess: false)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                    self.navigationItem.rightBarButtonItem = self.closeButton
-                }
-            }
-        }
-    }
-    
     private func showSnackbar(message: String, isSuccess: Bool) {
         let snackbarHeight: CGFloat = 50
         
@@ -347,7 +330,8 @@ final class EditProfileController: UIViewController {
         let currentProfile = servicesAssembly.profileService.getProfile()
         
         if userProfile != currentProfile {
-            updateProfile(profile: userProfile)
+            navigationItem.rightBarButtonItem = nil
+            presenter?.updateProfile(profile: userProfile)
         } else {
             dismiss(animated: true)
         }
@@ -393,4 +377,33 @@ extension EditProfileController: UITextViewDelegate {
         }
     }
 }
+
+// MARK: - EditProfileView
+extension EditProfileController: EditProfileControllerProtocol {
+    func displayUpdatedProfileData(_ updatedProfile: UserProfile) {
+        print("""
+                "name": "\(updatedProfile.name)"
+                "avatar": "\(updatedProfile.avatar)"
+                "description": "\(updatedProfile.description ?? "null")"
+                "website": "\(updatedProfile.website)"
+                "nfts": "\(updatedProfile.nfts)"
+                "likes": "\(updatedProfile.likes)"
+              """)
+        self.showSnackbar(message: "Профиль обновлен!", isSuccess: true)
+        self.delegate?.didUpdateProfile(with: updatedProfile)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            self.dismiss(animated: true)
+        }
+    }
+    
+    func showError(_ error: any Error) {
+        print(error)
+        self.showSnackbar(message: "Ошибка обновления профиля!", isSuccess: false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            self.navigationItem.rightBarButtonItem = self.closeButton
+        }
+    }
+}
+
+
 
