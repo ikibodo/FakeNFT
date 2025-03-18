@@ -9,6 +9,7 @@ import UIKit
 
 final class FavoritesNFT: UIViewController {
     
+    // MARK: - Private Properties
     private lazy var backButton: UIBarButtonItem = {
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
         let button = UIBarButtonItem(image: UIImage(systemName: "chevron.backward", withConfiguration: boldConfig),
@@ -19,6 +20,7 @@ final class FavoritesNFT: UIViewController {
         return button
     }()
     
+    // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -26,6 +28,7 @@ final class FavoritesNFT: UIViewController {
         navigationItem.leftBarButtonItem = backButton
     }
     
+    // MARK: - Actions
     @objc private func modalCloseButtonTapped() {
         self.navigationController?.popViewController(animated: true)
     }

@@ -16,14 +16,18 @@ protocol ProfileService {
 }
 
 final class ProfileServiceImp: ProfileService {
+    
+    // MARK: - Private Properties
     private let networkClient: NetworkClient
     private let storage: ProfileStorage
     
+    // MARK: - Initializers
     init(networkClient: NetworkClient, storage: ProfileStorage) {
         self.storage = storage
         self.networkClient = networkClient
     }
     
+    // MARK: - Public Methods
     func getProfile() -> UserProfile? {
         guard let profile = storage.getProfile() else { return nil }
         return profile

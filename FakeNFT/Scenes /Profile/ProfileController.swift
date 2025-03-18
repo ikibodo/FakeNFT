@@ -10,17 +10,8 @@ import UIKit
 
 final class ProfileController: UIViewController {
     
-    let servicesAssembly: ServicesAssembly
-    
-    init(servicesAssembly: ServicesAssembly) {
-        self.servicesAssembly = servicesAssembly
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    // MARK: - Private Properties
+    private let servicesAssembly: ServicesAssembly
     private var userProfile: UserProfile?
     
     private lazy var contentView: UIView = {
@@ -94,6 +85,17 @@ final class ProfileController: UIViewController {
         return button
     }()
     
+    // MARK: - Initializers
+    init(servicesAssembly: ServicesAssembly) {
+        self.servicesAssembly = servicesAssembly
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,6 +113,7 @@ final class ProfileController: UIViewController {
         loadProfile()
     }
     
+    // MARK: - Private Methods
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -140,13 +143,6 @@ final class ProfileController: UIViewController {
             profileTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             profileTableView.heightAnchor.constraint(equalToConstant: 162)
         ])
-    }
-    
-    @objc private func openEditProfile() {
-        guard let userProfile else { return }
-        let editProfileVC = EditProfileController(servicesAssembly: servicesAssembly, userProfile: userProfile)
-        editProfileVC.delegate = self  // Устанавливаем делегат
-        present(UINavigationController(rootViewController: editProfileVC), animated: true, completion: nil)
     }
     
     private func loadProfile() {
@@ -206,8 +202,17 @@ final class ProfileController: UIViewController {
         
         present(alert, animated: true)
     }
+    
+    // MARK: - Actions
+    @objc private func openEditProfile() {
+        guard let userProfile else { return }
+        let editProfileVC = EditProfileController(servicesAssembly: servicesAssembly, userProfile: userProfile)
+        editProfileVC.delegate = self  // Устанавливаем делегат
+        present(UINavigationController(rootViewController: editProfileVC), animated: true, completion: nil)
+    }
 }
 
+// MARK: - UITableViewDataSource
 extension ProfileController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
@@ -246,6 +251,7 @@ extension ProfileController: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension ProfileController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
@@ -266,6 +272,7 @@ extension ProfileController: UITableViewDelegate {
     }
 }
 
+// MARK: - EditProfileDelegate
 extension ProfileController: EditProfileDelegate {
     func didUpdateProfile(with updatedProfile: UserProfile) {
         loadProfile()

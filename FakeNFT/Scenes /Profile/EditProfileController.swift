@@ -13,18 +13,12 @@ protocol EditProfileDelegate: AnyObject {
 
 final class EditProfileController: UIViewController {
     
-    let servicesAssembly: ServicesAssembly
-    var userProfile: UserProfile
+    // MARK: - Public Properties
+    weak var delegate: EditProfileDelegate?
     
-    init(servicesAssembly: ServicesAssembly, userProfile: UserProfile) {
-        self.servicesAssembly = servicesAssembly
-        self.userProfile = userProfile
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // MARK: - Private Properties
+    private let servicesAssembly: ServicesAssembly
+    private var userProfile: UserProfile
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -47,8 +41,6 @@ final class EditProfileController: UIViewController {
         button.tintColor = UIColor.black
         return button
     }()
-    
-    weak var delegate: EditProfileDelegate?
     
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -153,6 +145,18 @@ final class EditProfileController: UIViewController {
         return textField
     }()
     
+    // MARK: - Initializers
+    init(servicesAssembly: ServicesAssembly, userProfile: UserProfile) {
+        self.servicesAssembly = servicesAssembly
+        self.userProfile = userProfile
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -170,6 +174,7 @@ final class EditProfileController: UIViewController {
         setupLayout()
     }
     
+    // MARK: - Private Methods
     private func setupUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -251,25 +256,9 @@ final class EditProfileController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        scrollView.contentInset.bottom = keyboardFrame.height + 20
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        scrollView.contentInset.bottom = 0
-    }
-    
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
     private func updateProfile(profile: UserProfile) {
-//        UIBlockingProgressHUD.show()
         navigationItem.rightBarButtonItem = nil
         servicesAssembly.profileService.updateProfile(profile: profile) { result in
-//            UIBlockingProgressHUD.dismiss()
-            
             switch result {
             case .success(let updateProfile):
                 print("""
@@ -296,31 +285,9 @@ final class EditProfileController: UIViewController {
         }
     }
     
-    @objc private func modalCloseButtonTapped() {
-        let currentProfile = servicesAssembly.profileService.getProfile()
-        
-        if userProfile != currentProfile {
-            updateProfile(profile: userProfile)
-        } else {
-            dismiss(animated: true)
-        }
-    }
-    
-    @objc private func avatarTapped() {
-        
-        if avatarImageView.image == UIImage(named: "mock_avatar") {
-            userProfile.avatar = "https://img.championat.com/s/1350x900/news/big/k/k/obzor-filma-betmen-2022_16469273721670946255.jpg"
-            avatarImageView.image = UIImage(named: "mock_avatar_batman")
-            print("[Аватарка] изображение изменено на mock_avatar_batman")
-        } else {
-            userProfile.avatar = "https://www.innov.ru/upload/iblock/ad4/ad41054842078faec12bdda7eb2a98a4.jpg"
-            avatarImageView.image = UIImage(named: "mock_avatar")
-            print("[Аватарка] изображение изменено на mock_avatar")
-        }
-    }
-    
     private func showSnackbar(message: String, isSuccess: Bool) {
         let snackbarHeight: CGFloat = 50
+        
         let snackbar = UIView()
         snackbar.backgroundColor = isSuccess ? UIColor.green : UIColor.red
         snackbar.alpha = 0.0
@@ -361,8 +328,45 @@ final class EditProfileController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Actions
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        scrollView.contentInset.bottom = keyboardFrame.height + 20
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        scrollView.contentInset.bottom = 0
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc private func modalCloseButtonTapped() {
+        let currentProfile = servicesAssembly.profileService.getProfile()
+        
+        if userProfile != currentProfile {
+            updateProfile(profile: userProfile)
+        } else {
+            dismiss(animated: true)
+        }
+    }
+    
+    @objc private func avatarTapped() {
+        if avatarImageView.image == UIImage(named: "mock_avatar") {
+            userProfile.avatar = "https://img.championat.com/s/1350x900/news/big/k/k/obzor-filma-betmen-2022_16469273721670946255.jpg"
+            avatarImageView.image = UIImage(named: "mock_avatar_batman")
+            print("[Аватарка] изображение изменено на mock_avatar_batman")
+        } else {
+            userProfile.avatar = "https://www.innov.ru/upload/iblock/ad4/ad41054842078faec12bdda7eb2a98a4.jpg"
+            avatarImageView.image = UIImage(named: "mock_avatar")
+            print("[Аватарка] изображение изменено на mock_avatar")
+        }
+    }
 }
 
+// MARK: - UITextFieldDelegate
 extension EditProfileController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         // Используем tag для различения полей
@@ -379,6 +383,7 @@ extension EditProfileController: UITextFieldDelegate {
     }
 }
 
+// MARK: - UITextViewDelegate
 extension EditProfileController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         // Сохраняем введенное значение

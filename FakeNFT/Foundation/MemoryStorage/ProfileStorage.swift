@@ -12,7 +12,6 @@ protocol ProfileStorage: AnyObject {
     func getProfile() -> UserProfile?
 }
 
-// Пример простого класса, который сохраняет данные из сети
 final class ProfileStorageImpl: ProfileStorage {
     
     private let profileKey = "userProfileKey"
@@ -27,7 +26,7 @@ final class ProfileStorageImpl: ProfileStorage {
             print("Ошибка при сохранении профиля: \(error.localizedDescription)")
         }
     }
-
+    
     func getProfile() -> UserProfile? {
         if let data = userDefaults.data(forKey: profileKey) {
             let decoder = JSONDecoder()

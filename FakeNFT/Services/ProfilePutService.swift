@@ -21,12 +21,16 @@ protocol ProfilePutService {
 }
 
 final class ProfilePutServiceImpl: ProfilePutService {
+    
+    // MARK: - Private Properties
     private let networkClient: NetworkClient
     
+    // MARK: - Initializers
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
     
+    // MARK: - Public Methods
     func sendProfilePutRequest(
         avatar: String,
         name: String,
