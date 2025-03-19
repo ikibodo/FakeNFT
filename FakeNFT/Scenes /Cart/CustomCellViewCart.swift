@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol CustomCellViewCartDelegate: AnyObject {
+    func cellDidTapDeleteCart()
+}
+
 final class CustomCellViewCart: UITableViewCell {
     static let reuseIdentifier = "CustomCellView"
+    weak var delegate: CustomCellViewCartDelegate?
     private let mainView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
@@ -20,6 +25,7 @@ final class CustomCellViewCart: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         let image = UIImage(named: "cartDelete")
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         return button
     }()
     private let imageViews: UIImageView = {
@@ -213,5 +219,9 @@ final class CustomCellViewCart: UITableViewCell {
         default:
             break
         }
+    }
+    @objc private func deleteButtonTapped() {
+        print("Нажалось")
+        delegate?.cellDidTapDeleteCart()
     }
 }

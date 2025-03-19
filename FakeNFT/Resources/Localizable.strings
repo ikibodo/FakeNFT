@@ -9,3 +9,5 @@
 "Error.title" = "Ошибка";
 "Cart.price" = "Цена";
 "Cart.payButton" = "К оплате";
+"Cart.deleteButton" = "Удалить";
+"Cart.cancelButton" = "Вернуться";
