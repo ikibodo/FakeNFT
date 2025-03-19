@@ -12,9 +12,10 @@ final class CartDeleteConfirmView: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(NSLocalizedString("Cart.deleteButton", comment: ""), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        button.setTitleColor(UIColor(named: "redUniversal"), for: .normal)
+        button.setTitleColor(.redUniversal, for: .normal)
         button.backgroundColor = UIColor(named: "blackDayNight")
         button.layer.cornerRadius = 12
+        button.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
         return button
     }()
     private let cancelButton: UIButton = {
@@ -24,6 +25,7 @@ final class CartDeleteConfirmView: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.backgroundColor = UIColor(named: "blackDayNight")
         button.layer.cornerRadius = 12
+        button.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
         return button
     }()
     private let imageViews: UIImageView = {
@@ -99,5 +101,11 @@ final class CartDeleteConfirmView: UIViewController {
             cancelButton.widthAnchor.constraint(equalToConstant: 127),
             cancelButton.heightAnchor.constraint(equalToConstant: 44)
         ])
+    }
+    @objc private func deleteTapped() {
+        dismiss(animated: true)
+    }
+    @objc private func cancelTapped() {
+        dismiss(animated: true)
     }
 }

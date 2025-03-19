@@ -11,3 +11,6 @@
 "Cart.payButton" = "К оплате";
 "Cart.deleteButton" = "Удалить";
 "Cart.cancelButton" = "Вернуться";
+"Cart.sortByName" = "По имени";
+"Cart.sortByPrice" = "По цене";
+"Cart.sortByRating" = "По рейтингу";
