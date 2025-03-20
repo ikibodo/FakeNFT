@@ -24,7 +24,7 @@ final class FavoritesNFTController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        navigationItem.title = NSLocalizedString("Profile.FavoritesNFT.title", comment: "")
+        navigationItem.title = NSLocalizedString("Profile.FavoritesNFT.title", comment: "Избранные NFT")
         navigationItem.leftBarButtonItem = backButton
     }
     

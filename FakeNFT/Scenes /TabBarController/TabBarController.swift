@@ -5,14 +5,14 @@ final class TabBarController: UITabBarController {
     var servicesAssembly: ServicesAssembly!
     
     private let catalogTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.catalog", comment: ""),
+        title: NSLocalizedString("Tab.catalog", comment: "Каталог"),
         image: UIImage(systemName: "square.stack.3d.up.fill"),
         
         tag: 0
     )
     
     private let profileTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.profile", comment: ""),
+        title: NSLocalizedString("Tab.profile", comment: "Профиль"),
         image: UIImage(systemName: "person.circle.fill"),
         
         tag: 0

@@ -24,7 +24,7 @@ final class MyNFTController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        navigationItem.title = NSLocalizedString("Profile.MyNFT.title", comment: "")
+        navigationItem.title = NSLocalizedString("Profile.MyNFT.title", comment: "Мои NFT")
         navigationItem.leftBarButtonItem = backButton
     }
     
