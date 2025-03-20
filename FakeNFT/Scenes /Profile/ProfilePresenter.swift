@@ -11,21 +11,21 @@ protocol ProfilePresenterProtocol {
     func fetchUserProfile()
 }
 
-class ProfilePresenter: ProfilePresenterProtocol {
+final class ProfilePresenter: ProfilePresenterProtocol {
     
     // MARK: - Public Properties
     private weak var view: ProfileControllerProtocol?
-    private let servicesAssembly: ServicesAssembly
+    private let profileService: ProfileService
 
     // MARK: - Initializers
-    init(view: ProfileControllerProtocol, servicesAssembly: ServicesAssembly) {
+    init(view: ProfileControllerProtocol, profileService: ProfileService) {
         self.view = view
-        self.servicesAssembly = servicesAssembly
+        self.profileService = profileService
     }
 
     // MARK: - Public Methods
     func fetchUserProfile() {
-        servicesAssembly.profileService.loadProfile { [weak self] result in
+        profileService.loadProfile { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 

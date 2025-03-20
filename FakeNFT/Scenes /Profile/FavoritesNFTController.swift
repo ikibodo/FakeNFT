@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FavoritesNFT: UIViewController {
+final class FavoritesNFTController: UIViewController {
     
     // MARK: - Private Properties
     private lazy var backButton: UIBarButtonItem = {

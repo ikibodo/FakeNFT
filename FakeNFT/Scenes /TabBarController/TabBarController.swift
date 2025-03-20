@@ -21,14 +21,22 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let catalogController = TestCatalogViewController( servicesAssembly: servicesAssembly )
-        let profileController = UINavigationController(rootViewController: ProfileController( servicesAssembly: servicesAssembly ))
+        view.backgroundColor = .systemBackground
         
-        catalogController.tabBarItem = catalogTabBarItem
+        let profileController = ProfileController(servicesAssembly: servicesAssembly)
+        let profilePresenter = ProfilePresenter(
+            view: profileController,
+            profileService: servicesAssembly.profileService
+        )
+        profileController.setPresenter(presenter: profilePresenter)
         profileController.tabBarItem = profileTabBarItem
         
-        viewControllers = [profileController, catalogController]
+        let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
+        catalogController.tabBarItem = catalogTabBarItem
         
-        view.backgroundColor = .systemBackground
+        viewControllers = [
+            UINavigationController(rootViewController: profileController),
+            catalogController
+        ]
     }
 }

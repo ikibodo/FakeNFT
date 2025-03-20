@@ -106,10 +106,7 @@ final class ProfileController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        
         view.addSubview(contentView)
-        
-        presenter = ProfilePresenter(view: self, servicesAssembly: servicesAssembly)
         
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nameLabel)
@@ -118,7 +115,13 @@ final class ProfileController: UIViewController {
         contentView.addSubview(profileTableView)
         
         setupConstraints()
+        UIBlockingProgressHUD.show()
         presenter?.fetchUserProfile()
+    }
+    
+    // MARK: - Public Methods
+    func setPresenter(presenter: ProfilePresenterProtocol) {
+        self.presenter = presenter
     }
     
     // MARK: - Private Methods
@@ -173,6 +176,8 @@ final class ProfileController: UIViewController {
     @objc private func openEditProfile() {
         guard let userProfile else { return }
         let editProfileVC = EditProfileController(servicesAssembly: servicesAssembly, userProfile: userProfile)
+        let presenter = EditProfilePresenter(view: editProfileVC, profileService: servicesAssembly.profileService)
+        editProfileVC.setPresenter(presenter)
         editProfileVC.delegate = self
         present(UINavigationController(rootViewController: editProfileVC), animated: true, completion: nil)
     }
@@ -222,12 +227,12 @@ extension ProfileController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            let controller = MyNFT()
+            let controller = MyNFTController()
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.modalPresentationStyle = .fullScreen
             self.navigationController?.present(navigationController, animated: true, completion: nil)
         case 1:
-            let controller = FavoritesNFT()
+            let controller = FavoritesNFTController()
             navigationController?.pushViewController(controller, animated: true)
         case 2:
             print("Вы выбрали \"О разработчике\"")
@@ -248,6 +253,7 @@ extension ProfileController: EditProfileControllerDelegate {
 // MARK: - ProfileView
 extension ProfileController: ProfileControllerProtocol {
     func displayProfileData(_ profile: UserProfile) {
+        UIBlockingProgressHUD.dismiss()
         userProfile = profile
         if let url = URL(string: profile.avatar) {
             print("\n \(url) \n")
@@ -264,6 +270,7 @@ extension ProfileController: ProfileControllerProtocol {
     }
     
     func showError(_ error: Error) {
+        UIBlockingProgressHUD.dismiss()
         showErrorAlert(error: error)
     }
 }

@@ -10,11 +10,13 @@ import Foundation
 protocol ProfileStorage: AnyObject {
     func saveProfile(_ profile: UserProfile)
     func getProfile() -> UserProfile?
+    func isProfileCacheValid(expirationInterval: TimeInterval) -> Bool
 }
 
 final class ProfileStorageImpl: ProfileStorage {
     
     private let profileKey = "userProfileKey"
+    private let lastUpdateKey = "lastProfileUpdateDate"
     private let userDefaults = UserDefaults.standard
     
     func saveProfile(_ profile: UserProfile) {
@@ -22,6 +24,7 @@ final class ProfileStorageImpl: ProfileStorage {
         do {
             let data = try encoder.encode(profile)
             userDefaults.set(data, forKey: profileKey)
+            userDefaults.set(Date(), forKey: lastUpdateKey)
         } catch {
             print("Ошибка при сохранении профиля: \(error.localizedDescription)")
         }
@@ -39,4 +42,12 @@ final class ProfileStorageImpl: ProfileStorage {
         }
         return nil
     }
+    
+    func isProfileCacheValid(expirationInterval: TimeInterval) -> Bool {
+        guard let lastUpdate = userDefaults.object(forKey: lastUpdateKey) as? Date else {
+            return false
+        }
+        return Date().timeIntervalSince(lastUpdate) < expirationInterval
+    }
 }
+

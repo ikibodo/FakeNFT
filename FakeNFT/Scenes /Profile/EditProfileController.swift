@@ -170,12 +170,11 @@ final class EditProfileController: UIViewController {
         view.backgroundColor = UIColor.white
         navigationItem.rightBarButtonItem = closeButton
         
-        presenter = EditProfilePresenter(view: self, servicesAssembly: servicesAssembly)
-        
         if let url = URL(string: userProfile.avatar) {
             print("\n \(url) \n")
             avatarImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle.fill"))
         }
+        
         nameTextField.text = userProfile.name
         descriptionTextView.text = userProfile.description
         websiteTextField.text = userProfile.website
@@ -184,6 +183,11 @@ final class EditProfileController: UIViewController {
         setupTapGesture()
         setupUI()
         setupLayout()
+    }
+    
+    // MARK: - Public Methods
+    func setPresenter(_ presenter: EditProfilePresenterProtocol) {
+        self.presenter = presenter
     }
     
     // MARK: - Private Methods
@@ -331,6 +335,7 @@ final class EditProfileController: UIViewController {
         
         if userProfile != currentProfile {
             navigationItem.rightBarButtonItem = nil
+            UIBlockingProgressHUD.show()
             presenter?.updateProfile(profile: userProfile)
         } else {
             dismiss(animated: true)
@@ -381,6 +386,7 @@ extension EditProfileController: UITextViewDelegate {
 // MARK: - EditProfileView
 extension EditProfileController: EditProfileControllerProtocol {
     func displayUpdatedProfileData(_ updatedProfile: UserProfile) {
+        UIBlockingProgressHUD.dismiss()
         print("""
                 "name": "\(updatedProfile.name)"
                 "avatar": "\(updatedProfile.avatar)"
@@ -397,6 +403,7 @@ extension EditProfileController: EditProfileControllerProtocol {
     }
     
     func showError(_ error: any Error) {
+        UIBlockingProgressHUD.dismiss()
         print(error)
         self.showSnackbar(message: "Ошибка обновления профиля!", isSuccess: false)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {

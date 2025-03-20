@@ -34,13 +34,15 @@ final class ProfileServiceImp: ProfileService {
     }
     
     func loadProfile(completion: @escaping ProfileCompletion) {
-        if let profile = storage.getProfile() {
+        let cacheExpirationInterval: TimeInterval = 600
+        
+        if storage.isProfileCacheValid(expirationInterval: cacheExpirationInterval),
+           let profile = storage.getProfile() {
             completion(.success(profile))
-            print("Загружено: UserDefaults")
+            print("Загружено: UserDefaults (актуальные данные)")
             return
         }
         
-        UIBlockingProgressHUD.show()
         let request = ProfileRequest()
         print("""
               method: \(request.httpMethod)
@@ -48,7 +50,6 @@ final class ProfileServiceImp: ProfileService {
               \n
               """)
         networkClient.send(request: request, type: UserProfile.self) { result in
-            UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let profile):
                 self.storage.saveProfile(profile)
@@ -62,7 +63,6 @@ final class ProfileServiceImp: ProfileService {
     
     func updateProfile(profile: UserProfile,
                        completion: @escaping ProfileCompletion) {
-        UIBlockingProgressHUD.show()
         var request = ProfilePutRequest()
         request.dto = ProfileDtoObject(avatar: profile.avatar,
                                        name: profile.name,
@@ -76,7 +76,6 @@ final class ProfileServiceImp: ProfileService {
               \n
               """)
         networkClient.send(request: request, type: UserProfile.self) { result in
-            UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let profile):
                 self.storage.saveProfile(profile)
