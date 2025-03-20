@@ -27,6 +27,10 @@ final class EditProfileController: UIViewController {
     private var userProfile: UserProfile
     private var presenter: EditProfilePresenterProtocol?
     
+    private let avatarUploadLink = [
+        "https://img.championat.com/s/1350x900/news/big/k/k/obzor-filma-betmen-2022_16469273721670946255.jpg",
+        "https://www.innov.ru/upload/iblock/ad4/ad41054842078faec12bdda7eb2a98a4.jpg"]
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -170,15 +174,11 @@ final class EditProfileController: UIViewController {
         view.backgroundColor = UIColor.white
         navigationItem.rightBarButtonItem = closeButton
         
-        if let url = URL(string: userProfile.avatar) {
-            print("\n \(url) \n")
-            avatarImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle.fill"))
-        }
-        
         nameTextField.text = userProfile.name
         descriptionTextView.text = userProfile.description
         websiteTextField.text = userProfile.website
         
+        loadImage(url: userProfile.avatar)
         setupKeyboardObservers()
         setupTapGesture()
         setupUI()
@@ -316,6 +316,14 @@ final class EditProfileController: UIViewController {
         }
     }
     
+    private func loadImage(url: String) {
+        userProfile.avatar = url
+        if let url = URL(string: url) {
+            print("\n \(url) \n")
+            avatarImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle.fill"))
+        }
+    }
+    
     // MARK: - Actions
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
@@ -343,14 +351,10 @@ final class EditProfileController: UIViewController {
     }
     
     @objc private func avatarTapped() {
-        if avatarImageView.image == UIImage(named: "mock_avatar") {
-            userProfile.avatar = "https://img.championat.com/s/1350x900/news/big/k/k/obzor-filma-betmen-2022_16469273721670946255.jpg"
-            avatarImageView.image = UIImage(named: "mock_avatar_batman")
-            print("[Аватарка] изображение изменено на mock_avatar_batman")
+        if userProfile.avatar == avatarUploadLink[0] {
+            loadImage(url: avatarUploadLink[1])
         } else {
-            userProfile.avatar = "https://www.innov.ru/upload/iblock/ad4/ad41054842078faec12bdda7eb2a98a4.jpg"
-            avatarImageView.image = UIImage(named: "mock_avatar")
-            print("[Аватарка] изображение изменено на mock_avatar")
+            loadImage(url: avatarUploadLink[0])
         }
     }
 }
