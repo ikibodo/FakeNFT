@@ -255,6 +255,7 @@ extension ProfileController: ProfileControllerProtocol {
     func displayProfileData(_ profile: UserProfile) {
         UIBlockingProgressHUD.dismiss()
         userProfile = profile
+        
         if let url = URL(string: profile.avatar) {
             print("\n \(url) \n")
             self.avatarImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "person.circle.fill"))
@@ -262,7 +263,12 @@ extension ProfileController: ProfileControllerProtocol {
         
         self.nameLabel.text = profile.name
         self.descriptionTextView.text = profile.description ?? "Описание отсутствует"
-        self.websiteTextView.text = profile.website
+        
+        let attributedString = NSMutableAttributedString(string: profile.website, attributes: [
+                .font: UIFont.systemFont(ofSize: 15, weight: .regular)
+            ])
+            attributedString.addAttribute(.link, value: profile.website, range: NSRange(location: 0, length: profile.website.count))
+            self.websiteTextView.attributedText = attributedString
         
         self.profileTableView.reloadData()
         self.navigationItem.rightBarButtonItem = self.rightBarButton
