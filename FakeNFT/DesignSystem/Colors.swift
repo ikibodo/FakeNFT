@@ -41,11 +41,37 @@ extension UIColor {
     static let textSecondary = UIColor.gray
     static let textOnPrimary = UIColor.white
     static let textOnSecondary = UIColor.black
+    
+    private static let blackDay = UIColor(hexString: "1A1B22")
+    private static let whiteDay = UIColor(hexString: "FFFFFF")
+    private static let lightGreyDay = UIColor(hexString: "F7F7F8")
+    
+    private static let whiteNight = UIColor(hexString: "#1A1B22")
+    private static let blackNight = UIColor(hexString: "#FFFFFF")
+    private static let lightGreyNight = UIColor(hexString: "#2C2C2E")
 
     private static let yaBlackLight = UIColor(hexString: "1A1B22")
     private static let yaBlackDark = UIColor.white
     private static let yaLightGrayLight = UIColor(hexString: "#F7F7F8")
     private static let yaLightGrayDark = UIColor(hexString: "#2C2C2E")
+    
+    static let black = UIColor { traits in
+        return traits.userInterfaceStyle == .dark
+        ? .blackNight
+        : .blackDay
+    }
+    
+    static let white = UIColor { traits in
+        return traits.userInterfaceStyle == .dark
+        ? .whiteNight
+        : .whiteDay
+    }
+    
+    static let lightGray = UIColor { traits in
+        return traits.userInterfaceStyle == .dark
+        ? .lightGreyNight
+        : .lightGreyDay
+    }
 
     static let segmentActive = UIColor { traits in
         return traits.userInterfaceStyle == .dark
