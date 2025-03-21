@@ -1,6 +1,16 @@
 "Tab.catalog" = "Каталог";
+"Tab.cart" = "Корзина";
+"Tab.profile" = "Профиль";
+"Tab.statistic" = "Статистика";
 "Catalog.openNft" = "Открыть Nft";
 "Error.network" = "Произошла ошибка сети";
 "Error.unknown" = "Произошла неизвестная ошибка";
 "Error.repeat" = "Повторить";
 "Error.title" = "Ошибка";
+"Cart.price" = "Цена";
+"Cart.payButton" = "К оплате";
+"Cart.deleteButton" = "Удалить";
+"Cart.cancelButton" = "Вернуться";
+"Cart.sortByName" = "По имени";
+"Cart.sortByPrice" = "По цене";
+"Cart.sortByRating" = "По рейтингу";
