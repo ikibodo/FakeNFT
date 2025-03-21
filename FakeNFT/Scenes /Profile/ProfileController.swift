@@ -166,6 +166,7 @@ final class ProfileController: UIViewController {
         alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
         
         alert.addAction(UIAlertAction(title: "Повторить попытку", style: .default) { [weak self] _ in
+            UIBlockingProgressHUD.show()
             self?.presenter?.fetchUserProfile()
         })
         
