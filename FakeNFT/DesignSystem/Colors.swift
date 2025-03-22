@@ -67,6 +67,8 @@ extension UIColor {
         : .whiteDay
     }
     
+    static let red = UIColor(hexString: "F56B6C")
+    
     static let lightGray = UIColor { traits in
         return traits.userInterfaceStyle == .dark
         ? .lightGreyNight

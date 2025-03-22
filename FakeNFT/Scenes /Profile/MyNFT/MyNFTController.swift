@@ -20,6 +20,18 @@ final class MyNFTController: UIViewController {
         return button
     }()
     
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.rowHeight = 140
+        tableView.register(MyNFTCell.self)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    // MARK: - MOCK
     private let mockNFTs = MyNFT(nft: [
         Nft(id: "ca34d35a-4507-47d9-9312-5ea7053994c0",
             images: [
@@ -59,10 +71,46 @@ final class MyNFTController: UIViewController {
         view.backgroundColor = UIColor.white
         navigationItem.title = NSLocalizedString("Profile.MyNFT.title", comment: "Мои NFT")
         navigationItem.leftBarButtonItem = backButton
+        
+        setupUI()
     }
+    
+    // MARK: - Private Methods
+    private func setupUI() {
+        view.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
     
     // MARK: - Actions
     @objc private func modalCloseButtonTapped() {
         dismiss(animated: true)
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension MyNFTController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return mockNFTs.nft.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: MyNFTCell = tableView.dequeueReusableCell()
+        cell.configure(nft: mockNFTs.nft[indexPath.row])
+        return cell
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension MyNFTController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let rating = mockNFTs.nft[indexPath.row]
+        print("Выбрана ячейка с рейтингом \(rating) ⭐️")
     }
 }
