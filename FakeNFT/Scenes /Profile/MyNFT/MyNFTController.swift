@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum SortType: Int {
+    case rating = 0, price, name
+}
+
 final class MyNFTController: UIViewController {
     
     // MARK: - Private Properties
@@ -31,8 +35,49 @@ final class MyNFTController: UIViewController {
         return tableView
     }()
     
+    private lazy var sortButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "sort"), for: .normal)
+        button.tintColor = UIColor.black
+        button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+        button.addSubview(sortIndicator)
+
+        NSLayoutConstraint.activate([
+            sortIndicator.widthAnchor.constraint(equalToConstant: 10),
+            sortIndicator.heightAnchor.constraint(equalToConstant: 10),
+            sortIndicator.topAnchor.constraint(equalTo: button.topAnchor, constant: 2),
+            sortIndicator.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: -2)
+        ])
+        
+        return button
+    }()
+    
+    private lazy var sortIndicator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.red
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var sortBarButtonItem: UIBarButtonItem = {
+        return UIBarButtonItem(customView: sortButton)
+    }()
+    
+    private lazy var emptyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "У вас ещё нет NFT"
+        label.textAlignment = .center
+        label.textColor = UIColor.black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: - MOCK
-    private let mockNFTs = MyNFT(nft: [
+    private var mockNFTs = MyNFT(nft: [
         Nft(id: "ca34d35a-4507-47d9-9312-5ea7053994c0",
             images: [
                 URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/1.png")!,
@@ -65,32 +110,103 @@ final class MyNFTController: UIViewController {
             author: "https://priceless_leavitt.fakenfts.org/"),
     ])
     
+    private var currentSortType: SortType = .rating
+    private let sortTypeKey = "selectedSortType"
+    
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = UIColor.white
         navigationItem.title = NSLocalizedString("Profile.MyNFT.title", comment: "Мои NFT")
         navigationItem.leftBarButtonItem = backButton
+        navigationItem.rightBarButtonItem = sortBarButtonItem
         
         setupUI()
+        let savedSortType = loadSortType()
+        sortNfts(by: savedSortType)
     }
     
     // MARK: - Private Methods
     private func setupUI() {
         view.addSubview(tableView)
+        view.addSubview(emptyLabel)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
+    private func showSortMenu() {
+        let alertController = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
+
+        let sortByPrice = UIAlertAction(title: "По цене" + (currentSortType == .price ? " 🔹" : ""), style: .default) { _ in
+            self.sortNfts(by: .price)
+        }
+
+        let sortByRating = UIAlertAction(title: "По рейтингу" + (currentSortType == .rating ? " 🔹" : ""), style: .default) { _ in
+            self.sortNfts(by: .rating)
+        }
+
+        let sortByName = UIAlertAction(title: "По названию" + (currentSortType == .name ? " 🔹" : ""), style: .default) { _ in
+            self.sortNfts(by: .name)
+        }
+        let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel)
+
+        alertController.addAction(sortByPrice)
+        alertController.addAction(sortByRating)
+        alertController.addAction(sortByName)
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true)
+    }
+    
+    private func sortNfts(by type: SortType) {
+        switch type {
+        case .price:
+            mockNFTs.nft.sort { $0.price < $1.price }
+        case .rating:
+            mockNFTs.nft.sort { $0.rating > $1.rating }
+        case .name:
+            mockNFTs.nft.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        }
+
+        currentSortType = type
+        UserDefaults.standard.set(type.rawValue, forKey: sortTypeKey)
+        
+        updateSortIndicator(isDefault: type == .rating)
+        updateEmptyState()
+        tableView.reloadData()
+    }
+    
+    private func updateSortIndicator(isDefault: Bool) {
+        sortIndicator.isHidden = isDefault
+    }
+    
+    private func updateEmptyState() {
+        emptyLabel.isHidden = !mockNFTs.nft.isEmpty
+        tableView.isHidden = mockNFTs.nft.isEmpty
+    }
+    
+    private func loadSortType() -> SortType {
+        let savedValue = UserDefaults.standard.integer(forKey: sortTypeKey)
+        return SortType(rawValue: savedValue) ?? .rating
+    }
     
     // MARK: - Actions
     @objc private func modalCloseButtonTapped() {
         dismiss(animated: true)
+    }
+    
+    @objc private func sortButtonTapped() {
+        print("Нажата кнопка сортировки")
+        showSortMenu()
     }
 }
 
