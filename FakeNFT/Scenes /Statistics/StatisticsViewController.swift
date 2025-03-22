@@ -11,6 +11,7 @@ final class StatisticsViewController: UIViewController {
     
     private let statisticsUserService = StatisticsUserService()
     private var users: [StatisticsUser] = []
+    private var currentSortCriteria: SortCriteria = .rating
     
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
@@ -48,6 +49,7 @@ final class StatisticsViewController: UIViewController {
         addConstraints()
         setupNavigationBar()
         loadUserStatistics()
+        applySavedSorting()
     }
     
     private func addSubViews() {
@@ -73,16 +75,14 @@ final class StatisticsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     
-    @objc private func didSortButtonTapped() {
-        print("Нажата кнопка SortButton")
-    }
-    
     private func loadUserStatistics() {
         statisticsUserService.fetchUsers { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let users):
                     self?.users = users
+                    self?.applySavedSorting()
+                    self?.sortUsers()
                     self?.tableView.reloadData()
                 case .failure(let error):
                     print("Ошибка загрузки пользователей: \(error.localizedDescription)")
@@ -90,9 +90,51 @@ final class StatisticsViewController: UIViewController {
             }
         }
     }
-    
-    private func updateUI() {
-        print("Загружено пользователей:", users.count)
+
+    func applySavedSorting() {
+            currentSortCriteria = UserDefaultsManager.shared.loadSortCriteria()
+            sortUsers()
+        }
+
+        func sortUsers() {
+            switch currentSortCriteria {
+            case .name:
+                users.sort {
+                    $0.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                    < $1.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+            case .rating:
+                users.sort {
+                    (Double($0.rating) ?? -Double.greatestFiniteMagnitude) >
+                    (Double($1.rating) ?? -Double.greatestFiniteMagnitude)
+                }
+            }
+        }
+
+    @objc private func didSortButtonTapped(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
+        
+        let sortByNameAction = UIAlertAction(title: "По имени", style: .default) { [weak self] _ in
+            self?.currentSortCriteria = .name
+            self?.sortUsers()
+            self?.tableView.reloadData()
+            UserDefaultsManager.shared.saveSortCriteria(.name)
+        }
+        
+        let sortByRatingAction = UIAlertAction(title: "По рейтингу", style: .default) { [weak self] _ in
+            self?.currentSortCriteria = .rating
+            self?.sortUsers()
+            self?.tableView.reloadData()
+            UserDefaultsManager.shared.saveSortCriteria(.rating)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel)
+        
+        alertController.addAction(sortByNameAction)
+        alertController.addAction(sortByRatingAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
     }
 }
 

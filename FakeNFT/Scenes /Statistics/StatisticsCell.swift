@@ -10,10 +10,9 @@ import Kingfisher
 final class StatisticsCell: UITableViewCell {
     static let identifier = "StatisticsCell"
     
-    private lazy var ratingLabel: UILabel = {
+    private lazy var indexLabel: UILabel = {
         let label = UILabel()
         label.textColor = .segmentActive
-        label.text = "1"
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +41,6 @@ final class StatisticsCell: UITableViewCell {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .segmentActive
-        label.text = "Alex"
         label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +50,6 @@ final class StatisticsCell: UITableViewCell {
     private lazy var ownedNFTsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .segmentActive
-        label.text = "100"
         label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +69,7 @@ final class StatisticsCell: UITableViewCell {
     }
     
     private func addSubViews() {
-        contentView.addSubview(ratingLabel)
+        contentView.addSubview(indexLabel)
         contentView.addSubview(backgroundLabel)
         backgroundLabel.addSubview(userpickImageView)
         backgroundLabel.addSubview(nameLabel)
@@ -80,13 +77,14 @@ final class StatisticsCell: UITableViewCell {
     }
     
     private func addConstraints() {
+        ownedNFTsLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         NSLayoutConstraint.activate([
-            ratingLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            ratingLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            ratingLabel.widthAnchor.constraint(equalToConstant: 27),
-            ratingLabel.heightAnchor.constraint(equalToConstant: 20),
+            indexLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            indexLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            indexLabel.widthAnchor.constraint(equalToConstant: 27),
+            indexLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            backgroundLabel.leadingAnchor.constraint(equalTo: ratingLabel.trailingAnchor, constant: 8),
+            backgroundLabel.leadingAnchor.constraint(equalTo: indexLabel.trailingAnchor, constant: 8),
             backgroundLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             backgroundLabel.topAnchor.constraint(equalTo: self.topAnchor),
             backgroundLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
@@ -107,7 +105,7 @@ final class StatisticsCell: UITableViewCell {
     }
 
     func configure(_ user: StatisticsUser, index: Int) {
-            ratingLabel.text = "\(index)"
+            indexLabel.text = "\(index)"
             nameLabel.text = user.name
             ownedNFTsLabel.text = "\(user.nfts.count)"
             
