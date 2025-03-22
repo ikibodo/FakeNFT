@@ -9,6 +9,9 @@ import UIKit
 final class StatisticsViewController: UIViewController {
     private let servicesAssembly: ServicesAssembly
     
+    private let statisticsUserService = StatisticsUserService()
+    private var users: [StatisticsUser] = []
+    
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "Sort"), for: .normal)
@@ -44,6 +47,7 @@ final class StatisticsViewController: UIViewController {
         addSubViews()
         addConstraints()
         setupNavigationBar()
+        loadUserStatistics()
     }
     
     private func addSubViews() {
@@ -72,20 +76,48 @@ final class StatisticsViewController: UIViewController {
     @objc private func didSortButtonTapped() {
         print("Нажата кнопка SortButton")
     }
+    
+    private func loadUserStatistics() {
+        statisticsUserService.fetchUsers { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let users):
+                    self?.users = users
+                    self?.tableView.reloadData()
+                case .failure(let error):
+                    print("Ошибка загрузки пользователей: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func updateUI() {
+        print("Загружено пользователей:", users.count)
+    }
 }
 
 extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsCell.identifier, for: indexPath) as? StatisticsCell else { return UITableViewCell() }
-        cell.configure()
-               return cell
+        let user = users[indexPath.row]
+        cell.configure(user, index: indexPath.row + 1)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         88
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            tableView.deselectRow(at: indexPath, animated: true)
+            let selectedUser = users[indexPath.row]
+            let userVC = StatisticsUserViewController()
+            userVC.user = selectedUser
+            userVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(userVC, animated: true)
+        }
 }

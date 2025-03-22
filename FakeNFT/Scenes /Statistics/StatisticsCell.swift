@@ -5,6 +5,7 @@
 //  Created by N L on 21.3.25..
 //
 import UIKit
+import Kingfisher
 
 final class StatisticsCell: UITableViewCell {
     static let identifier = "StatisticsCell"
@@ -31,6 +32,8 @@ final class StatisticsCell: UITableViewCell {
     private lazy var userpickImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 14
+        imageView.image = UIImage(systemName: "person.crop.circle.fill")
+        imageView.tintColor = .yaGrayUniversal
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -102,7 +105,23 @@ final class StatisticsCell: UITableViewCell {
             ownedNFTsLabel.heightAnchor.constraint(equalToConstant: 28)
         ])
     }
-    
-    func configure() {
-    }
+
+    func configure(_ user: StatisticsUser, index: Int) {
+            ratingLabel.text = "\(index)"
+            nameLabel.text = user.name
+            ownedNFTsLabel.text = "\(user.nfts.count)"
+            
+        if let url = URL(string: user.avatar ?? "") {
+                userpickImageView.kf.setImage(
+                    with: url,
+                    placeholder: UIImage(systemName: "person.crop.circle.fill"),
+                    options: [
+                        .transition(.fade(0.2)),
+                        .cacheOriginalImage
+                    ]
+                )
+            } else {
+                userpickImageView.image = UIImage(systemName: "person.crop.circle.fill")
+            }
+        }
 }

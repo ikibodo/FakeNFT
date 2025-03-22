@@ -33,6 +33,8 @@ extension UIColor {
     // Secondary Colors
     static let secondary = UIColor(red: 255 / 255, green: 193 / 255, blue: 7 / 255, alpha: 1.0)
 
+    static let yaGrayUniversal = UIColor(hexString: "#625C5C")
+    
     // Background Colors
     static let background = UIColor.white
 
