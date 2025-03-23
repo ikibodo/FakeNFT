@@ -21,8 +21,6 @@ final class StatisticsUserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        //        addSubViews()
-        //        addConstraints()
         setupNavigationBar()
     }
     
