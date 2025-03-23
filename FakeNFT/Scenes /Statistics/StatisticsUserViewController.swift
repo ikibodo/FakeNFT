@@ -6,9 +6,8 @@
 //
 import UIKit
 
-final class StatisticsUserViewController: UIViewController {
-    
-    var user: StatisticsUser?
+final class StatisticsUserViewController: UIViewController, StatisticsUserViewProtocol {
+    private var presenter: StatisticsUserPresenter?
     
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
@@ -18,10 +17,25 @@ final class StatisticsUserViewController: UIViewController {
         return button
     }()
     
+    init(presenter: StatisticsUserPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+        self.presenter?.attachView(self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupNavigationBar()
+        presenter?.loadUserData()
+    }
+    
+    func updateUserInfo(_ user: StatisticsUser) {
+        // TODO
     }
     
     private func setupNavigationBar() {

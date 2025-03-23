@@ -9,6 +9,8 @@ import Foundation
 protocol StatisticsViewProtocol: AnyObject {
     func showUsers(_ users: [StatisticsUser])
     func showError(_ message: String)
+    func showLoadingIndicator()
+    func hideLoadingIndicator()
 }
 
 final class StatisticsPresenter {
@@ -32,9 +34,22 @@ final class StatisticsPresenter {
         sortUsers()
     }
     
+    func getUsersCount() -> Int {
+        return users.count
+    }
+
+    func getUser(at index: Int) -> StatisticsUser? {
+        guard index >= 0, index < users.count else { return nil }
+        return users[index]
+    }
+    
     private func loadUserStatistics() {
+        view?.showLoadingIndicator()
+        
         statisticsUserService.fetchUsers { [weak self] result in
             DispatchQueue.main.async {
+                self?.view?.hideLoadingIndicator()
+                
                 switch result {
                 case .success(let users):
                     self?.users = users

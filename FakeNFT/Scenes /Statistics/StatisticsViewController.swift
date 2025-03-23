@@ -9,7 +9,6 @@ import UIKit
 final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
     private let servicesAssembly: ServicesAssembly
     private var presenter: StatisticsPresenter?
-    private var users: [StatisticsUser] = []
     
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
@@ -29,6 +28,13 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
+    }()
+    
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
     }()
     
     init(servicesAssembly: ServicesAssembly) {
@@ -51,7 +57,6 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
     }
     
     func showUsers(_ users: [StatisticsUser]) {
-        self.users = users
         tableView.reloadData()
     }
     
@@ -59,8 +64,17 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
         print(message)
     }
     
+    func showLoadingIndicator() {
+        loadingIndicator.startAnimating()
+    }
+
+    func hideLoadingIndicator() {
+        loadingIndicator.stopAnimating()
+    }
+    
     private func addSubViews() {
         view.addSubview(tableView)
+        view.addSubview(loadingIndicator)
     }
     
     private func addConstraints() {
@@ -68,7 +82,10 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -97,13 +114,14 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
 
 extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return presenter?.getUsersCount() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsCell.identifier, for: indexPath) as? StatisticsCell else { return UITableViewCell() }
-        let user = users[indexPath.row]
-        cell.configure(user, index: indexPath.row + 1)
+        if let user = presenter?.getUser(at: indexPath.row) {
+            cell.configure(user, index: indexPath.row + 1)
+        }
         return cell
     }
     
@@ -113,10 +131,12 @@ extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selectedUser = users[indexPath.row]
-        let userVC = StatisticsUserViewController()
-        userVC.user = selectedUser
-        userVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(userVC, animated: true)
+        if let selectedUser = presenter?.getUser(at: indexPath.row) {
+            let userPresenter = StatisticsUserPresenter(user: selectedUser)
+            let userVC = StatisticsUserViewController(presenter: userPresenter)
+
+            userVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(userVC, animated: true)
+        }
     }
 }
