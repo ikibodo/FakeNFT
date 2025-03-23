@@ -9,9 +9,7 @@ import UIKit
 final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
     private let servicesAssembly: ServicesAssembly
     private var presenter: StatisticsPresenter?
-//    private let statisticsUserService = StatisticsUserService()
     private var users: [StatisticsUser] = []
-//    private var currentSortCriteria: SortCriteria = .rating
     
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
@@ -49,11 +47,8 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
         addSubViews()
         addConstraints()
         setupNavigationBar()
-//        loadUserStatistics()
-//        applySavedSorting()
         presenter?.viewDidLoad()
     }
-    
     
     func showUsers(_ users: [StatisticsUser]) {
         self.users = users
@@ -87,79 +82,17 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     
-//    private func loadUserStatistics() {
-//        statisticsUserService.fetchUsers { [weak self] result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let users):
-//                    self?.users = users
-//                    self?.applySavedSorting()
-//                    self?.sortUsers()
-//                    self?.tableView.reloadData()
-//                case .failure(let error):
-//                    print("Ошибка загрузки пользователей: \(error.localizedDescription)")
-//                }
-//            }
-//        }
-//    }
-//
-//    func applySavedSorting() {
-//            currentSortCriteria = UserDefaultsManager.shared.loadSortCriteria()
-//            sortUsers()
-//        }
-//
-//        func sortUsers() {
-//            switch currentSortCriteria {
-//            case .name:
-//                users.sort {
-//                    $0.name.trimmingCharacters(in: .whitespacesAndNewlines)
-//                    < $1.name.trimmingCharacters(in: .whitespacesAndNewlines)
-//                }
-//            case .rating:
-//                users.sort {
-//                    (Double($0.rating) ?? -Double.greatestFiniteMagnitude) >
-//                    (Double($1.rating) ?? -Double.greatestFiniteMagnitude)
-//                }
-//            }
-//        }
-//
-//    @objc private func didSortButtonTapped(_ sender: UIBarButtonItem) {
-//        let alertController = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
-//        
-//        let sortByNameAction = UIAlertAction(title: "По имени", style: .default) { [weak self] _ in
-//            self?.currentSortCriteria = .name
-//            self?.sortUsers()
-//            self?.tableView.reloadData()
-//            UserDefaultsManager.shared.saveSortCriteria(.name)
-//        }
-//        
-//        let sortByRatingAction = UIAlertAction(title: "По рейтингу", style: .default) { [weak self] _ in
-//            self?.currentSortCriteria = .rating
-//            self?.sortUsers()
-//            self?.tableView.reloadData()
-//            UserDefaultsManager.shared.saveSortCriteria(.rating)
-//        }
-//        
-//        let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel)
-//        
-//        alertController.addAction(sortByNameAction)
-//        alertController.addAction(sortByRatingAction)
-//        alertController.addAction(cancelAction)
-//        
-//        present(alertController, animated: true)
-//    }
     @objc private func didSortButtonTapped() {
-            let alertController = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
-            alertController.addAction(UIAlertAction(title: "По имени", style: .default) { _ in
-                self.presenter?.didSelectSorting(criteria: .name)
-            })
-            alertController.addAction(UIAlertAction(title: "По рейтингу", style: .default) { _ in
-                self.presenter?.didSelectSorting(criteria: .rating)
-            })
-            alertController.addAction(UIAlertAction(title: "Закрыть", style: .cancel))
-            present(alertController, animated: true)
-        }
-        
+        let alertController = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "По имени", style: .default) { _ in
+            self.presenter?.didSelectSorting(criteria: .name)
+        })
+        alertController.addAction(UIAlertAction(title: "По рейтингу", style: .default) { _ in
+            self.presenter?.didSelectSorting(criteria: .rating)
+        })
+        alertController.addAction(UIAlertAction(title: "Закрыть", style: .cancel))
+        present(alertController, animated: true)
+    }
 }
 
 extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -179,11 +112,11 @@ extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            tableView.deselectRow(at: indexPath, animated: true)
-            let selectedUser = users[indexPath.row]
-            let userVC = StatisticsUserViewController()
-            userVC.user = selectedUser
-            userVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(userVC, animated: true)
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedUser = users[indexPath.row]
+        let userVC = StatisticsUserViewController()
+        userVC.user = selectedUser
+        userVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(userVC, animated: true)
+    }
 }

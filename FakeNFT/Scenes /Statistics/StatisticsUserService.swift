@@ -18,11 +18,11 @@ struct UsersRequest: NetworkRequest {
 
 final class StatisticsUserService {
     private let networkClient: NetworkClient
-
+    
     init(networkClient: NetworkClient = DefaultNetworkClient()) {
         self.networkClient = networkClient
     }
-
+    
     func fetchUsers(completion: @escaping (Result<[StatisticsUser], Error>) -> Void) {
         let request = UsersRequest()
         networkClient.send(request: request, type: [StatisticsUser].self, completionQueue: .main, onResponse: completion)

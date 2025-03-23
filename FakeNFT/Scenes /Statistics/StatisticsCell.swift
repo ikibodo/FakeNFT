@@ -103,23 +103,24 @@ final class StatisticsCell: UITableViewCell {
             ownedNFTsLabel.heightAnchor.constraint(equalToConstant: 28)
         ])
     }
-
+    
     func configure(_ user: StatisticsUser, index: Int) {
-            indexLabel.text = "\(index)"
-            nameLabel.text = user.name
-            ownedNFTsLabel.text = "\(user.nfts.count)"
-            
+        // indexLabel.text = "\(index)" - в фигме выглядит как сквозная нумерация ячеек при любой сортировке, но в описании приложения сказано, что отображаться должен рейтинг пользователя - наставник рекомендовал сделать как в описании, сортировать по принципу высокий рейтинг это единица, и добавить этот комментарий.
+        indexLabel.text = user.rating
+        nameLabel.text = user.name
+        ownedNFTsLabel.text = "\(user.nfts.count)"
+        
         if let url = URL(string: user.avatar ?? "") {
-                userpickImageView.kf.setImage(
-                    with: url,
-                    placeholder: UIImage(systemName: "person.crop.circle.fill"),
-                    options: [
-                        .transition(.fade(0.2)),
-                        .cacheOriginalImage
-                    ]
-                )
-            } else {
-                userpickImageView.image = UIImage(systemName: "person.crop.circle.fill")
-            }
+            userpickImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(systemName: "person.crop.circle.fill"),
+                options: [
+                    .transition(.fade(0.2)),
+                    .cacheOriginalImage
+                ]
+            )
+        } else {
+            userpickImageView.image = UIImage(systemName: "person.crop.circle.fill")
         }
+    }
 }

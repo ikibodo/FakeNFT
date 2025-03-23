@@ -11,18 +11,18 @@ final class StatisticsUserViewController: UIViewController {
     var user: StatisticsUser?
     
     private lazy var button: UIButton = {
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-            button.tintColor = .segmentActive
-            button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-            return button
-        }()
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        button.tintColor = .segmentActive
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-//        addSubViews()
-//        addConstraints()
+        //        addSubViews()
+        //        addConstraints()
         setupNavigationBar()
     }
     
