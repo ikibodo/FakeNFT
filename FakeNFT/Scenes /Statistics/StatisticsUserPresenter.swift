@@ -25,4 +25,8 @@ final class StatisticsUserPresenter {
     func loadUserData() {
         view?.updateUserInfo(user)
     }
+    
+    func getUserWebsite() -> String? {
+        return user.website
+    }
 }

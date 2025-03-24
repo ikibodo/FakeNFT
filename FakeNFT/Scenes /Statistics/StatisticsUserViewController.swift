@@ -10,11 +10,11 @@ import Kingfisher
 final class StatisticsUserViewController: UIViewController, StatisticsUserViewProtocol {
     private let presenter: StatisticsUserPresenter?
     
-    private lazy var button: UIButton = {
+    private lazy var backButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         button.tintColor = .segmentActive
-        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         return button
     }()
     
@@ -56,6 +56,21 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         return label
     }()
     
+    private lazy var userWebsiteButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = .clear
+        button.setTitle(NSLocalizedString("User.site", comment: ""), for: .normal)
+        button.setTitleColor(.segmentActive, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        button.layer.cornerRadius = 16
+        button.layer.borderWidth = 1
+        button.layer.masksToBounds = true
+        button.layer.borderColor = UIColor.segmentActive.cgColor
+        button.addTarget(self, action: #selector(didTapUserWebsiteButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     init(presenter: StatisticsUserPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -94,9 +109,9 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         guard (navigationController?.navigationBar) != nil else { return }
         
         let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        buttonContainer.addSubview(button)
-        button.frame = buttonContainer.bounds
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+        buttonContainer.addSubview(backButton)
+        backButton.frame = buttonContainer.bounds
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
     private func addSubViews() {
@@ -104,6 +119,7 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         stackView.addSubview(avatarImageView)
         stackView.addSubview(nameLabel)
         view.addSubview(descriptionLabel)
+        view.addSubview(userWebsiteButton)
     }
     
     private func addConstraints() {
@@ -124,11 +140,26 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
             
             descriptionLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            userWebsiteButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 28),
+            userWebsiteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            userWebsiteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            userWebsiteButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
-    @objc private func didTapButton() {
+    @objc private func didTapBackButton() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func didTapUserWebsiteButton() {
+        guard let website = presenter?.getUserWebsite(), !website.isEmpty else {
+            print("Некорректный URL")
+            return
+        }
+        let webPresenter = StatisticsWebViewPresenter(websiteURL: website)
+        let webVC = StatisticsWebViewController(presenter: webPresenter)
+        navigationController?.pushViewController(webVC, animated: true)
     }
 }
