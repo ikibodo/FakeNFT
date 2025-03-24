@@ -77,41 +77,55 @@ final class MyNFTController: UIViewController {
     }()
     
     // MARK: - MOCK
-    private var mockNFTs = MyNFT(nft: [
-        Nft(id: "ca34d35a-4507-47d9-9312-5ea7053994c0",
-            images: [
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/1.png")!,
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/2.png")!,
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/3.png")!
-            ],
-            name: "Jody Rivers",
-            rating: 3,
-            price: 49.64,
-            author: "https://dazzling_meninsky.fakenfts.org/"),
-        Nft(id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c",
-            images: [
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/1.png")!,
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/2.png")!,
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/3.png")!
-            ],
-            name: "Daryl Lucas",
-            rating: 2,
-            price: 43.53,
-            author: "https://strange_gates.fakenfts.org/"),
-        Nft(id: "a4edeccd-ad7c-4c7f-b09e-6edec02a812b",
-            images: [
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/1.png")!,
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/2.png")!,
-                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/3.png")!
-            ],
-            name: "Myrna Cervantes",
-            rating: 5,
-            price: 39.37,
-            author: "https://priceless_leavitt.fakenfts.org/"),
-    ])
+//    private var myNFT = MyNFT(nft: [
+//        Nft(id: "ca34d35a-4507-47d9-9312-5ea7053994c0",
+//            images: [
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/1.png")!,
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/2.png")!,
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/3.png")!
+//            ],
+//            name: "Jody Rivers",
+//            rating: 3,
+//            price: 49.64,
+//            author: "https://dazzling_meninsky.fakenfts.org/"),
+//        Nft(id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c",
+//            images: [
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/1.png")!,
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/2.png")!,
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/3.png")!
+//            ],
+//            name: "Daryl Lucas",
+//            rating: 2,
+//            price: 43.53,
+//            author: "https://strange_gates.fakenfts.org/"),
+//        Nft(id: "a4edeccd-ad7c-4c7f-b09e-6edec02a812b",
+//            images: [
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/1.png")!,
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/2.png")!,
+//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/3.png")!
+//            ],
+//            name: "Myrna Cervantes",
+//            rating: 5,
+//            price: 39.37,
+//            author: "https://priceless_leavitt.fakenfts.org/"),
+//    ])
     
     private var currentSortType: SortType = .rating
     private let sortTypeKey = "selectedSortType"
+    private var myNFTId: [String]
+    private var nftService: NftService
+    private var myNFT: MyNFT = MyNFT(nft: [])
+    
+    // MARK: - Initializers
+    init(arrayMyNFT: [String], nftService: NftService) {
+        self.myNFTId = arrayMyNFT
+        self.nftService = nftService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
@@ -125,6 +139,10 @@ final class MyNFTController: UIViewController {
         setupUI()
         let savedSortType = loadSortType()
         sortNfts(by: savedSortType)
+        print(myNFTId)
+        
+        
+        
     }
     
     // MARK: - Private Methods
@@ -170,11 +188,11 @@ final class MyNFTController: UIViewController {
     private func sortNfts(by type: SortType) {
         switch type {
         case .price:
-            mockNFTs.nft.sort { $0.price < $1.price }
+            myNFT.nft.sort { $0.price < $1.price }
         case .rating:
-            mockNFTs.nft.sort { $0.rating > $1.rating }
+            myNFT.nft.sort { $0.rating > $1.rating }
         case .name:
-            mockNFTs.nft.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+            myNFT.nft.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         }
 
         currentSortType = type
@@ -190,8 +208,8 @@ final class MyNFTController: UIViewController {
     }
     
     private func updateEmptyState() {
-        emptyLabel.isHidden = !mockNFTs.nft.isEmpty
-        tableView.isHidden = mockNFTs.nft.isEmpty
+        emptyLabel.isHidden = !myNFT.nft.isEmpty
+        tableView.isHidden = myNFT.nft.isEmpty
     }
     
     private func loadSortType() -> SortType {
@@ -213,12 +231,12 @@ final class MyNFTController: UIViewController {
 // MARK: - UITableViewDataSource
 extension MyNFTController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mockNFTs.nft.count
+        return myNFT.nft.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: MyNFTCell = tableView.dequeueReusableCell()
-        cell.configure(nft: mockNFTs.nft[indexPath.row])
+        cell.configure(nft: myNFT.nft[indexPath.row])
         return cell
     }
 }
@@ -226,7 +244,7 @@ extension MyNFTController: UITableViewDataSource {
 // MARK: - UITableViewDataSource
 extension MyNFTController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let rating = mockNFTs.nft[indexPath.row]
+        let rating = myNFT.nft[indexPath.row]
         print("Выбрана ячейка с рейтингом \(rating) ⭐️")
     }
 }

@@ -228,7 +228,8 @@ extension ProfileController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            let controller = MyNFTController()
+            guard let arrayMyNFT = userProfile?.nfts else { return }
+            let controller = MyNFTController(arrayMyNFT: arrayMyNFT, nftService: servicesAssembly.nftService)
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.modalPresentationStyle = .fullScreen
             self.navigationController?.present(navigationController, animated: true, completion: nil)
