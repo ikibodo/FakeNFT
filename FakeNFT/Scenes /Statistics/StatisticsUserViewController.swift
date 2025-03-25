@@ -74,12 +74,22 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         return button
     }()
     
+    private lazy var userNFTButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = .clear
+//        button.tintColor = .segmentActive
+        button.addTarget(self, action: #selector(didTapUserNFTButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private lazy var stackNFTView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.spacing = 8
+        stackView.isUserInteractionEnabled = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -103,15 +113,12 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private lazy var userNFTButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.backgroundColor = .clear
-        button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
-        button.tintColor = .segmentActive
-        button.addTarget(self, action: #selector(didTapUserNFTButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+
+    private lazy var chevronImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "chevron.forward"))
+        imageView.tintColor = .segmentActive
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     init(presenter: StatisticsUserPresenter) {
@@ -163,10 +170,11 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         stackUserView.addArrangedSubview(nameLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(userWebsiteButton)
-        view.addSubview(stackNFTView)
+        view.addSubview(userNFTButton)
+        userNFTButton.addSubview(stackNFTView)
         stackNFTView.addArrangedSubview(userNFTLabel)
         stackNFTView.addArrangedSubview(userNFTCountLabel)
-        stackNFTView.addArrangedSubview(userNFTButton)
+        stackNFTView.addArrangedSubview(chevronImageView)
     }
     
     private func addConstraints() {
@@ -192,14 +200,19 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
             userWebsiteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             userWebsiteButton.heightAnchor.constraint(equalToConstant: 40),
             
-            stackNFTView.topAnchor.constraint(equalTo: userWebsiteButton.bottomAnchor, constant: 56),
-            stackNFTView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackNFTView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            stackNFTView.heightAnchor.constraint(equalToConstant: 54),
+            userNFTButton.topAnchor.constraint(equalTo: userWebsiteButton.bottomAnchor, constant: 40),
+            userNFTButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            userNFTButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            userNFTButton.heightAnchor.constraint(equalToConstant: 54),
+            
+            stackNFTView.topAnchor.constraint(equalTo: userNFTButton.topAnchor, constant: 16),
+            stackNFTView.leadingAnchor.constraint(equalTo: userNFTButton.leadingAnchor, constant: 16),
+            stackNFTView.trailingAnchor.constraint(equalTo: userNFTButton.trailingAnchor, constant: -16),
+            stackNFTView.heightAnchor.constraint(equalToConstant: 22),
             
             userNFTLabel.leadingAnchor.constraint(equalTo: stackNFTView.leadingAnchor),
             userNFTCountLabel.leadingAnchor.constraint(equalTo: userNFTLabel.trailingAnchor, constant: 8),
-            userNFTButton.trailingAnchor.constraint(equalTo: stackNFTView.trailingAnchor)
+            chevronImageView.trailingAnchor.constraint(equalTo: stackNFTView.trailingAnchor)
         ])
     }
     
