@@ -18,9 +18,12 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         return button
     }()
     
-    private lazy var stackView: UIStackView = {
+    private lazy var stackUserView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 16
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -71,6 +74,46 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         return button
     }()
     
+    private lazy var stackNFTView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private lazy var userNFTLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .segmentActive
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.textAlignment = .left
+        label.text = NSLocalizedString("Collection.Nft", comment: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var userNFTCountLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .segmentActive
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.textAlignment = .left
+        label.text = "(112)"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var userNFTButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = .clear
+        button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
+        button.tintColor = .segmentActive
+        button.addTarget(self, action: #selector(didTapUserNFTButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     init(presenter: StatisticsUserPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -115,37 +158,48 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
     }
     
     private func addSubViews() {
-        view.addSubview(stackView)
-        stackView.addSubview(avatarImageView)
-        stackView.addSubview(nameLabel)
+        view.addSubview(stackUserView)
+        stackUserView.addArrangedSubview(avatarImageView)
+        stackUserView.addArrangedSubview(nameLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(userWebsiteButton)
+        view.addSubview(stackNFTView)
+        stackNFTView.addArrangedSubview(userNFTLabel)
+        stackNFTView.addArrangedSubview(userNFTCountLabel)
+        stackNFTView.addArrangedSubview(userNFTButton)
     }
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            stackView.heightAnchor.constraint(equalToConstant: 70),
+            stackUserView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            stackUserView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackUserView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackUserView.heightAnchor.constraint(equalToConstant: 70),
             
-            avatarImageView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-            avatarImageView.topAnchor.constraint(equalTo: stackView.topAnchor),
+            avatarImageView.leadingAnchor.constraint(equalTo: stackUserView.leadingAnchor),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            nameLabel.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: stackUserView.trailingAnchor),
             
-            descriptionLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
+            descriptionLabel.topAnchor.constraint(equalTo: stackUserView.bottomAnchor, constant: 20),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             userWebsiteButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 28),
             userWebsiteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             userWebsiteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            userWebsiteButton.heightAnchor.constraint(equalToConstant: 40)
+            userWebsiteButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            stackNFTView.topAnchor.constraint(equalTo: userWebsiteButton.bottomAnchor, constant: 56),
+            stackNFTView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackNFTView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackNFTView.heightAnchor.constraint(equalToConstant: 54),
+            
+            userNFTLabel.leadingAnchor.constraint(equalTo: stackNFTView.leadingAnchor),
+            userNFTCountLabel.leadingAnchor.constraint(equalTo: userNFTLabel.trailingAnchor, constant: 8),
+            userNFTButton.trailingAnchor.constraint(equalTo: stackNFTView.trailingAnchor)
         ])
     }
     
@@ -161,5 +215,15 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         let webPresenter = StatisticsWebViewPresenter(websiteURL: website)
         let webVC = StatisticsWebViewController(presenter: webPresenter)
         navigationController?.pushViewController(webVC, animated: true)
+    }
+    
+    @objc private func didTapUserNFTButton() {
+        guard let userId = presenter?.getUserId(), !userId.isEmpty else {
+            print("Некорректный id пользователя")
+            return
+        }
+        let VCPresenter = StatisticsUserCollectionPresenter(userId: userId)
+        let VC = StatisticsUserCollectionViewController(presenter: VCPresenter)
+        navigationController?.pushViewController(VC, animated: true)
     }
 }

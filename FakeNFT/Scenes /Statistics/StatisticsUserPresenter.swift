@@ -29,4 +29,8 @@ final class StatisticsUserPresenter {
     func getUserWebsite() -> String? {
         return user.website
     }
+    
+    func getUserId() -> String? {
+        return user.id
+    }
 }
