@@ -8,12 +8,14 @@
 import UIKit
 
 protocol CustomCellViewCartDelegate: AnyObject {
-    func cellDidTapDeleteCart()
+    func cellDidTapDeleteCart(nftId: String, nftImage: URL)
 }
 
 final class CustomCellViewCart: UITableViewCell {
     static let reuseIdentifier = "CustomCellView"
     weak var delegate: CustomCellViewCartDelegate?
+    private var nftId: String?
+    private var nftImage: URL?
     private let mainView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
@@ -28,11 +30,13 @@ final class CustomCellViewCart: UITableViewCell {
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         return button
     }()
-    private let imageViews: UIImageView = {
+    let imageViews: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.layer.masksToBounds = true
         image.contentMode = .scaleToFill
-        image.image = UIImage(named: "mockCart")
+        image.layer.cornerRadius = 12
+        image.image = UIImage(named: "mockCart")?.withTintColor(.blackDayText)
         return image
     }()
     private let firstStar: UIImageView = {
@@ -77,14 +81,14 @@ final class CustomCellViewCart: UITableViewCell {
     private let nftNameLabel: UILabel = {
         let label = UILabel()
         label.text = "April"
-        label.textColor = .black
+        label.textColor = .blackDayText
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return label
     }()
     private let nftPriceNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .blackDayText
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.text = NSLocalizedString("Cart.price", comment: "")
@@ -92,7 +96,7 @@ final class CustomCellViewCart: UITableViewCell {
     }()
     private let nftPriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .blackDayText
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.text = "1,78 ETH"
@@ -143,11 +147,12 @@ final class CustomCellViewCart: UITableViewCell {
         assertionFailure("init(coder:) has not been implemented")
         return nil
     }
-    func initCell(nameLabel: String, priceLabel: Double, rating: Int) {
-        imageViews.image = UIImage(named: "mockCart")
-        nftNameLabel.text = nameLabel
-        nftPriceLabel.text = String(priceLabel) + " ETH"
-        setRating(rating)
+    func initCell(nft: Nft) {
+        nftNameLabel.text = nft.name
+        nftPriceLabel.text = String(nft.price) + " ETH"
+        nftId = nft.id
+        nftImage = nft.images.first
+        setRating(nft.rating)
     }
     private func configureView() {
         [mainView].forEach {
@@ -229,6 +234,7 @@ final class CustomCellViewCart: UITableViewCell {
         }
     }
     @objc private func deleteButtonTapped() {
-        delegate?.cellDidTapDeleteCart()
+        guard let nftId = nftId, let nftImage = nftImage else { return }
+        delegate?.cellDidTapDeleteCart(nftId: nftId, nftImage: nftImage)
     }
 }
