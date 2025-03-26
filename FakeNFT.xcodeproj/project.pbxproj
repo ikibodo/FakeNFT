@@ -338,6 +338,7 @@
 				3F6806D629CBC50A00B4F915 /* CellsReusingUtils.swift */,
 				3FC8C39229D246BA0081F015 /* DateFormatters+Presets.swift */,
 				0CFCB74A2A780EA80009A829 /* UIView+Constraints.swift */,
+				6162BBE42D8897A500E83532 /* UIBlockingProgressHUD.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -372,6 +373,23 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		610E60C32D94A9EE0026DCAE /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				61D3456F2D866C3500CB0128 /* EditProfileController.swift */,
+				61E067842D8A0CE300D51099 /* EditProfilePresenter.swift */,
+			);
+			path = EditProfile;
+			sourceTree = "<group>";
+		};
+		610E60C42D94AA020026DCAE /* FavoriteNFT */ = {
+			isa = PBXGroup;
+			children = (
+				61D3456D2D86644B00CB0128 /* FavoritesNFTController.swift */,
+			);
+			path = FavoriteNFT;
+			sourceTree = "<group>";
+		};
 		613395BC2D8DE6AA007CEE82 /* MyNFT */ = {
 			isa = PBXGroup;
 			children = (
@@ -395,11 +413,9 @@
 			children = (
 				61D3455C2D8604BD00CB0128 /* ProfileController.swift */,
 				61E067822D8A06BC00D51099 /* ProfilePresenter.swift */,
-				61D3456F2D866C3500CB0128 /* EditProfileController.swift */,
-				61E067842D8A0CE300D51099 /* EditProfilePresenter.swift */,
-				61D3456D2D86644B00CB0128 /* FavoritesNFTController.swift */,
-				6162BBE42D8897A500E83532 /* UIBlockingProgressHUD.swift */,
+				610E60C32D94A9EE0026DCAE /* EditProfile */,
 				613395BF2D8DE9A7007CEE82 /* MyNFT */,
+				610E60C42D94AA020026DCAE /* FavoriteNFT */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

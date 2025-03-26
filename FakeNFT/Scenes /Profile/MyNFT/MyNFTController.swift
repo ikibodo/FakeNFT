@@ -104,7 +104,6 @@ final class MyNFTController: UIViewController {
         currentSortType = presenter?.getCurrentSortType() ?? .rating
         setupUI()
         presenter?.loadNFTs()
-        
     }
     
     // MARK: - Public Methods
