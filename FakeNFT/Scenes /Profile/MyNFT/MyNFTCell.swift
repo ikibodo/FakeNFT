@@ -166,6 +166,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
     // MARK: - View Life Cycles
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.isUserInteractionEnabled = true
         selectionStyle = .none
         setupViews()
     }

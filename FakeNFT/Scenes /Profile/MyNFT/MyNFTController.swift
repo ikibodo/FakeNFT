@@ -76,40 +76,6 @@ final class MyNFTController: UIViewController {
         return label
     }()
     
-    // MARK: - MOCK
-//    private var myNFT = MyNFT(nft: [
-//        Nft(id: "ca34d35a-4507-47d9-9312-5ea7053994c0",
-//            images: [
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/1.png")!,
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/2.png")!,
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Lark/3.png")!
-//            ],
-//            name: "Jody Rivers",
-//            rating: 3,
-//            price: 49.64,
-//            author: "https://dazzling_meninsky.fakenfts.org/"),
-//        Nft(id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c",
-//            images: [
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/1.png")!,
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/2.png")!,
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/3.png")!
-//            ],
-//            name: "Daryl Lucas",
-//            rating: 2,
-//            price: 43.53,
-//            author: "https://strange_gates.fakenfts.org/"),
-//        Nft(id: "a4edeccd-ad7c-4c7f-b09e-6edec02a812b",
-//            images: [
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/1.png")!,
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/2.png")!,
-//                URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Ellsa/3.png")!
-//            ],
-//            name: "Myrna Cervantes",
-//            rating: 5,
-//            price: 39.37,
-//            author: "https://priceless_leavitt.fakenfts.org/"),
-//    ])
-    
     private var currentSortType: SortType = .rating
     private let sortTypeKey = "selectedSortType"
     private var myNFTId: [String]
@@ -139,13 +105,77 @@ final class MyNFTController: UIViewController {
         setupUI()
         let savedSortType = loadSortType()
         sortNfts(by: savedSortType)
-        print(myNFTId)
         
-        
-        
+        loadNFTs()
     }
     
     // MARK: - Private Methods
+    private func loadNFTs() {
+        UIBlockingProgressHUD.show()
+
+        var failedNftIds: [String] = []
+        var loadedNfts: [Nft] = []
+
+        let dispatchGroup = DispatchGroup()
+
+        for nftId in myNFTId {
+            dispatchGroup.enter()
+
+            nftService.loadNft(id: nftId) { result in
+                switch result {
+                case .success(let nft):
+                    loadedNfts.append(nft)
+                case .failure:
+                    failedNftIds.append(nftId)
+                }
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            UIBlockingProgressHUD.dismiss()
+
+            self.myNFT.nft.append(contentsOf: loadedNfts)
+            
+            let savedSortType = self.loadSortType()
+            self.sortNfts(by: savedSortType)
+            
+            self.updateEmptyState()
+            self.tableView.reloadData()
+
+            if !failedNftIds.isEmpty {
+                self.showRetryAlert(failedNftIds: failedNftIds)
+            }
+        }
+    }
+    
+    private func showRetryAlert(failedNftIds: [String]) {
+        let alertController = UIAlertController(title: "Ошибка загрузки NFT", message: "Некоторые NFT не удалось загрузить. Хотите продолжить или повторить попытку?", preferredStyle: .alert)
+
+        let continueAction = UIAlertAction(title: "Продолжить", style: .default) { _ in
+            self.skipFailedNFTs(failedNftIds: failedNftIds)
+        }
+
+        let retryAction = UIAlertAction(title: "Повторить", style: .default) { _ in
+            self.retryFailedNFTs(failedNftIds: failedNftIds)
+        }
+
+        alertController.addAction(continueAction)
+        alertController.addAction(retryAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func skipFailedNFTs(failedNftIds: [String]) {
+        print("Пропускаем не загруженные NFT: \(failedNftIds)")
+    }
+
+    private func retryFailedNFTs(failedNftIds: [String]) {
+        self.myNFTId = failedNftIds
+        loadNFTs()
+    }
+    
+    
     private func setupUI() {
         view.addSubview(tableView)
         view.addSubview(emptyLabel)
@@ -245,6 +275,6 @@ extension MyNFTController: UITableViewDataSource {
 extension MyNFTController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let rating = myNFT.nft[indexPath.row]
-        print("Выбрана ячейка с рейтингом \(rating) ⭐️")
+        print("Выбран NFT \(rating.name) с рейтингом \(rating.rating) ⭐️")
     }
 }
