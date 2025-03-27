@@ -33,6 +33,8 @@ final class StatisticsCell: UITableViewCell {
         imageView.layer.cornerRadius = 14
         imageView.image = UIImage(systemName: "person.crop.circle.fill")
         imageView.tintColor = .yaGrayUniversal
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

@@ -37,7 +37,7 @@ final class StatisticsPresenter {
     func getUsersCount() -> Int {
         return users.count
     }
-
+    
     func getUser(at index: Int) -> StatisticsUser? {
         guard index >= 0, index < users.count else { return nil }
         return users[index]
@@ -76,7 +76,7 @@ final class StatisticsPresenter {
         case .rating:
             users.sort {
                 (Double($0.rating) ?? -Double.greatestFiniteMagnitude) <
-// Так как в фигме нумерация идет сквозная от меньшего к большему, то сделала тут тот же принцип, хотя визуально это отличается от фигмы из-за того, какие данные приходят. Подробнее см комментарий к StatisticsCell.configure
+                    // Так как в фигме нумерация идет сквозная от меньшего к большему, то сделала тут тот же принцип, хотя визуально это отличается от фигмы из-за того, какие данные приходят. Подробнее см комментарий к StatisticsCell.configure
                 (Double($1.rating) ?? -Double.greatestFiniteMagnitude)
             }
         }
