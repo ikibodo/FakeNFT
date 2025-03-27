@@ -19,7 +19,10 @@ final class CartPayPresenter: CartPayPresenterProtocol {
         self.networkClient = networkClient
     }
     func getCurrencies(completion: @escaping (Result<[Currencies], Error>) -> Void) {
-        let url = URL(string: "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net/api/v1/currencies")!
+        guard let url = URL(string: "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net/api/v1/currencies") else {
+            print("Failed to create URL")
+            return
+        }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
