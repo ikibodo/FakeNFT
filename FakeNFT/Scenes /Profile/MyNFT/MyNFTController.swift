@@ -151,10 +151,7 @@ final class MyNFTController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel)
         
-        alertController.addAction(sortByPrice)
-        alertController.addAction(sortByRating)
-        alertController.addAction(sortByName)
-        alertController.addAction(cancelAction)
+        [sortByPrice, sortByRating, sortByName, cancelAction].forEach { alertController.addAction($0) }
         
         present(alertController, animated: true)
     }

@@ -79,7 +79,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return stackView
     }()
     
-    private let nftImageView: UIImageView = {
+    private lazy var nftImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -90,7 +90,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return imageView
     }()
     
-    private let nftNameLabel: UILabel = {
+    private lazy var nftNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.textColor = UIColor.black
@@ -100,7 +100,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return label
     }()
     
-    private let ratingStarsStackView: UIStackView = {
+    private lazy var ratingStarsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 2
@@ -109,7 +109,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return stackView
     }()
     
-    private let nftFromAuthorLabel: UILabel = {
+    private lazy var nftFromAuthorLabel: UILabel = {
         let label = UILabel()
         label.text = "от"
         label.textAlignment = .left
@@ -121,7 +121,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return label
     }()
     
-    private let nftAuthorLabel: UILabel = {
+    private lazy var nftAuthorLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = UIColor.black
@@ -131,7 +131,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return label
     }()
     
-    private let heartButton: UIButton = {
+    private lazy var heartButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "like"), for: .normal)
         button.tintColor = UIColor.white
@@ -140,7 +140,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return button
     }()
     
-    private let nftPriceTitleLabel: UILabel = {
+    private lazy var nftPriceTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Цена"
         label.textAlignment = .left
@@ -151,7 +151,7 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         return label
     }()
     
-    private let nftPriceLabel: UILabel = {
+    private lazy var nftPriceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.textColor = UIColor.black
@@ -195,8 +195,9 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
     private func setupViews() {
         contentView.addSubview(mainStackView)
         
-        mainContentStackView.addArrangedSubview(nameAndRatingStackView)
-        mainContentStackView.addArrangedSubview(priceStackView)
+        [nameAndRatingStackView, priceStackView].forEach { stackView in
+            mainContentStackView.addArrangedSubview(stackView)
+        }
         
         nameAndRatingStackView.addArrangedSubview(nftNameLabel)
         nameAndRatingStackView.addArrangedSubview(ratingStarsStackView)
@@ -233,10 +234,6 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - Actions
     @objc private func heartButtonTapped() {
-        if heartButton.tintColor == UIColor.white {
-            heartButton.tintColor = UIColor.red
-        } else {
-            heartButton.tintColor = UIColor.white
-        }
+        heartButton.tintColor =  (heartButton.tintColor == UIColor.white) ? UIColor.red : UIColor.white
     }
 }

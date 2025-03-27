@@ -22,7 +22,7 @@ final class MyNFTPresenter: MyNFTPresenterProtocol {
     private let nftService: NftService
     private var myNFTId: [String]
     private var myNFTs: [Nft] = []
-    private let sortTypeKey = "selectedSortType"
+//    private let sortTypeKey = "selectedSortType"
 
     // MARK: - Init
     init(view: MyNFTControllerProtocol, myNFTId: [String], nftService: NftService) {
@@ -75,7 +75,8 @@ final class MyNFTPresenter: MyNFTPresenterProtocol {
             myNFTs.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         }
 
-        UserDefaults.standard.set(type.rawValue, forKey: sortTypeKey)
+        
+        UserPreferences.sortType = type
         view?.updateSortIndicator(isHidden: type == .rating)
         view?.reloadNFTs()
     }
@@ -94,7 +95,7 @@ final class MyNFTPresenter: MyNFTPresenterProtocol {
     
     // MARK: - Private Methods
     private func loadSortType() -> SortType {
-        let savedValue = UserDefaults.standard.integer(forKey: sortTypeKey)
+        let savedValue = UserPreferences.sortType.rawValue
         return SortType(rawValue: savedValue) ?? .rating
     }
 }
