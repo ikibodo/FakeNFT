@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FavoritesNFTControllerProtocol: AnyObject {
+
+}
+
 final class FavoritesNFTController: UIViewController {
     
     // MARK: - Private Properties
@@ -20,16 +24,28 @@ final class FavoritesNFTController: UIViewController {
         return button
     }()
     
+    private var presenter: FavoritesNFTPresenterProtocol?
+    
+    // MARK: - Public Methods
+    func setPresenter(_ presenter: FavoritesNFTPresenterProtocol) {
+        self.presenter = presenter
+    }
+    
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         navigationItem.title = NSLocalizedString("Profile.FavoritesNFT.title", comment: "Избранные NFT")
         navigationItem.leftBarButtonItem = backButton
+        
     }
     
     // MARK: - Actions
     @objc private func modalCloseButtonTapped() {
         self.navigationController?.popViewController(animated: true)
     }
+}
+
+extension FavoritesNFTController: FavoritesNFTControllerProtocol {
+    
 }

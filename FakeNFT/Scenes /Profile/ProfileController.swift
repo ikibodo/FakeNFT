@@ -229,14 +229,17 @@ extension ProfileController: UITableViewDelegate {
         switch indexPath.section {
         case 0:
             guard let arrayMyNFT = userProfile?.nfts else { return }
-            let controller = MyNFTController(arrayMyNFT: arrayMyNFT, nftService: servicesAssembly.nftService)
+            let controller = MyNFTController()
             let presenter = MyNFTPresenter(view: controller, myNFTId: arrayMyNFT, nftService: servicesAssembly.nftService)
             controller.setPresenter(presenter)
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.modalPresentationStyle = .fullScreen
             self.navigationController?.present(navigationController, animated: true, completion: nil)
         case 1:
+            guard let favoriteNFT = userProfile?.likes else { return }
             let controller = FavoritesNFTController()
+            let presenter = FavoritesNFTPresenter(view: controller, favoriteNFTId: favoriteNFT, nftService: servicesAssembly.nftService)
+            controller.setPresenter(presenter)
             navigationController?.pushViewController(controller, animated: true)
         case 2:
             print("Вы выбрали \"О разработчике\"")

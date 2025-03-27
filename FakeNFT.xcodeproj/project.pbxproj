@@ -47,6 +47,7 @@
 		613395BE2D8DE6D5007CEE82 /* MyNFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395BD2D8DE6D5007CEE82 /* MyNFT.swift */; };
 		613395C12D8DFBCE007CEE82 /* MyNFTCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395C02D8DFBCE007CEE82 /* MyNFTCell.swift */; };
 		613395ED2D95CE8A007CEE82 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395EC2D95CE8A007CEE82 /* UserPreferences.swift */; };
+		613395EF2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395EE2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift */; };
 		6162BBE12D88133000E83532 /* ProfilePutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6162BBE02D88133000E83532 /* ProfilePutService.swift */; };
 		6162BBE32D88140E00E83532 /* ProfilePutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6162BBE22D88140E00E83532 /* ProfilePutRequest.swift */; };
 		6162BBE52D8897A500E83532 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6162BBE42D8897A500E83532 /* UIBlockingProgressHUD.swift */; };
@@ -125,6 +126,7 @@
 		613395BD2D8DE6D5007CEE82 /* MyNFT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNFT.swift; sourceTree = "<group>"; };
 		613395C02D8DFBCE007CEE82 /* MyNFTCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNFTCell.swift; sourceTree = "<group>"; };
 		613395EC2D95CE8A007CEE82 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		613395EE2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesNFTPresenter.swift; sourceTree = "<group>"; };
 		6162BBE02D88133000E83532 /* ProfilePutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePutService.swift; sourceTree = "<group>"; };
 		6162BBE22D88140E00E83532 /* ProfilePutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePutRequest.swift; sourceTree = "<group>"; };
 		6162BBE42D8897A500E83532 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				61D3456D2D86644B00CB0128 /* FavoritesNFTController.swift */,
+				613395EE2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift */,
 			);
 			path = FavoriteNFT;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				0C79EE612A76DCD600EE90EA /* NftByIdRequest.swift in Sources */,
 				61D3456C2D86642000CB0128 /* MyNFTController.swift in Sources */,
 				6162BBE12D88133000E83532 /* ProfilePutService.swift in Sources */,
+				613395EF2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift in Sources */,
 				E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */,
 				613395BE2D8DE6D5007CEE82 /* MyNFT.swift in Sources */,
 				0CF2C2E12A784C7000FDC837 /* LinePageControl.swift in Sources */,

@@ -87,16 +87,6 @@ final class MyNFTController: UIViewController {
     private var currentSortType: SortType = .rating
     private var presenter: MyNFTPresenterProtocol?
     
-    // MARK: - Initializers
-    init(arrayMyNFT: [String], nftService: NftService) {
-        super.init(nibName: nil, bundle: nil)
-        self.presenter = MyNFTPresenter(view: self, myNFTId: arrayMyNFT, nftService: nftService)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()

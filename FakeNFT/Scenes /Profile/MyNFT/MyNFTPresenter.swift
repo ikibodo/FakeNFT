@@ -22,7 +22,6 @@ final class MyNFTPresenter: MyNFTPresenterProtocol {
     private let nftService: NftService
     private var myNFTId: [String]
     private var myNFTs: [Nft] = []
-//    private let sortTypeKey = "selectedSortType"
 
     // MARK: - Init
     init(view: MyNFTControllerProtocol, myNFTId: [String], nftService: NftService) {
