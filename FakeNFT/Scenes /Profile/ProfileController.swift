@@ -166,6 +166,7 @@ final class ProfileController: UIViewController {
         alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
         
         alert.addAction(UIAlertAction(title: "Повторить попытку", style: .default) { [weak self] _ in
+            UIBlockingProgressHUD.show()
             self?.presenter?.fetchUserProfile()
         })
         
@@ -227,7 +228,10 @@ extension ProfileController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            let controller = MyNFTController()
+            guard let arrayMyNFT = userProfile?.nfts else { return }
+            let controller = MyNFTController(arrayMyNFT: arrayMyNFT, nftService: servicesAssembly.nftService)
+            let presenter = MyNFTPresenter(view: controller, myNFTId: arrayMyNFT, nftService: servicesAssembly.nftService)
+            controller.setPresenter(presenter)
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.modalPresentationStyle = .fullScreen
             self.navigationController?.present(navigationController, animated: true, completion: nil)
