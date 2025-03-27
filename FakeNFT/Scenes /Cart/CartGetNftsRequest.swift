@@ -12,7 +12,7 @@ struct CartGetNftsRequest: NetworkRequest {
     var httpMethod: HttpMethod
     var dto: Dto?
     init(nftId: String) {
-        guard let endpoint = URL(string: "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net/api/v1/nft/\(nftId)") else {
+        guard let endpoint = URL(string: "\(RequestConstants.baseURL)/api/v1/nft/\(nftId)") else {
             self.endpoint = nil
             self.httpMethod = .get
             self.dto = nil

@@ -15,8 +15,7 @@ protocol CartViewControllerProtocol: AnyObject {
     func startLoading()
     func stopLoading()
     func updateNftsCount()
-    func showEmptyMessage()
-    func hideEmptyMessage()
+    func setEmptyMessageVisible(_ isVisible: Bool)
 }
 
 final class CartViewController: UIViewController & CartViewControllerProtocol {
@@ -98,7 +97,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         presenter?.view = self
         configureView()
         configureConstraits()
-        showEmptyMessage()
+        setEmptyMessageVisible(true)
         presenter?.getAllCartData()
         updateTable()
     }
@@ -153,13 +152,9 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
             emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    func showEmptyMessage() {
-        emptyLabel.isHidden = false
-        priceView.isHidden = true
-    }
-    func hideEmptyMessage() {
-        emptyLabel.isHidden = true
-        priceView.isHidden = false
+    func setEmptyMessageVisible(_ isVisible: Bool) {
+        emptyLabel.isHidden = !isVisible
+        priceView.isHidden = isVisible
     }
     @objc private func didPullToRefresh(_ sender: Any) {
         presenter?.getAllCartData()

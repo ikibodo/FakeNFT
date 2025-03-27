@@ -60,13 +60,13 @@ final class CartPresenter: CartPresenterProtocol {
             guard let self = self, let cartItem = cartItem else { return }
             self.saveCart(cart: cartItem)
             if cartItem.nfts.isEmpty && cartItem.nfts.count == 0 {
-                view?.showEmptyMessage()
+                view?.setEmptyMessageVisible(true)
                 visibleNft = []
                 view?.updateTable()
                 self.view?.stopLoading()
                 return
             } else {
-                view?.hideEmptyMessage()
+                view?.setEmptyMessageVisible(false)
             }
             self.getNftsCart(cart: cartItem.nfts) {
                 DispatchQueue.main.async {
@@ -100,7 +100,7 @@ final class CartPresenter: CartPresenterProtocol {
         let nftsString = nftsIds.joined(separator: ",")
         let bodyString = "nfts=\(nftsString)"
         guard let bodyData = bodyString.data(using: .utf8) else { return }
-        guard let url = URL(string: "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net/api/v1/orders/1") else { return }
+        guard let url = URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Accept")

@@ -12,7 +12,7 @@ struct CartRequest: NetworkRequest {
     var httpMethod: HttpMethod
     var dto: Dto?
     init() {
-        guard let endpoint = URL(string: "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net/api/v1/orders/1") else {
+        guard let endpoint = URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1") else {
             self.endpoint = nil
             self.httpMethod = .get
             self.dto = nil
