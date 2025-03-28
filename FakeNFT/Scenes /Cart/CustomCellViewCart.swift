@@ -138,15 +138,18 @@ final class CustomCellViewCart: UITableViewCell {
         stack.alignment = .leading
         return stack
     }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
         configureConstraits()
     }
+    
     required init?(coder: NSCoder) {
         assertionFailure("init(coder:) has not been implemented")
         return nil
     }
+    
     func initCell(nft: Nft) {
         nftNameLabel.text = nft.name
         nftPriceLabel.text = String(nft.price) + " ETH"
@@ -154,6 +157,7 @@ final class CustomCellViewCart: UITableViewCell {
         nftImage = nft.images.first
         setRating(nft.rating)
     }
+    
     private func configureView() {
         [mainView].forEach {
             contentView.addSubview($0)
@@ -179,6 +183,7 @@ final class CustomCellViewCart: UITableViewCell {
             mainView.addSubview($0)
         }
     }
+    
     private func configureConstraits() {
         NSLayoutConstraint.activate([
             mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -202,6 +207,7 @@ final class CustomCellViewCart: UITableViewCell {
             deleteButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
+    
     private func setRating(_ rating: Int) {
         firstStar.image = UIImage(named: "starsNoActive")
         secondStar.image = UIImage(named: "starsNoActive")
@@ -233,6 +239,7 @@ final class CustomCellViewCart: UITableViewCell {
             break
         }
     }
+    
     @objc private func deleteButtonTapped() {
         guard let nftId = nftId, let nftImage = nftImage else { return }
         delegate?.cellDidTapDeleteCart(nftId: nftId, nftImage: nftImage)

@@ -12,7 +12,6 @@ protocol CartDeleteConfirmDelegate: AnyObject {
 }
 
 final class CartDeleteConfirmView: UIViewController {
-    
     weak var delegate: CartDeleteConfirmDelegate?
     private let deleteButton: UIButton = {
         let button = UIButton()
@@ -74,10 +73,12 @@ final class CartDeleteConfirmView: UIViewController {
     }()
     var nftId: String?
     var nftImage: URL?
+    
     override func viewDidLoad() {
         configureView()
         configureConstraits()
     }
+    
     private func configureView() {
         imageViews.kf.setImage(with: nftImage)
         let blur = UIBlurEffect(style: .systemUltraThinMaterialLight)
@@ -97,6 +98,7 @@ final class CartDeleteConfirmView: UIViewController {
             imageStack.addArrangedSubview($0)
         }
     }
+    
     private func configureConstraits() {
         NSLayoutConstraint.activate([
             imageViews.heightAnchor.constraint(equalToConstant: 108),
@@ -114,10 +116,12 @@ final class CartDeleteConfirmView: UIViewController {
             cancelButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
+    
     @objc private func deleteTapped() {
         delegate?.deleteNftCart(nftId: nftId ?? "")
         dismiss(animated: true)
     }
+    
     @objc private func cancelTapped() {
         dismiss(animated: true)
     }

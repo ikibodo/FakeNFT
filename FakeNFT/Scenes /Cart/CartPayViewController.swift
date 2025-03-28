@@ -13,6 +13,7 @@ protocol CartPayViewControllerProtocol: AnyObject {
     var visibleCurrencies: [Currencies] { get set }
     func updateTable()
 }
+
 final class CartPayViewController: UIViewController & CartPayViewControllerProtocol {
     var presenter: CartPayPresenterProtocol? = CartPayPresenter(networkClient: DefaultNetworkClient())
     var num = 1
@@ -73,21 +74,25 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
         button.addTarget(self, action: #selector(openWebView), for: .touchUpInside)
         return button
     }()
+    
     @objc private func openWebView() {
         guard let url = URL(string: "https://yandex.ru/legal/practicum_termsofuse/") else { return }
         let webViewVC = WebViewController()
         webViewVC.loadURL(url)
         present(webViewVC, animated: true)
     }
+    
     @objc private func cancelPay() {
         if ProgressHUD.areAnimationsEnabled {
             ProgressHUD.dismiss()
         }
         dismiss(animated: true)
     }
+    
     @objc private func payButtonTapped() {
         dismiss(animated: true)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -95,9 +100,11 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
         presenter?.view = self
         fetchCurrency()
     }
+    
     func updateTable() {
         currenciesCollectionView.reloadData()
     }
+    
     private func fetchCurrency() {
         ProgressHUD.show()
         presenter?.getCurrencies { [weak self] items in
@@ -112,6 +119,7 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
             ProgressHUD.dismiss()
         }
     }
+    
     private func configureView() {
         view.backgroundColor = .backgroundColor
         navigationItem.titleView = navigationLabel
@@ -128,6 +136,7 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
         currenciesCollectionView.delegate = self
         currenciesCollectionView.dataSource = self
     }
+    
     private func configureConstraits() {
         NSLayoutConstraint.activate([
             currenciesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -152,13 +161,16 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
         ])
     }
 }
+
 extension CartPayViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return visibleCurrencies.count
     }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCellCollectionViewCart.reuseIdentifier, for: indexPath) as? CustomCellCollectionViewCart else { return UICollectionViewCell()}
         let data = visibleCurrencies[indexPath.row]
@@ -168,6 +180,7 @@ extension CartPayViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
 extension CartPayViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? CustomCellCollectionViewCart {
@@ -177,6 +190,7 @@ extension CartPayViewController: UICollectionViewDelegate {
             cell.layer.borderColor = color.cgColor
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? CustomCellCollectionViewCart {
             cell.layer.borderWidth = 0
@@ -186,6 +200,7 @@ extension CartPayViewController: UICollectionViewDelegate {
         }
     }
 }
+
 extension CartPayViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let indentFromView: CGFloat = 16
@@ -194,12 +209,15 @@ extension CartPayViewController: UICollectionViewDelegateFlowLayout {
         let height: CGFloat = 46
         return CGSize(width: width, height: height)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }

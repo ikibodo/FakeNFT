@@ -11,13 +11,16 @@ protocol CartPayPresenterProtocol {
     var view: CartPayViewControllerProtocol? { get set }
     func getCurrencies(completion: @escaping (Result<[Currencies], Error>) -> Void)
 }
+
 final class CartPayPresenter: CartPayPresenterProtocol {
     weak var view: CartPayViewControllerProtocol?
     var visibleCurrencies: [Currencies] = []
     private let networkClient: DefaultNetworkClient
+    
     init(networkClient: DefaultNetworkClient) {
         self.networkClient = networkClient
     }
+    
     func getCurrencies(completion: @escaping (Result<[Currencies], Error>) -> Void) {
         guard let url = URL(string: "\(RequestConstants.baseURL)/api/v1/currencies") else {
             print("Failed to create URL")
@@ -46,6 +49,7 @@ final class CartPayPresenter: CartPayPresenterProtocol {
         }
         task.resume()
     }
+    
     private func saveItems(items: [Currencies]) {
         visibleCurrencies = items
     }

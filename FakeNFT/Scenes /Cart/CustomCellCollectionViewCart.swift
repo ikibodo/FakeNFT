@@ -9,6 +9,7 @@ import UIKit
 
 final class CustomCellCollectionViewCart: UICollectionViewCell {
     static let reuseIdentifier = "CustomCollectionCellView"
+    
     private let mainView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
@@ -50,22 +51,27 @@ final class CustomCellCollectionViewCart: UICollectionViewCell {
         stack.spacing = 0
         return stack
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
         configureConstraits()
     }
+    
     required init?(coder: NSCoder) {
         assertionFailure("init(coder:) has not been implemented")
         return nil
     }
+    
     func initCell(currencyLabel: String, titleLabel: String) {
         self.currencyLabel.text = titleLabel
         self.shortCurrencyLabel.text = currencyLabel
     }
+    
     func setImage(image: UIImage) {
         imageViews.image = image
     }
+    
     private func configureView() {
         [mainView].forEach {
             contentView.addSubview($0)
@@ -79,6 +85,7 @@ final class CustomCellCollectionViewCart: UICollectionViewCell {
             mainView.addSubview($0)
         }
     }
+    
     private func configureConstraits() {
         NSLayoutConstraint.activate([
             mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

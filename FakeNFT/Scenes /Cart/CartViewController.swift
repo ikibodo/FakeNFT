@@ -92,6 +92,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return label
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.view = self
@@ -101,6 +102,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         presenter?.getAllCartData()
         updateTable()
     }
+    
     private func configureView() {
         navigationController?.setNavigationBarHidden(true, animated: true)
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
@@ -122,6 +124,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         tableView.dataSource = self
         tableView.delegate = self
     }
+    
     private func configureConstraits() {
         NSLayoutConstraint.activate([
             sortButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2),
@@ -152,20 +155,24 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
             emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
+    
     func setEmptyMessageVisible(_ isVisible: Bool) {
         emptyLabel.isHidden = !isVisible
         priceView.isHidden = isVisible
     }
+    
     @objc private func didPullToRefresh(_ sender: Any) {
         presenter?.getAllCartData()
         refreshControl.endRefreshing()
     }
+    
     @objc private func payButtonTapped() {
         let payPage = CartPayViewController()
         let navigationController = UINavigationController(rootViewController: payPage)
         navigationController.modalPresentationStyle = .overFullScreen
         present(navigationController, animated: true)
     }
+    
     @objc private func sortButtonTapped() {
         let byPrice = NSLocalizedString("Cart.sortByPrice", comment: "")
         let byName = NSLocalizedString("Cart.sortByName", comment: "")
@@ -187,15 +194,19 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         
         self.present(alert, animated: true)
     }
+    
     func updateTable() {
         tableView.reloadData()
     }
+    
     func startLoading() {
         ProgressHUD.show()
     }
+    
     func stopLoading() {
         ProgressHUD.dismiss()
     }
+    
     func updateNftsCount() {
         guard let count = presenter?.visibleNft.count else { return }
         guard let price = presenter?.priceCart else { return }
@@ -203,13 +214,16 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         priceNfts.text = "\(price) ETH"
     }
 }
+
 extension CartViewController: UITableViewDelegate {
     
 }
+
 extension CartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter?.visibleNft.count ?? 0
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomCellViewCart.reuseIdentifier, for: indexPath) as? CustomCellViewCart else { return UITableViewCell() }
         cell.selectionStyle = .none
@@ -223,6 +237,7 @@ extension CartViewController: UITableViewDataSource {
         return cell
     }
 }
+
 extension CartViewController: CustomCellViewCartDelegate {
     func cellDidTapDeleteCart(nftId: String, nftImage: URL) {
         let deleteNft = CartDeleteConfirmView()
@@ -234,6 +249,7 @@ extension CartViewController: CustomCellViewCartDelegate {
         present(navigationController, animated: true)
     }
 }
+
 extension CartViewController: CartDeleteConfirmDelegate {
     func deleteNftCart(nftId: String) {
         presenter?.editOrder(typeOfEdit: .deleteNft, nftId: nftId) { _ in }
