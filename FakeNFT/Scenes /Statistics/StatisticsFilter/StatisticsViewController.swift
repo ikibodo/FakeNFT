@@ -12,7 +12,7 @@ final class StatisticsViewController: UIViewController, StatisticsViewProtocol {
     
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "Sort"), for: .normal)
+        button.setImage(UIImage(named: "sort"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(didSortButtonTapped), for: .touchUpInside)
         return button
