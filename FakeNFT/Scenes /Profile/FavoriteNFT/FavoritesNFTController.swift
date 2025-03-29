@@ -8,6 +8,9 @@
 import UIKit
 
 protocol FavoritesNFTControllerProtocol: AnyObject {
+    func reloadNFTs()
+    func showError(message: String)
+    func showLoading(_ isLoading: Bool)
     func updateEmptyState(isHidden: Bool)
 }
 
@@ -52,7 +55,6 @@ final class FavoritesNFTController: UIViewController {
     }()
     
     private var presenter: FavoritesNFTPresenterProtocol?
-    private var favoriteNFTs: [Nft] = []
     
     // MARK: - Public Methods
     func setPresenter(_ presenter: FavoritesNFTPresenterProtocol) {
@@ -67,9 +69,7 @@ final class FavoritesNFTController: UIViewController {
         navigationItem.leftBarButtonItem = backButton
         
         setupCollectionView()
-        loadNFTs()
-        
-        updateEmptyState(isHidden: !favoriteNFTs.isEmpty)
+        presenter?.loadNFTs()
     }
     
     private func setupCollectionView() {
@@ -87,17 +87,6 @@ final class FavoritesNFTController: UIViewController {
         ])
     }
     
-    private func loadNFTs() {
-        
-        favoriteNFTs = presenter?.loadNFTs() ?? []
-        collectionView.reloadData()
-    }
-    
-    func updateEmptyState(isHidden: Bool) {
-        emptyLabel.isHidden = isHidden
-        collectionView.isHidden = !isHidden
-    }
-    
     // MARK: - Actions
     @objc private func modalCloseButtonTapped() {
         self.navigationController?.popViewController(animated: true)
@@ -106,12 +95,13 @@ final class FavoritesNFTController: UIViewController {
 
 extension FavoritesNFTController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favoriteNFTs.count
+        return presenter?.getNFTsCount() ?? 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FavoriteNFTCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-        cell.configure(with: favoriteNFTs[indexPath.item])
+        guard let nft = presenter?.getNFT(at: indexPath.row) else { return cell }
+        cell.configure(nft: nft)
         return cell
     }
 }
@@ -119,11 +109,28 @@ extension FavoritesNFTController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension FavoritesNFTController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedNFT = favoriteNFTs[indexPath.item]
-        print("Выбрана NFT: \(selectedNFT.name), автор: \(selectedNFT.author), цена: $\(selectedNFT.price)")
+        let nft = presenter?.getNFT(at: indexPath.row)
+        print("Выбрана NFT: \(String(describing: nft?.name)), автор: \(String(describing: nft?.author)), цена: $\(String(describing: nft?.price))")
     }
 }
 
 extension FavoritesNFTController: FavoritesNFTControllerProtocol {
+    func reloadNFTs() {
+        collectionView.reloadData()
+    }
     
+    func showError(message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default))
+        present(alert, animated: true)
+    }
+    
+    func showLoading(_ isLoading: Bool) {
+        isLoading ? UIBlockingProgressHUD.show() : UIBlockingProgressHUD.dismiss()
+    }
+    
+    func updateEmptyState(isHidden: Bool) {
+        emptyLabel.isHidden = isHidden
+        collectionView.isHidden = !isHidden
+    }
 }

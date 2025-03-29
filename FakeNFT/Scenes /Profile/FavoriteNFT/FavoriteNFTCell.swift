@@ -164,7 +164,7 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
         ])
     }
     
-    func configure(with nft: Nft) {
+    func configure(nft: Nft) {
         nftNameLabel.text = nft.name
         nftPriceLabel.text = "\(nft.price) ETH"
         nftImageView.kf.setImage(with: nft.images[0], placeholder: UIImage(systemName: "photo"))
