@@ -16,6 +16,9 @@ protocol FavoritesNFTControllerProtocol: AnyObject {
 
 final class FavoritesNFTController: UIViewController {
     
+    // MARK: - Public Properties
+    weak var delegate: EditProfileControllerDelegate?
+    
     // MARK: - Private Properties
     private lazy var backButton: UIBarButtonItem = {
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
@@ -89,7 +92,16 @@ final class FavoritesNFTController: UIViewController {
     
     // MARK: - Actions
     @objc private func modalCloseButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+        if presenter?.isLikeUpdated() == true {
+            UIBlockingProgressHUD.show()
+            delegate?.didUpdateProfile()
+            presenter?.setLikeUpdated(false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 
@@ -102,6 +114,7 @@ extension FavoritesNFTController: UICollectionViewDataSource {
         let cell: FavoriteNFTCell = collectionView.dequeueReusableCell(indexPath: indexPath)
         guard let nft = presenter?.getNFT(at: indexPath.row) else { return cell }
         cell.configure(nft: nft)
+        cell.delegate = self
         return cell
     }
 }
@@ -132,5 +145,19 @@ extension FavoritesNFTController: FavoritesNFTControllerProtocol {
     func updateEmptyState(isHidden: Bool) {
         emptyLabel.isHidden = isHidden
         collectionView.isHidden = !isHidden
+    }
+}
+
+extension FavoritesNFTController: FavoriteNFTCellDelegate {
+    func didTaplikeButton(in cell: FavoriteNFTCell, nftID: String) {
+        presenter?.changeLike(nftId: nftID) { success in
+            DispatchQueue.main.async {
+                if success {
+                    cell.updateLikeButton()
+                } else {
+                    self.showError(message: "Ошибка при изменении лайка")
+                }
+            }
+        }
     }
 }

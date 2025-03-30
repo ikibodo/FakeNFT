@@ -8,7 +8,14 @@
 import UIKit
 import Kingfisher
 
+protocol FavoriteNFTCellDelegate: AnyObject {
+    func didTaplikeButton(in cell: FavoriteNFTCell, nftID: String)
+}
+
 final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
+    
+    weak var delegate: FavoriteNFTCellDelegate?
+    private var nftId = ""
     
     // MARK: - Private Properties
     private lazy var mainStackView: UIStackView = {
@@ -58,7 +65,7 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "like"), for: .normal)
         button.tintColor = UIColor.white
-        button.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(likeButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -168,6 +175,8 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
         nftNameLabel.text = nft.name
         nftPriceLabel.text = "\(nft.price) ETH"
         nftImageView.kf.setImage(with: nft.images[0], placeholder: UIImage(systemName: "photo"))
+        heartButton.tintColor = UIColor.red
+        nftId = nft.id
         
         let clampedRating = max(0, min(nft.rating, 5))
         
@@ -178,8 +187,14 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
     }
     
     // MARK: - Actions
-    @objc private func heartButtonTapped() {
-        heartButton.tintColor =  (heartButton.tintColor == UIColor.white) ? UIColor.red : UIColor.white
+    @objc private func likeButton() {
+//        let newColor =  (heartButton.tintColor == UIColor.white) ? UIColor.red : UIColor.white
+//        heartButton.tintColor = newColor
+        delegate?.didTaplikeButton(in: self, nftID: nftId)
+    }
+    
+    func updateLikeButton() {
+        heartButton.tintColor = heartButton.tintColor == UIColor.white ? UIColor.red : UIColor.white
     }
 }
 

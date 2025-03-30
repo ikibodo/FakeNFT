@@ -9,7 +9,7 @@ import Kingfisher
 import UIKit
 
 protocol EditProfileControllerDelegate: AnyObject {
-    func didUpdateProfile(with updatedProfile: UserProfile)
+    func didUpdateProfile()
 }
 
 protocol EditProfileControllerProtocol: AnyObject {
@@ -400,7 +400,7 @@ extension EditProfileController: EditProfileControllerProtocol {
                 "likes": "\(updatedProfile.likes)"
               """)
         self.showSnackbar(message: "Профиль обновлен!", isSuccess: true)
-        self.delegate?.didUpdateProfile(with: updatedProfile)
+        self.delegate?.didUpdateProfile()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
             self.dismiss(animated: true)
         }

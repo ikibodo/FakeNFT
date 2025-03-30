@@ -79,6 +79,7 @@ final class ProfileServiceImp: ProfileService {
             switch result {
             case .success(let profile):
                 self.storage.saveProfile(profile)
+                print("[updateProfile] profile.likes \(profile.likes)")
                 completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))

@@ -238,8 +238,9 @@ extension ProfileController: UITableViewDelegate {
         case 1:
             guard let favoriteNFT = userProfile?.likes else { return }
             let controller = FavoritesNFTController()
-            let presenter = FavoritesNFTPresenter(view: controller, favoriteNFTId: favoriteNFT, nftService: servicesAssembly.nftService)
+            let presenter = FavoritesNFTPresenter(view: controller, favoriteNFTId: favoriteNFT, nftService: servicesAssembly.nftService, profileService: servicesAssembly.profileService)
             controller.setPresenter(presenter)
+            controller.delegate = self
             navigationController?.pushViewController(controller, animated: true)
         case 2:
             print("Вы выбрали \"О разработчике\"")
@@ -252,7 +253,7 @@ extension ProfileController: UITableViewDelegate {
 
 // MARK: - EditProfileDelegate
 extension ProfileController: EditProfileControllerDelegate {
-    func didUpdateProfile(with updatedProfile: UserProfile) {
+    func didUpdateProfile() {
         presenter?.fetchUserProfile()
     }
 }
