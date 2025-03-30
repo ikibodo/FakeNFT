@@ -77,7 +77,6 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
     private lazy var userNFTButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
-//        button.tintColor = .segmentActive
         button.addTarget(self, action: #selector(didTapUserNFTButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -113,7 +112,7 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     private lazy var chevronImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "chevron.forward"))
         imageView.tintColor = .segmentActive
@@ -235,7 +234,12 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
             print("Некорректный id пользователя")
             return
         }
-        let VCPresenter = StatisticsUserCollectionPresenter(userId: userId)
+        
+        guard let nfts = presenter?.getUserNfts() else {
+            print("Нет информации о nfts")
+            return
+        }
+        let VCPresenter = StatisticsUserCollectionPresenter(userId: userId, userNftsId: nfts)
         let VC = StatisticsUserCollectionViewController(presenter: VCPresenter)
         navigationController?.pushViewController(VC, animated: true)
     }

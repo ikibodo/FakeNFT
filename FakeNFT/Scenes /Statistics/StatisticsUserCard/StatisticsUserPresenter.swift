@@ -33,4 +33,8 @@ final class StatisticsUserPresenter {
     func getUserId() -> String? {
         return user.id
     }
+    
+    func getUserNfts() -> [String]? {
+        return user.nfts
+    }
 }

@@ -36,6 +36,13 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
         return collectionView
     }()
     
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     init(presenter: StatisticsUserCollectionPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -52,10 +59,23 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
         setupNavigationBar()
         addSubViews()
         addConstraints()
+        presenter?.fetchNftDetails()
     }
     
     func showError(_ message: String) {
         print(message)
+    }
+    
+    func reloadData() {
+        collectionView.reloadData()
+    }
+    
+    func showLoadingIndicator() {
+        loadingIndicator.startAnimating()
+    }
+    
+    func hideLoadingIndicator() {
+        loadingIndicator.stopAnimating()
     }
     
     private func setupNavigationBar() {
@@ -70,6 +90,7 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
     
     private func addSubViews() {
         view.addSubview(collectionView)
+        view.addSubview(loadingIndicator)
     }
     
     private func addConstraints() {
@@ -77,7 +98,10 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -88,15 +112,17 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
 
 extension StatisticsUserCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        return presenter?.getNftCount() ?? 0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StatisticsUserCollectionCell.identifier, for: indexPath) as? StatisticsUserCollectionCell else { return UICollectionViewCell() }
+        guard let nft = presenter?.getNft(at: indexPath.row) else { return cell }
+        cell.configure(nft: nft)
         return cell
     }
 }

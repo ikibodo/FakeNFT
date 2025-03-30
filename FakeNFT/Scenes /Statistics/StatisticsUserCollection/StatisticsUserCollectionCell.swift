@@ -5,6 +5,7 @@
 //  Created by N L on 27.3.25..
 //
 import UIKit
+import Kingfisher
 
 final class StatisticsUserCollectionCell: UICollectionViewCell {
     static let identifier = "StatisticsUserCollectionCell"
@@ -13,7 +14,7 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 12
         imageView.tintColor = .yaGrayUniversal
-        imageView.backgroundColor = .lightGray // удалить
+        imageView.image = UIImage(named: "nftCard")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
@@ -52,7 +53,7 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         label.textColor = .segmentActive
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textAlignment = .left
-        label.text = "Name"
+        label.lineBreakMode = .byClipping 
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -62,7 +63,6 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         label.textColor = .segmentActive
         label.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         label.textAlignment = .left
-        label.text = "Price ETH"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -114,6 +114,7 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
             
             nftNameLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 5),
             nftNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            nftNameLabel.widthAnchor.constraint(equalToConstant: 68),
             nftNameLabel.heightAnchor.constraint(equalToConstant: 22),
             
             nftPriceLabel.topAnchor.constraint(equalTo: nftNameLabel.bottomAnchor, constant: 4),
@@ -127,8 +128,24 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         ])
     }
     
-    func configure() {
+    func configure(nft: StatisticsNft) {
+        nftNameLabel.text = nft.name
+        nftPriceLabel.text = "\(nft.price) ETH"
         
+        if let firstImageURL = nft.images.first, let url = URL(string: firstImageURL) {
+            nftImageView.kf.setImage(with: url)
+        }
+        updateStars(rating: nft.rating)
+    }
+    
+    private func updateStars(rating: Int) {
+        for (index, imageView) in starImageView.enumerated() {
+            if index < rating {
+                imageView.image = UIImage(named: "starActive")
+            } else {
+                imageView.image = UIImage(named: "starNoActive")
+            }
+        }
     }
     
     @objc private func didTapCardButton(){
