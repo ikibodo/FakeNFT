@@ -8,12 +8,14 @@
 import UIKit
 import WebKit
 
-final class WebViewController: UIViewController, WKNavigationDelegate {
+final class WebViewController: UIViewController {
     
+    // MARK: - Private Properties
     private var urlString: String
     private var webView: WKWebView!
     private var progressView: UIProgressView!
 
+    // MARK: - Initializers
     init(urlString: String) {
         self.urlString = urlString
         super.init(nibName: nil, bundle: nil)
@@ -23,12 +25,21 @@ final class WebViewController: UIViewController, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         loadWebPage()
     }
+    
+    // MARK: - Overrides Methods
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            progressView.progress = Float(webView.estimatedProgress)
+        }
+    }
 
+    // MARK: - Private Methods
     private func setupUI() {
         view.backgroundColor = .white
 
@@ -59,30 +70,26 @@ final class WebViewController: UIViewController, WKNavigationDelegate {
         guard let url = URL(string: urlString) else { return }
         webView.load(URLRequest(url: url))
     }
-
-    // MARK: - WKNavigationDelegate
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        progressView.isHidden = true
-    }
-
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        progressView.isHidden = true
-        showErrorAlert(error: error)
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "estimatedProgress" {
-            progressView.progress = Float(webView.estimatedProgress)
-        }
+    
+    private func showErrorAlert(error: Error) {
+        let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
+        present(alert, animated: true)
     }
 
     deinit {
         webView.removeObserver(self, forKeyPath: "estimatedProgress")
     }
+}
 
-    private func showErrorAlert(error: Error) {
-        let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
-        present(alert, animated: true)
+// MARK: - WKNavigationDelegate
+extension WebViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        progressView.isHidden = true
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        progressView.isHidden = true
+        showErrorAlert(error: error)
     }
 }

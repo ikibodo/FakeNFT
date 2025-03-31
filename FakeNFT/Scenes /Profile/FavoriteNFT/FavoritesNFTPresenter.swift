@@ -35,7 +35,8 @@ final class FavoritesNFTPresenter {
         self.profileService = profileService
     }
     
-    func fetchUserProfile(completion: @escaping () -> Void) {
+    // MARK: - Private Methods
+    private func fetchUserProfile(completion: @escaping () -> Void) {
         profileService.loadProfile { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -52,6 +53,7 @@ final class FavoritesNFTPresenter {
     }
 }
 
+// MARK: - FavoritesNFTPresenterProtocol
 extension FavoritesNFTPresenter: FavoritesNFTPresenterProtocol {
     func loadNFTs() {
         view?.showLoading(true)

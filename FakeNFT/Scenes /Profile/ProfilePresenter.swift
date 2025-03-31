@@ -12,8 +12,7 @@ protocol ProfilePresenterProtocol {
     func handleDeveloperInfoSelection()
 }
 
-final class ProfilePresenter: ProfilePresenterProtocol {
-    
+final class ProfilePresenter {
     // MARK: - Public Properties
     private weak var view: ProfileControllerProtocol?
     private let profileService: ProfileService
@@ -24,8 +23,10 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         self.view = view
         self.profileService = profileService
     }
+}
 
-    // MARK: - Public Methods
+// MARK: - ProfilePresenterProtocol
+extension ProfilePresenter: ProfilePresenterProtocol {
     func fetchUserProfile() {
         profileService.loadProfile { [weak self] result in
             DispatchQueue.main.async {

@@ -13,7 +13,7 @@ protocol FavoriteNFTCellDelegate: AnyObject {
 }
 
 final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
-    
+    // MARK: - Public Properties
     weak var delegate: FavoriteNFTCellDelegate?
     
     // MARK: - Private Properties
@@ -128,6 +128,7 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
     private var starImageViews: [UIImageView] = []
     private var nftId = ""
 
+    // MARK: - View Life Cycles
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -137,6 +138,27 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public Methods
+    func configure(nft: Nft) {
+        nftNameLabel.text = nft.name
+        nftPriceLabel.text = "\(nft.price) ETH"
+        nftImageView.kf.setImage(with: nft.images[0], placeholder: UIImage(systemName: "photo"))
+        heartButton.tintColor = UIColor.red
+        nftId = nft.id
+        
+        let clampedRating = max(0, min(nft.rating, 5))
+        
+        for (index, star) in starImageViews.enumerated() {
+            star.image = UIImage(systemName: "star.fill")
+            star.tintColor = index < clampedRating ? .systemYellow : .lightGray
+        }
+    }
+    
+    func updateLikeButton() {
+        heartButton.tintColor = heartButton.tintColor == UIColor.white ? UIColor.red : UIColor.white
+    }
+    
+    // MARK: - Private Methods
     private func setupUI() {
         contentView.addSubview(mainStackView)
         
@@ -169,25 +191,6 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
             
             ratingStarsStackView.heightAnchor.constraint(equalToConstant: 12),
         ])
-    }
-    
-    func configure(nft: Nft) {
-        nftNameLabel.text = nft.name
-        nftPriceLabel.text = "\(nft.price) ETH"
-        nftImageView.kf.setImage(with: nft.images[0], placeholder: UIImage(systemName: "photo"))
-        heartButton.tintColor = UIColor.red
-        nftId = nft.id
-        
-        let clampedRating = max(0, min(nft.rating, 5))
-        
-        for (index, star) in starImageViews.enumerated() {
-            star.image = UIImage(systemName: "star.fill")
-            star.tintColor = index < clampedRating ? .systemYellow : .lightGray
-        }
-    }
-    
-    func updateLikeButton() {
-        heartButton.tintColor = heartButton.tintColor == UIColor.white ? UIColor.red : UIColor.white
     }
     
     // MARK: - Actions

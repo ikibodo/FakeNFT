@@ -20,7 +20,6 @@ protocol MyNFTControllerProtocol: AnyObject {
 }
 
 final class MyNFTController: UIViewController {
-    
     // MARK: - Public Properties
     weak var delegate: EditProfileControllerDelegate?
     
@@ -195,6 +194,7 @@ extension MyNFTController: UITableViewDelegate {
     }
 }
 
+// MARK: - MyNFTControllerProtocol
 extension MyNFTController: MyNFTControllerProtocol {
     func reloadNFTs() {
         tableView.reloadData()
@@ -220,6 +220,7 @@ extension MyNFTController: MyNFTControllerProtocol {
     }
 }
 
+// MARK: - MyNFTCellDelegate
 extension MyNFTController: MyNFTCellDelegate {
     func didTaplikeButton(in cell: MyNFTCell, nftId: String) {
         presenter?.changeLike(nftId: nftId) { success in

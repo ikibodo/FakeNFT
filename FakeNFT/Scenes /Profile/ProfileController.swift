@@ -18,10 +18,6 @@ protocol ProfileControllerProtocol: AnyObject {
 final class ProfileController: UIViewController {
     
     // MARK: - Private Properties
-    private let servicesAssembly: ServicesAssembly
-    private var userProfile: UserProfile?
-    private var presenter: ProfilePresenterProtocol?
-    
     private lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,6 +88,10 @@ final class ProfileController: UIViewController {
         button.tintColor = UIColor.black
         return button
     }()
+    
+    private let servicesAssembly: ServicesAssembly
+    private var userProfile: UserProfile?
+    private var presenter: ProfilePresenterProtocol?
     
     // MARK: - Initializers
     init(servicesAssembly: ServicesAssembly) {

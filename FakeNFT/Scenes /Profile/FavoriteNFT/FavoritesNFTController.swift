@@ -15,7 +15,6 @@ protocol FavoritesNFTControllerProtocol: AnyObject {
 }
 
 final class FavoritesNFTController: UIViewController {
-    
     // MARK: - Public Properties
     weak var delegate: EditProfileControllerDelegate?
     
@@ -105,6 +104,7 @@ final class FavoritesNFTController: UIViewController {
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension FavoritesNFTController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return presenter?.getNFTsCount() ?? 0
@@ -127,6 +127,7 @@ extension FavoritesNFTController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - FavoritesNFTControllerProtocol
 extension FavoritesNFTController: FavoritesNFTControllerProtocol {
     func reloadNFTs() {
         collectionView.reloadData()
@@ -148,6 +149,7 @@ extension FavoritesNFTController: FavoritesNFTControllerProtocol {
     }
 }
 
+// MARK: - FavoriteNFTCellDelegate
 extension FavoritesNFTController: FavoriteNFTCellDelegate {
     func didTaplikeButton(in cell: FavoriteNFTCell, nftId: String) {
         presenter?.changeLike(nftId: nftId) { success in

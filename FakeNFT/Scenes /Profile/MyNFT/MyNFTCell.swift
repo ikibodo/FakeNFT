@@ -13,7 +13,7 @@ protocol MyNFTCellDelegate: AnyObject {
 }
 
 final class MyNFTCell: UITableViewCell, ReuseIdentifying {
-    
+    // MARK: - Public Properties
     weak var delegate: MyNFTCellDelegate?
     
     // MARK: - Private Properties
