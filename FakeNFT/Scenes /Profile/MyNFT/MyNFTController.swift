@@ -21,6 +21,9 @@ protocol MyNFTControllerProtocol: AnyObject {
 
 final class MyNFTController: UIViewController {
     
+    // MARK: - Public Properties
+    weak var delegate: EditProfileControllerDelegate?
+    
     // MARK: - Private Properties
     private lazy var backButton: UIBarButtonItem = {
         let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
@@ -148,7 +151,16 @@ final class MyNFTController: UIViewController {
     
     // MARK: - Actions
     @objc private func modalCloseButtonTapped() {
-        dismiss(animated: true)
+        if presenter?.isLikeUpdated() == true {
+            UIBlockingProgressHUD.show()
+            delegate?.didUpdateProfile()
+            presenter?.setLikeUpdated(false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.dismiss(animated: true)
+            }
+        } else {
+            self.dismiss(animated: true)
+        }
     }
     
     @objc private func sortButtonTapped() {
@@ -165,8 +177,12 @@ extension MyNFTController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: MyNFTCell = tableView.dequeueReusableCell()
-        guard let nft = presenter?.getNFT(at: indexPath.row) else { return cell }
-        cell.configure(nft: nft)
+        guard let nft = presenter?.getNFT(at: indexPath.row),
+              let isLiked = presenter?.nftIsLiked(nft: nft)
+        else { return cell }
+        
+        cell.configure(nft: nft, isLiked: isLiked)
+        cell.delegate = self
         return cell
     }
 }
@@ -201,5 +217,19 @@ extension MyNFTController: MyNFTControllerProtocol {
     
     func updateSortIndicator(isHidden: Bool) {
         sortIndicator.isHidden = isHidden
+    }
+}
+
+extension MyNFTController: MyNFTCellDelegate {
+    func didTaplikeButton(in cell: MyNFTCell, nftId: String) {
+        presenter?.changeLike(nftId: nftId) { success in
+            DispatchQueue.main.async {
+                if success {
+                    cell.updateLikeButton()
+                } else {
+                    self.showError(message: "Ошибка при изменении лайка")
+                }
+            }
+        }
     }
 }

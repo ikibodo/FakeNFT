@@ -230,8 +230,9 @@ extension ProfileController: UITableViewDelegate {
         case 0:
             guard let arrayMyNFT = userProfile?.nfts else { return }
             let controller = MyNFTController()
-            let presenter = MyNFTPresenter(view: controller, myNFTId: arrayMyNFT, nftService: servicesAssembly.nftService)
+            let presenter = MyNFTPresenter(view: controller, myNFTId: arrayMyNFT, nftService: servicesAssembly.nftService, profileService: servicesAssembly.profileService)
             controller.setPresenter(presenter)
+            controller.delegate = self
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.modalPresentationStyle = .fullScreen
             self.navigationController?.present(navigationController, animated: true, completion: nil)

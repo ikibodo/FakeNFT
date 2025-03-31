@@ -9,13 +9,12 @@ import UIKit
 import Kingfisher
 
 protocol FavoriteNFTCellDelegate: AnyObject {
-    func didTaplikeButton(in cell: FavoriteNFTCell, nftID: String)
+    func didTaplikeButton(in cell: FavoriteNFTCell, nftId: String)
 }
 
 final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
     
     weak var delegate: FavoriteNFTCellDelegate?
-    private var nftId = ""
     
     // MARK: - Private Properties
     private lazy var mainStackView: UIStackView = {
@@ -127,7 +126,8 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
     }()
     
     private var starImageViews: [UIImageView] = []
-    
+    private var nftId = ""
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -186,15 +186,13 @@ final class FavoriteNFTCell: UICollectionViewCell, ReuseIdentifying {
         }
     }
     
-    // MARK: - Actions
-    @objc private func likeButton() {
-//        let newColor =  (heartButton.tintColor == UIColor.white) ? UIColor.red : UIColor.white
-//        heartButton.tintColor = newColor
-        delegate?.didTaplikeButton(in: self, nftID: nftId)
-    }
-    
     func updateLikeButton() {
         heartButton.tintColor = heartButton.tintColor == UIColor.white ? UIColor.red : UIColor.white
+    }
+    
+    // MARK: - Actions
+    @objc private func likeButton() {
+        delegate?.didTaplikeButton(in: self, nftId: nftId)
     }
 }
 

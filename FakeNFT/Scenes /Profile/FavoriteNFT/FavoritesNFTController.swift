@@ -149,8 +149,8 @@ extension FavoritesNFTController: FavoritesNFTControllerProtocol {
 }
 
 extension FavoritesNFTController: FavoriteNFTCellDelegate {
-    func didTaplikeButton(in cell: FavoriteNFTCell, nftID: String) {
-        presenter?.changeLike(nftId: nftID) { success in
+    func didTaplikeButton(in cell: FavoriteNFTCell, nftId: String) {
+        presenter?.changeLike(nftId: nftId) { success in
             DispatchQueue.main.async {
                 if success {
                     cell.updateLikeButton()
