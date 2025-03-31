@@ -9,6 +9,7 @@ import Foundation
 
 protocol ProfilePresenterProtocol {
     func fetchUserProfile()
+    func handleDeveloperInfoSelection()
 }
 
 final class ProfilePresenter: ProfilePresenterProtocol {
@@ -16,6 +17,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     // MARK: - Public Properties
     private weak var view: ProfileControllerProtocol?
     private let profileService: ProfileService
+    private var userProfile: UserProfile?
 
     // MARK: - Initializers
     init(view: ProfileControllerProtocol, profileService: ProfileService) {
@@ -31,11 +33,20 @@ final class ProfilePresenter: ProfilePresenterProtocol {
                 
                 switch result {
                 case .success(let profile):
+                    self.userProfile = profile
                     self.view?.displayProfileData(profile)
                 case .failure(let error):
                     self.view?.showError(error)
                 }
             }
         }
+    }
+    
+    func handleDeveloperInfoSelection() {
+        guard let website = userProfile?.website, !website.isEmpty else {
+            view?.showErrorMessage("Сайт разработчика не указан")
+            return
+        }
+        view?.openWebView(urlString: website)
     }
 }

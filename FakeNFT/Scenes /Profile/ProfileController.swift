@@ -11,6 +11,8 @@ import UIKit
 protocol ProfileControllerProtocol: AnyObject {
     func displayProfileData(_ profile: UserProfile)
     func showError(_ error: Error)
+    func showErrorMessage(_ message: String)
+    func openWebView(urlString: String)
 }
 
 final class ProfileController: UIViewController {
@@ -244,7 +246,7 @@ extension ProfileController: UITableViewDelegate {
             controller.delegate = self
             navigationController?.pushViewController(controller, animated: true)
         case 2:
-            print("Вы выбрали \"О разработчике\"")
+            presenter?.handleDeveloperInfoSelection()
         default:
             break
         }
@@ -287,5 +289,16 @@ extension ProfileController: ProfileControllerProtocol {
     func showError(_ error: Error) {
         UIBlockingProgressHUD.dismiss()
         showErrorAlert(error: error)
+    }
+    
+    func showErrorMessage(_ message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
+        present(alert, animated: true)
+    }
+
+    func openWebView(urlString: String) {
+        let webVC = WebViewController(urlString: urlString)
+        navigationController?.pushViewController(webVC, animated: true)
     }
 }
