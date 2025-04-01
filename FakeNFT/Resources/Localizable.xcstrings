@@ -1,0 +1,149 @@
+{
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "Catalog.openNft" : {
+      "comment" : "Открыть Nft",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Nft"
+          }
+        }
+      }
+    },
+    "Error.network" : {
+      "comment" : "Произошла ошибка сети",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Произошла ошибка сети"
+          }
+        }
+      }
+    },
+    "Error.repeat" : {
+      "comment" : "Повторить",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторить"
+          }
+        }
+      }
+    },
+    "Error.title" : {
+      "comment" : "Ошибка",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка"
+          }
+        }
+      }
+    },
+    "Error.unknown" : {
+      "comment" : "Произошла неизвестная ошибка",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Произошла неизвестная ошибка"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.changeFoto" : {
+      "comment" : "Сменить фото",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сменить фото"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.description" : {
+      "comment" : "Описание",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.name" : {
+      "comment" : "Имя",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.website" : {
+      "comment" : "Сайт",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сайт"
+          }
+        }
+      }
+    },
+    "Profile.FavoritesNFT.title" : {
+      "comment" : "Избранные NFT",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранные NFT"
+          }
+        }
+      }
+    },
+    "Profile.MyNFT.title" : {
+      "comment" : "Мои NFT",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои NFT"
+          }
+        }
+      }
+    },
+    "Tab.catalog" : {
+      "comment" : "Каталог",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каталог"
+          }
+        }
+      }
+    },
+    "Tab.profile" : {
+      "comment" : "Профиль",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Профиль"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
