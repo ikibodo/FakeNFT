@@ -11,7 +11,7 @@ protocol EditProfilePresenterProtocol {
     func updateProfile(profile: UserProfile)
 }
 
-final class EditProfilePresenter: EditProfilePresenterProtocol {
+final class EditProfilePresenter {
     // MARK: - Private Properties
     private weak var view: EditProfileControllerProtocol?
     private let profileService: ProfileService
@@ -21,10 +21,11 @@ final class EditProfilePresenter: EditProfilePresenterProtocol {
         self.view = view
         self.profileService = profileService
     }
-    
-    // MARK: - Public Methods
+}
+
+// MARK: - EditProfilePresenterProtocol
+extension EditProfilePresenter: EditProfilePresenterProtocol {
     func updateProfile(profile: UserProfile) {
-        
         profileService.updateProfile(profile: profile) { result in
             switch result {
             case .success(let updateProfile):

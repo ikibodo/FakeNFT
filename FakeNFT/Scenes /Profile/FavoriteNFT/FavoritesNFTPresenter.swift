@@ -1,49 +1,42 @@
 //
-//  MyNFTPresenter.swift
+//  FavoritesNFTPresenter.swift
 //  FakeNFT
 //
-//  Created by Aleksandr Dugaev on 26.03.2025.
+//  Created by Aleksandr Dugaev on 27.03.2025.
 //
 
 import Foundation
 
-protocol MyNFTPresenterProtocol {
+protocol FavoritesNFTPresenterProtocol {
     func loadNFTs()
-    func sortNFTs(by type: SortType)
     func getNFTsCount() -> Int
     func getNFT(at index: Int) -> Nft
-    func getCurrentSortType() -> SortType
     func changeLike(nftId: String, completion: @escaping (Bool) -> Void)
     func setLikeUpdated(_ updated: Bool)
     func isLikeUpdated() -> Bool
-    func nftIsLiked(nft: Nft) -> Bool
 }
 
-final class MyNFTPresenter {
+final class FavoritesNFTPresenter {
+    
     // MARK: - Private Properties
-    private weak var view: MyNFTControllerProtocol?
+    private weak var view: FavoritesNFTControllerProtocol?
     private let nftService: NftService
-    private var myNFTId: [String]
-    private var myNFTs: [Nft] = []
     private let profileService: ProfileService
+    private var favoriteNFTId: [String]
+    private var favoriteNFTs: [Nft] = []
     private var userProfile: UserProfile?
     private var likeIsUpdated = false
     
     // MARK: - Init
-    init(view: MyNFTControllerProtocol, myNFTId: [String], nftService: NftService, profileService: ProfileService) {
+    init(view: FavoritesNFTControllerProtocol, favoriteNFTId: [String], nftService: NftService, profileService: ProfileService) {
         self.view = view
+        self.favoriteNFTId = favoriteNFTId
         self.nftService = nftService
-        self.myNFTId = myNFTId
         self.profileService = profileService
     }
     
     // MARK: - Private Methods
-    private func loadSortType() -> SortType {
-        let savedValue = UserPreferences.sortType.rawValue
-        return SortType(rawValue: savedValue) ?? .rating
-    }
-    
-    func fetchUserProfile(completion: @escaping () -> Void) {
+    private func fetchUserProfile(completion: @escaping () -> Void) {
         profileService.loadProfile { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -60,10 +53,10 @@ final class MyNFTPresenter {
     }
 }
 
-extension MyNFTPresenter: MyNFTPresenterProtocol {
+// MARK: - FavoritesNFTPresenterProtocol
+extension FavoritesNFTPresenter: FavoritesNFTPresenterProtocol {
     func loadNFTs() {
         view?.showLoading(true)
-        
         fetchUserProfile { [weak self] in
             guard let self = self else { return }
             
@@ -71,7 +64,7 @@ extension MyNFTPresenter: MyNFTPresenterProtocol {
             var loadedNfts: [Nft] = []
             let dispatchGroup = DispatchGroup()
             
-            for nftId in self.myNFTId {
+            for nftId in self.favoriteNFTId {
                 dispatchGroup.enter()
                 self.nftService.loadNft(id: nftId) { result in
                     switch result {
@@ -86,45 +79,25 @@ extension MyNFTPresenter: MyNFTPresenterProtocol {
             
             dispatchGroup.notify(queue: .main) {
                 self.view?.showLoading(false)
-                self.myNFTs = loadedNfts
-                self.sortNFTs(by: self.loadSortType())
+                self.favoriteNFTs = loadedNfts
+                self.favoriteNFTId = loadedNfts.map { $0.id }
                 
                 if !failedNftIds.isEmpty {
                     self.view?.showError(message: "Некоторые NFT не удалось загрузить.")
                 }
                 
-                self.view?.updateEmptyState(isHidden: !self.myNFTs.isEmpty)
+                self.view?.updateEmptyState(isHidden: !self.favoriteNFTs.isEmpty)
                 self.view?.reloadNFTs()
             }
         }
     }
     
-    func sortNFTs(by type: SortType) {
-        switch type {
-        case .price:
-            myNFTs.sort { $0.price < $1.price }
-        case .rating:
-            myNFTs.sort { $0.rating > $1.rating }
-        case .name:
-            myNFTs.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-        }
-        
-        
-        UserPreferences.sortType = type
-        view?.updateSortIndicator(isHidden: type == .rating)
-        view?.reloadNFTs()
-    }
-    
     func getNFTsCount() -> Int {
-        return myNFTs.count
+        return favoriteNFTs.count
     }
     
     func getNFT(at index: Int) -> Nft {
-        return myNFTs[index]
-    }
-    
-    func getCurrentSortType() -> SortType {
-        return loadSortType()
+        return favoriteNFTs[index]
     }
     
     func changeLike(nftId: String, completion: @escaping (Bool) -> Void) {
@@ -149,7 +122,7 @@ extension MyNFTPresenter: MyNFTPresenterProtocol {
                     switch result {
                     case .success(let updatedProfile):
                         self?.userProfile = updatedProfile
-                        self?.myNFTId = updatedProfile.nfts
+                        self?.favoriteNFTId = updatedProfile.likes
                         self?.likeIsUpdated = true
                         self?.loadNFTs()
                         completion(true)
@@ -165,14 +138,8 @@ extension MyNFTPresenter: MyNFTPresenterProtocol {
     func setLikeUpdated(_ updated: Bool) {
         likeIsUpdated = updated
     }
-    
+
     func isLikeUpdated() -> Bool {
         return likeIsUpdated
-    }
-    
-    func nftIsLiked(nft: Nft) -> Bool {
-        guard let userProfile else { return false }
-        
-        return userProfile.likes.contains(nft.id)
     }
 }

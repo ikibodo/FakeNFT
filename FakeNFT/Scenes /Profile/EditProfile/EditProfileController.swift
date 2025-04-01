@@ -9,7 +9,7 @@ import Kingfisher
 import UIKit
 
 protocol EditProfileControllerDelegate: AnyObject {
-    func didUpdateProfile(with updatedProfile: UserProfile)
+    func didUpdateProfile()
 }
 
 protocol EditProfileControllerProtocol: AnyObject {
@@ -18,19 +18,10 @@ protocol EditProfileControllerProtocol: AnyObject {
 }
 
 final class EditProfileController: UIViewController {
-    
     // MARK: - Public Properties
     weak var delegate: EditProfileControllerDelegate?
     
     // MARK: - Private Properties
-    private let servicesAssembly: ServicesAssembly
-    private var userProfile: UserProfile
-    private var presenter: EditProfilePresenterProtocol?
-    
-    private let avatarUploadLink = [
-        "https://img.championat.com/s/1350x900/news/big/k/k/obzor-filma-betmen-2022_16469273721670946255.jpg",
-        "https://www.innov.ru/upload/iblock/ad4/ad41054842078faec12bdda7eb2a98a4.jpg"]
-    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -155,6 +146,14 @@ final class EditProfileController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
+    
+    private let servicesAssembly: ServicesAssembly
+    private var userProfile: UserProfile
+    private var presenter: EditProfilePresenterProtocol?
+    
+    private let avatarUploadLink = [
+        "https://img.championat.com/s/1350x900/news/big/k/k/obzor-filma-betmen-2022_16469273721670946255.jpg",
+        "https://www.innov.ru/upload/iblock/ad4/ad41054842078faec12bdda7eb2a98a4.jpg"]
     
     // MARK: - Initializers
     init(servicesAssembly: ServicesAssembly, userProfile: UserProfile) {
@@ -400,7 +399,7 @@ extension EditProfileController: EditProfileControllerProtocol {
                 "likes": "\(updatedProfile.likes)"
               """)
         self.showSnackbar(message: "Профиль обновлен!", isSuccess: true)
-        self.delegate?.didUpdateProfile(with: updatedProfile)
+        self.delegate?.didUpdateProfile()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
             self.dismiss(animated: true)
         }

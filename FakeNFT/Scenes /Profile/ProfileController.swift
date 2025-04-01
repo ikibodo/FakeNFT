@@ -7,19 +7,18 @@
 
 import Kingfisher
 import UIKit
+import SafariServices
 
 protocol ProfileControllerProtocol: AnyObject {
     func displayProfileData(_ profile: UserProfile)
     func showError(_ error: Error)
+    func showErrorMessage(_ message: String)
+    func openSafariViewController(urlString: String)
 }
 
 final class ProfileController: UIViewController {
     
     // MARK: - Private Properties
-    private let servicesAssembly: ServicesAssembly
-    private var userProfile: UserProfile?
-    private var presenter: ProfilePresenterProtocol?
-    
     private lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -90,6 +89,10 @@ final class ProfileController: UIViewController {
         button.tintColor = UIColor.black
         return button
     }()
+    
+    private let servicesAssembly: ServicesAssembly
+    private var userProfile: UserProfile?
+    private var presenter: ProfilePresenterProtocol?
     
     // MARK: - Initializers
     init(servicesAssembly: ServicesAssembly) {
@@ -229,17 +232,23 @@ extension ProfileController: UITableViewDelegate {
         switch indexPath.section {
         case 0:
             guard let arrayMyNFT = userProfile?.nfts else { return }
-            let controller = MyNFTController(arrayMyNFT: arrayMyNFT, nftService: servicesAssembly.nftService)
-            let presenter = MyNFTPresenter(view: controller, myNFTId: arrayMyNFT, nftService: servicesAssembly.nftService)
+            let controller = MyNFTController()
+            let presenter = MyNFTPresenter(view: controller, myNFTId: arrayMyNFT, nftService: servicesAssembly.nftService, profileService: servicesAssembly.profileService)
             controller.setPresenter(presenter)
+            controller.delegate = self
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.modalPresentationStyle = .fullScreen
             self.navigationController?.present(navigationController, animated: true, completion: nil)
         case 1:
+            guard let favoriteNFT = userProfile?.likes else { return }
             let controller = FavoritesNFTController()
+            let presenter = FavoritesNFTPresenter(view: controller, favoriteNFTId: favoriteNFT, nftService: servicesAssembly.nftService, profileService: servicesAssembly.profileService)
+            controller.setPresenter(presenter)
+            controller.delegate = self
+            controller.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(controller, animated: true)
         case 2:
-            print("Вы выбрали \"О разработчике\"")
+            presenter?.handleDeveloperInfoSelection()
         default:
             break
         }
@@ -249,7 +258,7 @@ extension ProfileController: UITableViewDelegate {
 
 // MARK: - EditProfileDelegate
 extension ProfileController: EditProfileControllerDelegate {
-    func didUpdateProfile(with updatedProfile: UserProfile) {
+    func didUpdateProfile() {
         presenter?.fetchUserProfile()
     }
 }
@@ -282,5 +291,25 @@ extension ProfileController: ProfileControllerProtocol {
     func showError(_ error: Error) {
         UIBlockingProgressHUD.dismiss()
         showErrorAlert(error: error)
+    }
+    
+    func showErrorMessage(_ message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .cancel))
+        present(alert, animated: true)
+    }
+
+    func openSafariViewController(urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.delegate = self
+        present(safariVC, animated: true)
+    }
+}
+
+// MARK: - SFSafariViewControllerDelegate
+extension ProfileController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss(animated: true)
     }
 }

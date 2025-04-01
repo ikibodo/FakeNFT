@@ -8,7 +8,13 @@
 import UIKit
 import Kingfisher
 
+protocol MyNFTCellDelegate: AnyObject {
+    func didTaplikeButton(in cell: MyNFTCell, nftId: String)
+}
+
 final class MyNFTCell: UITableViewCell, ReuseIdentifying {
+    // MARK: - Public Properties
+    weak var delegate: MyNFTCellDelegate?
     
     // MARK: - Private Properties
     private lazy var mainStackView: UIStackView = {
@@ -162,6 +168,8 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
     }()
     
     private var starImageViews: [UIImageView] = []
+    private var nftId = ""
+
     
     // MARK: - View Life Cycles
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -176,12 +184,14 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
     }
     
     // MARK: - Public Methods
-    func configure(nft: Nft) {
+    func configure(nft: Nft, isLiked: Bool) {
         
         nftImageView.kf.setImage(with: nft.images[0], placeholder: UIImage(systemName: "photo"))
         nftNameLabel.text = nft.name
         nftAuthorLabel.text = nft.author
         nftPriceLabel.text = "\(nft.price) ETH"
+        nftId = nft.id
+        heartButton.tintColor = isLiked ? UIColor.red : UIColor.white
         
         let clampedRating = max(0, min(nft.rating, 5))
         
@@ -232,8 +242,12 @@ final class MyNFTCell: UITableViewCell, ReuseIdentifying {
         ])
     }
     
+    func updateLikeButton() {
+        heartButton.tintColor = heartButton.tintColor == UIColor.white ? UIColor.red : UIColor.white
+    }
+    
     // MARK: - Actions
     @objc private func heartButtonTapped() {
-        heartButton.tintColor =  (heartButton.tintColor == UIColor.white) ? UIColor.red : UIColor.white
+        delegate?.didTaplikeButton(in: self, nftId: nftId)
     }
 }
