@@ -50,6 +50,8 @@
 		6C6411DD2D95E4FC00529103 /* StatisticsUserCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411DC2D95E4FB00529103 /* StatisticsUserCollectionCell.swift */; };
 		6C6411E32D9726DC00529103 /* StatisticsNft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411E22D9726DA00529103 /* StatisticsNft.swift */; };
 		6C6411E72D985B7100529103 /* StatisticsUserNFTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411E62D985B6F00529103 /* StatisticsUserNFTService.swift */; };
+		6C6411F12D99BD1500529103 /* StatisticsProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411F02D99BD1300529103 /* StatisticsProfileService.swift */; };
+		6C6411F32D9A93E900529103 /* StatisticsOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411F22D9A93E800529103 /* StatisticsOrderService.swift */; };
 		6CADF3FF2D8CCDB6002B4780 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CADF3FD2D8CCDAA002B4780 /* StatisticsViewController.swift */; };
 		6CADF4022D8D85FE002B4780 /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CADF4012D8D85FC002B4780 /* StatisticsCell.swift */; };
 		6CADF4052D8DE59A002B4780 /* StatisticsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CADF4042D8DE58F002B4780 /* StatisticsUser.swift */; };
@@ -127,6 +129,8 @@
 		6C6411DC2D95E4FB00529103 /* StatisticsUserCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsUserCollectionCell.swift; sourceTree = "<group>"; };
 		6C6411E22D9726DA00529103 /* StatisticsNft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsNft.swift; sourceTree = "<group>"; };
 		6C6411E62D985B6F00529103 /* StatisticsUserNFTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsUserNFTService.swift; sourceTree = "<group>"; };
+		6C6411F02D99BD1300529103 /* StatisticsProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsProfileService.swift; sourceTree = "<group>"; };
+		6C6411F22D9A93E800529103 /* StatisticsOrderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsOrderService.swift; sourceTree = "<group>"; };
 		6CADF3FD2D8CCDAA002B4780 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		6CADF4012D8D85FC002B4780 /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
 		6CADF4042D8DE58F002B4780 /* StatisticsUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsUser.swift; sourceTree = "<group>"; };
@@ -402,6 +406,8 @@
 		6C6411E12D95EFA400529103 /* StatisticsServic */ = {
 			isa = PBXGroup;
 			children = (
+				6C6411F22D9A93E800529103 /* StatisticsOrderService.swift */,
+				6C6411F02D99BD1300529103 /* StatisticsProfileService.swift */,
 				6C6411E62D985B6F00529103 /* StatisticsUserNFTService.swift */,
 				6CADF4082D8EBC45002B4780 /* StatisticsUserService.swift */,
 			);
@@ -616,6 +622,7 @@
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				558E39E72C68CE0A00FB86AC /* NftService.swift in Sources */,
+				6C6411F12D99BD1500529103 /* StatisticsProfileService.swift in Sources */,
 				6C6411E72D985B7100529103 /* StatisticsUserNFTService.swift in Sources */,
 				6C6411DB2D92A52A00529103 /* StatisticsUserCollectionPresenter.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
@@ -627,6 +634,7 @@
 				3FC8C39129D2453B0081F015 /* ExamplePutRequest.swift in Sources */,
 				0CFCB7462A78064B0009A829 /* NftDetailCellModel.swift in Sources */,
 				0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */,
+				6C6411F32D9A93E900529103 /* StatisticsOrderService.swift in Sources */,
 				6CE4E7672D90593D006C4284 /* StatisticsUserPresenter.swift in Sources */,
 				6CADF40F2D8F0C64002B4780 /* UserDefaults.swift in Sources */,
 				3F6806D729CBC50A00B4F915 /* CellsReusingUtils.swift in Sources */,

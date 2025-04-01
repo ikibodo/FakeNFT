@@ -6,7 +6,7 @@
 //
 import UIKit
 
-final class StatisticsUserCollectionViewController: UIViewController, StatisticsUserCollectionProtocol {
+final class StatisticsUserCollectionViewController: UIViewController, StatisticsUserCollectionProtocol, StatisticsUserCollectionCellDelegate {
     private let presenter: StatisticsUserCollectionPresenter?
     
     private lazy var backButton: UIButton = {
@@ -60,6 +60,8 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
         addSubViews()
         addConstraints()
         presenter?.fetchNftDetails()
+        presenter?.fetchCartNfts()
+        presenter?.fetchLikesNfts()
     }
     
     func showError(_ message: String) {
@@ -76,6 +78,14 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
     
     func hideLoadingIndicator() {
         loadingIndicator.stopAnimating()
+    }
+    
+    func didTapCartButton(nftId: String) {
+        presenter?.toggleNftInCart(nftId: nftId)
+    }
+    
+    func didTapLikeButton(nftId: String){
+        presenter?.toggleLikesNfts(nftId: nftId)
     }
     
     private func setupNavigationBar() {
@@ -122,7 +132,10 @@ extension StatisticsUserCollectionViewController: UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StatisticsUserCollectionCell.identifier, for: indexPath) as? StatisticsUserCollectionCell else { return UICollectionViewCell() }
         guard let nft = presenter?.getNft(at: indexPath.row) else { return cell }
-        cell.configure(nft: nft)
+        let isInCart = presenter?.isNftInCart(nftId: nft.id) ?? false
+        let isLiked = presenter?.isNftLikes(nftId: nft.id) ?? false
+        cell.configure(nft: nft, isInCart: isInCart, isLiked: isLiked)
+        cell.delegate = self
         return cell
     }
 }

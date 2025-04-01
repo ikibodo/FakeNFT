@@ -7,8 +7,16 @@
 import UIKit
 import Kingfisher
 
+protocol StatisticsUserCollectionCellDelegate: AnyObject {
+    func didTapLikeButton(nftId: String)
+    func didTapCartButton(nftId: String)
+}
+
 final class StatisticsUserCollectionCell: UICollectionViewCell {
     static let identifier = "StatisticsUserCollectionCell"
+    weak var delegate: StatisticsUserCollectionCellDelegate?
+    
+    private var nftId: String?
     
     private lazy var nftImageView: UIImageView = {
         let imageView = UIImageView()
@@ -18,6 +26,7 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -25,6 +34,7 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
     private lazy var likeButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "likeNoActive"), for: .normal)
+        button.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -53,7 +63,7 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         label.textColor = .segmentActive
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textAlignment = .left
-        label.lineBreakMode = .byClipping 
+        label.lineBreakMode = .byClipping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -128,7 +138,9 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         ])
     }
     
-    func configure(nft: StatisticsNft) {
+    func configure(nft: StatisticsNft, isInCart: Bool, isLiked: Bool) {
+        self.nftId = nft.id
+        
         nftNameLabel.text = nft.name
         nftPriceLabel.text = "\(nft.price) ETH"
         
@@ -136,6 +148,8 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
             nftImageView.kf.setImage(with: url)
         }
         updateStars(rating: nft.rating)
+        updateLikeButton(isLiked: isLiked)
+        updateCartButton(isInCart: isInCart)
     }
     
     private func updateStars(rating: Int) {
@@ -148,8 +162,24 @@ final class StatisticsUserCollectionCell: UICollectionViewCell {
         }
     }
     
+    private func updateLikeButton(isLiked: Bool){
+        let imageName = isLiked ? "likeActive" : "likeNoActive"
+        likeButton.setImage(UIImage(named: imageName), for: .normal)
+    }
+    
+    private func updateCartButton(isInCart: Bool)  {
+        let imageName = isInCart ? "cartDelete" : "cartAdd"
+        cardButton.setImage(UIImage(named: imageName), for: .normal)
+    }
+    
+    
+    @objc private func didTapLikeButton(){
+        guard let nftId = nftId else { return }
+        delegate?.didTapLikeButton(nftId: nftId)
+    }
+    
     @objc private func didTapCardButton(){
-        print("🔘 Tapped card button")
-        // TODO добавления NFT в корзину / удаления NFT из корзины.
+        guard let nftId = nftId else { return }
+        delegate?.didTapCartButton(nftId: nftId)
     }
 }
