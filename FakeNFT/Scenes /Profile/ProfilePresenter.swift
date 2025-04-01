@@ -48,6 +48,10 @@ extension ProfilePresenter: ProfilePresenterProtocol {
             view?.showErrorMessage("Сайт разработчика не указан")
             return
         }
-        view?.openWebView(urlString: website)
+        openSafariViewController(urlString: website)
+    }
+    
+    private func openSafariViewController(urlString: String) {
+        view?.openSafariViewController(urlString: urlString)
     }
 }

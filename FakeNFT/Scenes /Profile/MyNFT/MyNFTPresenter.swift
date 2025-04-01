@@ -173,10 +173,6 @@ extension MyNFTPresenter: MyNFTPresenterProtocol {
     func nftIsLiked(nft: Nft) -> Bool {
         guard let userProfile else { return false }
         
-        if userProfile.likes.contains(nft.id) {
-            return true
-        } else {
-            return false
-        }
+        return userProfile.likes.contains(nft.id)
     }
 }

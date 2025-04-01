@@ -7,12 +7,13 @@
 
 import Kingfisher
 import UIKit
+import SafariServices
 
 protocol ProfileControllerProtocol: AnyObject {
     func displayProfileData(_ profile: UserProfile)
     func showError(_ error: Error)
     func showErrorMessage(_ message: String)
-    func openWebView(urlString: String)
+    func openSafariViewController(urlString: String)
 }
 
 final class ProfileController: UIViewController {
@@ -244,6 +245,7 @@ extension ProfileController: UITableViewDelegate {
             let presenter = FavoritesNFTPresenter(view: controller, favoriteNFTId: favoriteNFT, nftService: servicesAssembly.nftService, profileService: servicesAssembly.profileService)
             controller.setPresenter(presenter)
             controller.delegate = self
+            controller.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(controller, animated: true)
         case 2:
             presenter?.handleDeveloperInfoSelection()
@@ -297,8 +299,17 @@ extension ProfileController: ProfileControllerProtocol {
         present(alert, animated: true)
     }
 
-    func openWebView(urlString: String) {
-        let webVC = WebViewController(urlString: urlString)
-        navigationController?.pushViewController(webVC, animated: true)
+    func openSafariViewController(urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.delegate = self
+        present(safariVC, animated: true)
+    }
+}
+
+// MARK: - SFSafariViewControllerDelegate
+extension ProfileController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss(animated: true)
     }
 }

@@ -49,7 +49,6 @@
 		613395ED2D95CE8A007CEE82 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395EC2D95CE8A007CEE82 /* UserPreferences.swift */; };
 		613395EF2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395EE2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift */; };
 		613395F12D95F296007CEE82 /* FavoriteNFTCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395F02D95F296007CEE82 /* FavoriteNFTCell.swift */; };
-		613395F42D9B29F7007CEE82 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613395F32D9B29F7007CEE82 /* WebViewController.swift */; };
 		6162BBE12D88133000E83532 /* ProfilePutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6162BBE02D88133000E83532 /* ProfilePutService.swift */; };
 		6162BBE32D88140E00E83532 /* ProfilePutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6162BBE22D88140E00E83532 /* ProfilePutRequest.swift */; };
 		6162BBE52D8897A500E83532 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6162BBE42D8897A500E83532 /* UIBlockingProgressHUD.swift */; };
@@ -130,7 +129,6 @@
 		613395EC2D95CE8A007CEE82 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		613395EE2D95D1E9007CEE82 /* FavoritesNFTPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesNFTPresenter.swift; sourceTree = "<group>"; };
 		613395F02D95F296007CEE82 /* FavoriteNFTCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNFTCell.swift; sourceTree = "<group>"; };
-		613395F32D9B29F7007CEE82 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		6162BBE02D88133000E83532 /* ProfilePutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePutService.swift; sourceTree = "<group>"; };
 		6162BBE22D88140E00E83532 /* ProfilePutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePutRequest.swift; sourceTree = "<group>"; };
 		6162BBE42D8897A500E83532 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 			children = (
 				0CFCB74C2A7817C30009A829 /* MemoryStorage */,
 				3F6806CF29CBBDB100B4F915 /* NetworkClient */,
-				613395F22D9B29D8007CEE82 /* WebView */,
 				3F6806D629CBC50A00B4F915 /* CellsReusingUtils.swift */,
 				3FC8C39229D246BA0081F015 /* DateFormatters+Presets.swift */,
 				0CFCB74A2A780EA80009A829 /* UIView+Constraints.swift */,
@@ -418,14 +415,6 @@
 				610E60C12D9491D30026DCAE /* MyNFTPresenter.swift */,
 			);
 			path = MyNFT;
-			sourceTree = "<group>";
-		};
-		613395F22D9B29D8007CEE82 /* WebView */ = {
-			isa = PBXGroup;
-			children = (
-				613395F32D9B29F7007CEE82 /* WebViewController.swift */,
-			);
-			path = WebView;
 			sourceTree = "<group>";
 		};
 		61D3455B2D86047000CB0128 /* Profile */ = {
@@ -664,7 +653,6 @@
 				0CFCB7492A7808900009A829 /* TestCatalogController.swift in Sources */,
 				613395F12D95F296007CEE82 /* FavoriteNFTCell.swift in Sources */,
 				61D345722D877ADA00CB0128 /* ProfileService.swift in Sources */,
-				613395F42D9B29F7007CEE82 /* WebViewController.swift in Sources */,
 				3F6806D129CBBE6B00B4F915 /* NetworkClient.swift in Sources */,
 				0CFCB7442A7802440009A829 /* NftDetailInput.swift in Sources */,
 				0C79EE632A76DD1900EE90EA /* RequestConstants.swift in Sources */,

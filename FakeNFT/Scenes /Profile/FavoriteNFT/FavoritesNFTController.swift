@@ -6,12 +6,20 @@
 //
 
 import UIKit
+import SafariServices
 
 protocol FavoritesNFTControllerProtocol: AnyObject {
     func reloadNFTs()
     func showError(message: String)
     func showLoading(_ isLoading: Bool)
     func updateEmptyState(isHidden: Bool)
+}
+
+struct CollectionViewLayoutConfig {
+    static let itemSpacing: CGFloat = 8
+    static let lineSpacing: CGFloat = 20
+    static let sectionInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+    static let itemsPerRow: CGFloat = 2
 }
 
 final class FavoritesNFTController: UIViewController {
@@ -31,10 +39,13 @@ final class FavoritesNFTController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (view.frame.width - 8 - 16 * 2) / 2, height: 80)
-        layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 20
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+        let totalSpacing = CollectionViewLayoutConfig.itemSpacing +
+                           CollectionViewLayoutConfig.sectionInset.left +
+                           CollectionViewLayoutConfig.sectionInset.right
+        layout.itemSize = CGSize(width: (view.frame.width - totalSpacing) / CollectionViewLayoutConfig.itemsPerRow, height: 80)
+        layout.minimumInteritemSpacing = CollectionViewLayoutConfig.itemSpacing
+        layout.minimumLineSpacing = CollectionViewLayoutConfig.lineSpacing
+        layout.sectionInset = CollectionViewLayoutConfig.sectionInset
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
