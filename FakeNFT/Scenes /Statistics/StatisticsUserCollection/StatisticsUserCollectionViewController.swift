@@ -142,10 +142,16 @@ extension StatisticsUserCollectionViewController: UICollectionViewDelegate, UICo
 
 extension StatisticsUserCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 4 : 3
-        let paddingSpace = (itemsPerRow - 1) * 9 + 32
-        let availableWidth = collectionView.frame.width - paddingSpace
-        let widthPerItem = availableWidth / itemsPerRow
-        return CGSize(width: widthPerItem, height: 192)
+        let itemsPerRowForPad: CGFloat = 4
+        let itemsPerRowForPhone: CGFloat = 3
+        let itemsPerRow: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? itemsPerRowForPad : itemsPerRowForPhone
+        let cellHeight: CGFloat = 192
+        let interItemSpacing: CGFloat = 9
+        let horizontalPadding: CGFloat = 16
+        let sectionInsets = horizontalPadding * 2
+        let totalSpacing = (itemsPerRow - 1) * interItemSpacing + sectionInsets
+        let availableWidth = max(collectionView.frame.width - totalSpacing, 0)
+        let widthPerItem = itemsPerRow > 0 ? availableWidth / itemsPerRow : availableWidth
+        return CGSize(width: widthPerItem, height: cellHeight)
     }
 }
