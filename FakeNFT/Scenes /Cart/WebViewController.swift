@@ -1,10 +1,3 @@
-//
-//  WebViewController.swift
-//  FakeNFT
-//
-//  Created by Diliara Sadrieva on 25.03.2025.
-//
-
 import UIKit
 import WebKit
 

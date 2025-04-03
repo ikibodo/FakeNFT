@@ -1,10 +1,3 @@
-//
-//  CartGetNftsRequest.swift
-//  FakeNFT
-//
-//  Created by Diliara Sadrieva on 26.03.2025.
-//
-
 import Foundation
 
 struct CartGetNftsRequest: NetworkRequest {

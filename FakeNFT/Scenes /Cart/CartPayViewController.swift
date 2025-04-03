@@ -1,9 +1,3 @@
-//
-//  CartPayViewController.swift
-//  FakeNFT
-//
-//  Created by Diliara Sadrieva on 25.03.2025.
-//
 import UIKit
 import ProgressHUD
 import Kingfisher
@@ -14,10 +8,20 @@ protocol CartPayViewControllerProtocol: AnyObject {
     func updateTable()
 }
 
+protocol CartPayViewDelegate: AnyObject {
+    func updateCart()
+}
+
 final class CartPayViewController: UIViewController & CartPayViewControllerProtocol {
     var presenter: CartPayPresenterProtocol? = CartPayPresenter(networkClient: DefaultNetworkClient())
     var num = 1
     var visibleCurrencies: [Currencies] = []
+    private var selectedCurrency: String?
+    private static var window: UIWindow? {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return nil }
+        return window
+    }
+    weak var delegate: CartPayViewDelegate?
     private let navigationLabel: UILabel = {
         let label = UILabel()
         label.text = "Выберите способ оплаты"
@@ -90,7 +94,16 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
     }
     
     @objc private func payButtonTapped() {
-        dismiss(animated: true)
+        tryToPay()
+    }
+    
+    @objc func handleDataUpdate(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            dismiss(animated: true)
+        }
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -105,8 +118,47 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
         currenciesCollectionView.reloadData()
     }
     
+    func makeAlert() {
+        let alert = UIAlertController(title: "Не удалось произвести оплату", message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Повторить", style: .default, handler: { _ in self.tryToPay()
+            alert.dismiss(animated: true)
+        }))
+        present(alert, animated: true)
+    }
+    
+    private func tryToPay() {
+        guard let selectedCurrency = selectedCurrency else { return }
+        ProgressHUD.show()
+        CartPayViewController.window?.isUserInteractionEnabled = false
+        presenter?.getPayAnswer(currencyId: selectedCurrency) { [weak self] items in
+            
+            guard let self = self else { return }
+            switch items {
+            case .success(let answer):
+                if answer.success == true {
+                    makeTransitionToConfirmPage()
+                } else {
+                    makeAlert()
+                }
+            case .failure(let error):
+                print(error)
+            }
+            CartPayViewController.window?.isUserInteractionEnabled = true
+            ProgressHUD.dismiss()
+        }
+    }
+    
+    private func makeTransitionToConfirmPage() {
+        let confirmPage = CartConfirmPayView()
+        let navigationController = UINavigationController(rootViewController: confirmPage)
+        navigationController.modalPresentationStyle = .overFullScreen
+        present(navigationController, animated: true)
+    }
+    
     private func fetchCurrency() {
         ProgressHUD.show()
+        CartPayViewController.window?.isUserInteractionEnabled = false
         presenter?.getCurrencies { [weak self] items in
             guard let self = self else { return }
             switch items {
@@ -116,11 +168,14 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
                 print(error)
             }
             updateTable()
+            CartPayViewController.window?.isUserInteractionEnabled = true
             ProgressHUD.dismiss()
         }
     }
     
     private func configureView() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDataUpdate(_:)), name: NSNotification.Name("CartUpdated"), object: nil)
+        payButton.isEnabled = false
         view.backgroundColor = .backgroundColor
         navigationItem.titleView = navigationLabel
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "BackButtonCart"), style: .plain, target: self, action: #selector(cancelPay))
@@ -160,6 +215,11 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
             payButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
+    private func enableButton() {
+        if let selectedCurrency = selectedCurrency {
+            payButton.isEnabled = true
+        }
+    }
 }
 
 extension CartPayViewController: UICollectionViewDataSource {
@@ -172,7 +232,8 @@ extension CartPayViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCellCollectionViewCart.reuseIdentifier, for: indexPath) as? CustomCellCollectionViewCart else { return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
+                                                                CustomCellCollectionViewCart.reuseIdentifier, for: indexPath) as? CustomCellCollectionViewCart else { return UICollectionViewCell() }
         let data = visibleCurrencies[indexPath.row]
         let url = URL(string: data.image)
         cell.imageViews.kf.setImage(with: url)
@@ -189,6 +250,8 @@ extension CartPayViewController: UICollectionViewDelegate {
             cell.layer.cornerRadius = 12
             cell.layer.borderColor = color.cgColor
         }
+        selectedCurrency = visibleCurrencies[indexPath.row].id
+        enableButton()
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
