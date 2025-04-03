@@ -45,7 +45,7 @@ final class CartPayPresenter: CartPayPresenterProtocol {
         task.resume()
     }
     func getPayAnswer(currencyId: String, completion: @escaping (Result<PayAnswer, any Error>) -> Void) {
-        let url = URL(string: "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net/api/v1/orders/1/payment/\(currencyId)")!
+        guard let url = URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1/payment/\(currencyId)") else { return }
         var request = URLRequest(url:url)
         request.httpMethod = "GET"
         request.setValue("9f1db4ef-0d17-4eac-bbab-a57cbf3521a3", forHTTPHeaderField: "X-Practicum-Mobile-Token")

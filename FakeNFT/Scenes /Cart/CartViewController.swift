@@ -207,13 +207,17 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
     }
     
     func startLoading() {
-        CartViewController.window?.isUserInteractionEnabled = false
-        ProgressHUD.show()
+        DispatchQueue.main.async {
+            CartViewController.window?.isUserInteractionEnabled = false
+            ProgressHUD.show()
+        }
     }
     
     func stopLoading() {
-        CartViewController.window?.isUserInteractionEnabled = true
-        ProgressHUD.dismiss()
+        DispatchQueue.main.async {
+            CartViewController.window?.isUserInteractionEnabled = true
+            ProgressHUD.dismiss()
+        }
     }
     
     func updateNftsCount() {
