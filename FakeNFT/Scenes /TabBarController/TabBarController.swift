@@ -8,7 +8,7 @@ final class TabBarController: UITabBarController {
         title: NSLocalizedString("Tab.catalog", comment: "Каталог"),
         image: UIImage(systemName: "square.stack.3d.up.fill"),
         
-        tag: 0
+        tag: 1
     )
     
     private let profileTabBarItem = UITabBarItem(
@@ -18,10 +18,28 @@ final class TabBarController: UITabBarController {
         tag: 0
     )
     
+    private let statisticsTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.statistics", comment: ""),
+        image: UIImage(systemName: "flag.2.crossed.fill"),
+        tag: 2
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tabBar.unselectedItemTintColor = .segmentActive
         view.backgroundColor = .systemBackground
+        
+        let catalogController = TestCatalogViewController(
+            servicesAssembly: servicesAssembly
+        )
+        catalogController.tabBarItem = catalogTabBarItem
+        
+        let statisticsController = StatisticsViewController(
+            servicesAssembly: servicesAssembly
+        )
+        statisticsController.tabBarItem = statisticsTabBarItem
+        let statisticsNavController = UINavigationController(rootViewController: statisticsController)
         
         let profileController = ProfileController(servicesAssembly: servicesAssembly)
         let profilePresenter = ProfilePresenter(
@@ -31,12 +49,10 @@ final class TabBarController: UITabBarController {
         profileController.setPresenter(presenter: profilePresenter)
         profileController.tabBarItem = profileTabBarItem
         
-        let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
-        catalogController.tabBarItem = catalogTabBarItem
-        
         viewControllers = [
             UINavigationController(rootViewController: profileController),
-            catalogController
+            catalogController,
+            statisticsNavController
         ]
     }
 }

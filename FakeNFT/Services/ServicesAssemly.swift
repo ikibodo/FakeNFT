@@ -26,4 +26,8 @@ final class ServicesAssembly {
             networkClient: networkClient,
             storage: profileStorage)
     }
+    
+    var statisticsUserService: StatisticsUserService {
+        StatisticsUserService(networkClient: networkClient)
+    }
 }
