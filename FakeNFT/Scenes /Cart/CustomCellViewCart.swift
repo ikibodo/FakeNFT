@@ -1,10 +1,3 @@
-//
-//  CustomCellViewCart.swift
-//  FakeNFT
-//
-//  Created by Diliara Sadrieva on 18.03.2025.
-//
-
 import UIKit
 
 protocol CustomCellViewCartDelegate: AnyObject {
@@ -22,10 +15,10 @@ final class CustomCellViewCart: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private let deleteButton: UIButton = {
+    private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "cartDelete")
+        let image = UIImage(named: "cartDelete")?.withTintColor(.blackDayText)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         return button

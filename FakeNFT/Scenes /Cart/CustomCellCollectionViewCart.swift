@@ -1,10 +1,3 @@
-//
-//  CustomCellCollectionViewCart.swift
-//  FakeNFT
-//
-//  Created by Diliara Sadrieva on 25.03.2025.
-//
-
 import UIKit
 
 final class CustomCellCollectionViewCart: UICollectionViewCell {

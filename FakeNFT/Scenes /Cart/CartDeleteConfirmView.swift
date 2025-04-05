@@ -1,9 +1,3 @@
-//
-//  CartDeleteViewController.swift
-//  FakeNFT
-//
-//  Created by Diliara Sadrieva on 18.03.2025.
-//
 import UIKit
 import Kingfisher
 

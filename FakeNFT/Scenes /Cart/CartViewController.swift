@@ -1,10 +1,3 @@
-//
-//  CartViewController.swift
-//  FakeNFT
-//
-//  Created by Diliara Sadrieva on 18.03.2025.
-//
-
 import UIKit
 import ProgressHUD
 import Kingfisher
@@ -19,8 +12,12 @@ protocol CartViewControllerProtocol: AnyObject {
 }
 
 final class CartViewController: UIViewController & CartViewControllerProtocol {
-    var presenter: CartPresenterProtocol? = CartPresenter(networkClient: DefaultNetworkClient())
+    var presenter: CartPresenterProtocol? = CartPresenter()
     private let refreshControl = UIRefreshControl()
+    private static var window: UIWindow? {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return nil }
+        return window
+    }
     private let sortButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +44,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         view.layer.cornerRadius = 12
         return view
     }()
-    private let payButton: UIButton = {
+    private lazy var payButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(NSLocalizedString("Cart.payButton", comment: ""), for: .normal)
@@ -104,6 +101,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
     }
     
     private func configureView() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDataUpdate(_:)), name: NSNotification.Name("CartUpdated"), object: nil)
         navigationController?.setNavigationBarHidden(true, animated: true)
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -173,6 +171,15 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         present(navigationController, animated: true)
     }
     
+    @objc func handleDataUpdate(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            presenter?.cleanCart()
+        }
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     @objc private func sortButtonTapped() {
         let byPrice = NSLocalizedString("Cart.sortByPrice", comment: "")
         let byName = NSLocalizedString("Cart.sortByName", comment: "")
@@ -200,11 +207,17 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
     }
     
     func startLoading() {
-        ProgressHUD.show()
+        DispatchQueue.main.async {
+            CartViewController.window?.isUserInteractionEnabled = false
+            ProgressHUD.show()
+        }
     }
     
     func stopLoading() {
-        ProgressHUD.dismiss()
+        DispatchQueue.main.async {
+            CartViewController.window?.isUserInteractionEnabled = true
+            ProgressHUD.dismiss()
+        }
     }
     
     func updateNftsCount() {
