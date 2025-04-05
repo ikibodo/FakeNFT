@@ -22,7 +22,7 @@ final class StatisticsUserCollectionViewController: UIViewController, Statistics
         label.textColor = .segmentActive
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textAlignment = .left
-        label.text = NSLocalizedString("Collection.Nft", comment: "")
+        label.text = NSLocalizedString("Collection.Nft", comment: "Коллекция NFT")
         return label
     }()
     

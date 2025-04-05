@@ -19,7 +19,7 @@ final class TabBarController: UITabBarController {
     )
     
     private let statisticsTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.statistics", comment: ""),
+        title: NSLocalizedString("Tab.statistics", comment: "Статистика"),
         image: UIImage(systemName: "flag.2.crossed.fill"),
         tag: 2
     )

@@ -62,7 +62,7 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
     private lazy var userWebsiteButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
-        button.setTitle(NSLocalizedString("User.site", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("User.site", comment: "Перейти на сайт пользователя"), for: .normal)
         button.setTitleColor(.segmentActive, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         button.layer.cornerRadius = 16
@@ -98,7 +98,7 @@ final class StatisticsUserViewController: UIViewController, StatisticsUserViewPr
         label.textColor = .segmentActive
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textAlignment = .left
-        label.text = NSLocalizedString("Collection.Nft", comment: "")
+        label.text = NSLocalizedString("Collection.Nft", comment: "Коллекция NFT")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

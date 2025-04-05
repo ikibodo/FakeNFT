@@ -13,6 +13,7 @@
       }
     },
     "Collection.Nft" : {
+      "comment" : "Коллекция NFT",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -155,6 +156,7 @@
       }
     },
     "Tab.statistics" : {
+      "comment" : "Статистика",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -165,6 +167,7 @@
       }
     },
     "User.site" : {
+      "comment" : "Перейти на сайт пользователя",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
