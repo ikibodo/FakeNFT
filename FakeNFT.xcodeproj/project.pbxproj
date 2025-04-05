@@ -1,4 +1,3 @@
-// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -475,6 +474,8 @@
 				613395BC2D8DE6AA007CEE82 /* MyNFT */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
 		6C6411DE2D95EEFE00529103 /* StatisticsFilter */ = {
 			isa = PBXGroup;
 			children = (

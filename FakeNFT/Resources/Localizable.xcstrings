@@ -12,6 +12,9 @@
         }
       }
     },
+    "Collection.Nft" : {
+
+    },
     "Error.network" : {
       "comment" : "Произошла ошибка сети",
       "localizations" : {
@@ -143,6 +146,12 @@
           }
         }
       }
+    },
+    "Tab.statistics" : {
+
+    },
+    "User.site" : {
+
     }
   },
   "version" : "1.0"
