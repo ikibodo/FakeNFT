@@ -13,7 +13,14 @@
       }
     },
     "Collection.Nft" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коллекция NFT"
+          }
+        }
+      }
     },
     "Error.network" : {
       "comment" : "Произошла ошибка сети",
@@ -148,10 +155,24 @@
       }
     },
     "Tab.statistics" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статистика"
+          }
+        }
+      }
     },
     "User.site" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти на сайт пользователя"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
