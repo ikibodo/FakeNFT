@@ -84,7 +84,7 @@ final class CustomCellViewCart: UITableViewCell {
         label.textColor = .blackDayText
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        label.text = NSLocalizedString("Cart.price", comment: "")
+        label.text = NSLocalizedString("Cart.price", comment: "Цена")
         return label
     }()
     private let nftPriceLabel: UILabel = {

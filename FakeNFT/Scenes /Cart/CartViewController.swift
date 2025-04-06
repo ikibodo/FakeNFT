@@ -47,7 +47,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
     private lazy var payButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(NSLocalizedString("Cart.payButton", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Cart.payButton", comment: "К оплате"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.backgroundColor = UIColor(named: "blackDayNight")
         button.layer.cornerRadius = 16
@@ -181,9 +181,9 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
     }
     
     @objc private func sortButtonTapped() {
-        let byPrice = NSLocalizedString("Cart.sortByPrice", comment: "")
-        let byName = NSLocalizedString("Cart.sortByName", comment: "")
-        let byRating = NSLocalizedString("Cart.sortByRating", comment: "")
+        let byPrice = NSLocalizedString("Cart.sortByPrice", comment: "По цене")
+        let byName = NSLocalizedString("Cart.sortByName", comment: "По имени")
+        let byRating = NSLocalizedString("Cart.sortByRating", comment: "По рейтингу")
         let alert = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: byPrice, style: .default, handler: { [weak self] _ in
             UserDefaults.standard.set("byPrice", forKey: "CartSorted")

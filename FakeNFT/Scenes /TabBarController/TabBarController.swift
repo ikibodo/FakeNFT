@@ -11,7 +11,7 @@ final class TabBarController: UITabBarController {
         let cartViewController = CartViewController()
         let cartNavigationController = UINavigationController(rootViewController: cartViewController)
         cartNavigationController.tabBarItem = UITabBarItem(
-            title: NSLocalizedString("Tab.cart", comment: ""),
+            title: NSLocalizedString("Tab.cart", comment: "Корзина"),
             image: UIImage(named: "cart"),
             selectedImage: nil
         )
@@ -19,7 +19,7 @@ final class TabBarController: UITabBarController {
         let profileViewController = ProfileViewController()
         let profileNavigationController = UINavigationController(rootViewController: profileViewController)
         profileNavigationController.tabBarItem = UITabBarItem(
-            title: NSLocalizedString("Tab.profile", comment: ""),
+            title: NSLocalizedString("Tab.profile", comment: "Профиль"),
             image: UIImage(systemName: "person.crop.circle.fill"),
             selectedImage: nil
         )
@@ -27,7 +27,7 @@ final class TabBarController: UITabBarController {
         let catalogViewController = CatalogViewController()
         let catalogNavigationController = UINavigationController(rootViewController: catalogViewController)
         catalogNavigationController.tabBarItem = UITabBarItem(
-            title: NSLocalizedString("Tab.catalog", comment: ""),
+            title: NSLocalizedString("Tab.catalog", comment: "Каталог"),
             image: UIImage(systemName: "rectangle.stack.fill"),
             selectedImage: nil
         )
@@ -35,7 +35,7 @@ final class TabBarController: UITabBarController {
         let statisticViewController = StatiscticsViewController()
         let statisticNavigationController = UINavigationController(rootViewController: statisticViewController)
         statisticNavigationController.tabBarItem = UITabBarItem(
-            title: NSLocalizedString("Tab.statistic", comment: ""),
+            title: NSLocalizedString("Tab.statistics", comment: "Статистика"),
             image: UIImage(systemName: "flag.2.crossed.fill"),
             selectedImage: nil
         )

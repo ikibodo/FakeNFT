@@ -12,7 +12,7 @@ final class CartConfirmPayView: UIViewController {
     }()
     private let payConfirmLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Cart.confirmPage.confirmLabel", comment: "")
+        label.text = NSLocalizedString("Cart.confirmPage.confirmLabel", comment: "Успех! Оплата прошла, \n поздравляем с покупкой!")
         label.textColor = .blackDayText
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -23,7 +23,7 @@ final class CartConfirmPayView: UIViewController {
     private let returnButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(NSLocalizedString("Cart.confirmPage.continue", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Cart.confirmPage.continue", comment: "Вернуться в каталог"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.backgroundColor = UIColor(named: "blackDayNight")
         button.layer.cornerRadius = 16

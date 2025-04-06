@@ -10,7 +10,7 @@ final class CartDeleteConfirmView: UIViewController {
     private let deleteButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(NSLocalizedString("Cart.deleteButton", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Cart.deleteButton", comment: "Удалить"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.setTitleColor(.redUniversal, for: .normal)
         button.backgroundColor = UIColor(named: "blackDayNight")
@@ -21,7 +21,7 @@ final class CartDeleteConfirmView: UIViewController {
     private let cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(NSLocalizedString("Cart.cancelButton", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Cart.cancelButton", comment: "Вернуться"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.backgroundColor = .blackDayText
         button.layer.cornerRadius = 12

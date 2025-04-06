@@ -53,7 +53,7 @@ final class CartPayViewController: UIViewController & CartPayViewControllerProto
     private let payButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(NSLocalizedString("Cart.payPage.payButton", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Cart.payPage.payButton", comment: "Оплатить"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.backgroundColor = UIColor(named: "blackDayNight")
         button.layer.cornerRadius = 16
