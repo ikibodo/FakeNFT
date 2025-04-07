@@ -21,6 +21,12 @@ final class TabBarController: UITabBarController {
     private let statisticsTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.statistics", comment: "Статистика"),
         image: UIImage(systemName: "flag.2.crossed.fill"),
+        tag: 3
+    )
+    
+    private let cartTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.cart", comment: "Корзина"),
+        image: UIImage(named: "cart"),
         tag: 2
     )
     
@@ -49,9 +55,15 @@ final class TabBarController: UITabBarController {
         profileController.setPresenter(presenter: profilePresenter)
         profileController.tabBarItem = profileTabBarItem
         
+        let cartController = CartViewController(
+            servicesAssembly: servicesAssembly
+        )
+        cartController.tabBarItem = cartTabBarItem
+        
         viewControllers = [
             UINavigationController(rootViewController: profileController),
             catalogController,
+            cartController,
             statisticsNavController
         ]
     }

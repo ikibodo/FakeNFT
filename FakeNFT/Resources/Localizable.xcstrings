@@ -1,6 +1,128 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
+    "Cart.cancelButton" : {
+      "comment" : "Вернуться",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться"
+          }
+        }
+      }
+    },
+    "Cart.confirmPage.confirmLabel1" : {
+      "comment" : "Успех! Оплата прошла,",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успех! Оплата прошла,"
+          }
+        }
+      }
+    },
+    "Cart.confirmPage.confirmLabel2" : {
+      "comment" : "поздравляем с покупкой!",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "поздравляем с покупкой!"
+          }
+        }
+      }
+    },
+    "Cart.confirmPage.continue" : {
+      "comment" : "Вернуться в каталог",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться в каталог"
+          }
+        }
+      }
+    },
+    "Cart.deleteButton" : {
+      "comment" : "Удалить",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Cart.payButton" : {
+      "comment" : "К оплате",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "К оплате"
+          }
+        }
+      }
+    },
+    "Cart.payPage.payButton" : {
+      "comment" : "Оплатить",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оплатить"
+          }
+        }
+      }
+    },
+    "Cart.price" : {
+      "comment" : "Цена",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цена"
+          }
+        }
+      }
+    },
+    "Cart.sortByName" : {
+      "comment" : "По имени",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По имени"
+          }
+        }
+      }
+    },
+    "Cart.sortByPrice" : {
+      "comment" : "По цене",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По цене"
+          }
+        }
+      }
+    },
+    "Cart.sortByRating" : {
+      "comment" : "По рейтингу",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По рейтингу"
+          }
+        }
+      }
+    },
     "Catalog.openNft" : {
       "comment" : "Открыть Nft",
       "localizations" : {
@@ -129,6 +251,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Мои NFT"
+          }
+        }
+      }
+    },
+    "Tab.cart" : {
+      "comment" : "Корзина",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Корзина"
           }
         }
       }
