@@ -63,8 +63,8 @@ final class TabBarController: UITabBarController {
         viewControllers = [
             UINavigationController(rootViewController: profileController),
             catalogController,
-            statisticsNavController,
-            cartController
+            cartController,
+            statisticsNavController
         ]
     }
 }
