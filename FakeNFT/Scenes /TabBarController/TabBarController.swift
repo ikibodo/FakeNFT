@@ -8,7 +8,7 @@ final class TabBarController: UITabBarController {
         title: NSLocalizedString("Tab.catalog", comment: "Каталог"),
         image: UIImage(systemName: "square.stack.3d.up.fill"),
         
-        tag: 0
+        tag: 1
     )
     
     private let profileTabBarItem = UITabBarItem(
@@ -27,7 +27,7 @@ final class TabBarController: UITabBarController {
     private let cartTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.cart", comment: "Корзина"),
         image: UIImage(named: "cart"),
-        tag: 1
+        tag: 2
     )
     
     override func viewDidLoad() {
@@ -55,16 +55,16 @@ final class TabBarController: UITabBarController {
         profileController.setPresenter(presenter: profilePresenter)
         profileController.tabBarItem = profileTabBarItem
         
-//        let cartController = CartViewController(
-//            servicesAssembly: servicesAssembly
-//        )
-//        cartController.tabBarItem = cartTabBarItem
+        let cartController = CartViewController(
+            servicesAssembly: servicesAssembly
+        )
+        cartController.tabBarItem = cartTabBarItem
         
         viewControllers = [
             UINavigationController(rootViewController: profileController),
             catalogController,
             statisticsNavController,
-//            cartController
+            cartController
         ]
     }
 }
