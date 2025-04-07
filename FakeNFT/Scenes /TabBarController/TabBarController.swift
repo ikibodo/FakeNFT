@@ -11,18 +11,18 @@ final class TabBarController: UITabBarController {
         tag: 0
     )
     
-//    private let profileTabBarItem = UITabBarItem(
-//        title: NSLocalizedString("Tab.profile", comment: "Профиль"),
-//        image: UIImage(systemName: "person.circle.fill"),
+    private let profileTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.profile", comment: "Профиль"),
+        image: UIImage(systemName: "person.circle.fill"),
         
-//        tag: 0
-//    )
+        tag: 0
+    )
     
-//    private let statisticsTabBarItem = UITabBarItem(
-//        title: NSLocalizedString("Tab.statistics", comment: "Статистика"),
-//        image: UIImage(systemName: "flag.2.crossed.fill"),
-//        tag: 3
-//    )
+    private let statisticsTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.statistics", comment: "Статистика"),
+        image: UIImage(systemName: "flag.2.crossed.fill"),
+        tag: 3
+    )
     
     private let cartTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.cart", comment: "Корзина"),
@@ -54,17 +54,17 @@ final class TabBarController: UITabBarController {
         )
         profileController.setPresenter(presenter: profilePresenter)
         profileController.tabBarItem = profileTabBarItem
-
-        let cartController = CartViewController(
-            servicesAssembly: servicesAssembly
-        )
-        cartController.tabBarItem = cartTabBarItem
+        
+//        let cartController = CartViewController(
+//            servicesAssembly: servicesAssembly
+//        )
+//        cartController.tabBarItem = cartTabBarItem
         
         viewControllers = [
             UINavigationController(rootViewController: profileController),
             catalogController,
-            statisticsNavController
-            cartController
+            statisticsNavController,
+//            cartController
         ]
     }
 }

@@ -3,7 +3,7 @@ import UIKit
 protocol CartPresenterProtocol {
     var visibleNft: [Nft] { get set }
     var view: CartViewControllerProtocol? { get set }
-    var sortType: SortType { get set }
+    var sortTypes: SortTypes { get set }
     var priceCart: Double? { get set }
     
     func editOrder(typeOfEdit: EditType, nftId: String, completion: @escaping (Error?) -> Void)
@@ -12,7 +12,7 @@ protocol CartPresenterProtocol {
     func cleanCart()
 }
 
-enum SortType {
+enum SortTypes {
     case none
     case byName
     case byPrice
@@ -26,7 +26,7 @@ enum EditType {
 
 final class CartPresenter: CartPresenterProtocol {
     weak var view: CartViewControllerProtocol?
-    var sortType: SortType = {
+    var sortTypes: SortTypes = {
         let type = UserDefaults.standard.string(forKey: "CartSorted")
         switch type {
         case "byName":
@@ -127,7 +127,7 @@ final class CartPresenter: CartPresenterProtocol {
     }
     
     func sortCatalog() {
-        sortType = {
+        sortTypes = {
             let type = UserDefaults.standard.string(forKey: "CartSorted")
             switch type {
             case "byName":
@@ -140,7 +140,7 @@ final class CartPresenter: CartPresenterProtocol {
                 return .byName
             }
         }()
-        switch sortType {
+        switch sortTypes {
         case .none:
             break
         case .byName:

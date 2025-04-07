@@ -8,8 +8,4 @@ struct Nft: Codable {
     let description: String
     let price: Double
     let author: String
-    let name: String
-    let rating: Int
-    let price: Double
-    let author: String
 }

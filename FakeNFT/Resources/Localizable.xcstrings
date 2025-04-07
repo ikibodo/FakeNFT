@@ -124,7 +124,6 @@
     },
     "Collection.Nft" : {
       "comment" : "Коллекция NFT",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -180,7 +179,6 @@
     },
     "Profile.EditProfile.changeFoto" : {
       "comment" : "Сменить фото",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -192,7 +190,6 @@
     },
     "Profile.EditProfile.description" : {
       "comment" : "Описание",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -204,7 +201,6 @@
     },
     "Profile.EditProfile.name" : {
       "comment" : "Имя",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -216,7 +212,6 @@
     },
     "Profile.EditProfile.website" : {
       "comment" : "Сайт",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -228,7 +223,6 @@
     },
     "Profile.FavoritesNFT.title" : {
       "comment" : "Избранные NFT",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -240,7 +234,6 @@
     },
     "Profile.MyNFT.title" : {
       "comment" : "Мои NFT",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -296,7 +289,6 @@
     },
     "User.site" : {
       "comment" : "Перейти на сайт пользователя",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

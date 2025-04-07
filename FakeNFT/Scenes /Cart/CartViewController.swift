@@ -95,6 +95,7 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
     init(servicesAssembly: ServicesAssembly) {
         self.servicesAssembly = servicesAssembly
         super.init(nibName: nil, bundle: nil)
+        self.presenter = CartPresenter()
     }
     
     required init?(coder: NSCoder) {
