@@ -10,7 +10,6 @@
 		08CBBF1D2D8A09E4006D7593 /* CartDeleteConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF1C2D8A09D5006D7593 /* CartDeleteConfirmView.swift */; };
 		08CBBF1F2D8A0C23006D7593 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF1E2D8A0C14006D7593 /* CartViewController.swift */; };
 		08CBBF212D8A1248006D7593 /* CustomCellViewCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF202D8A123C006D7593 /* CustomCellViewCart.swift */; };
-		08CBBF232D8B30A1006D7593 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF222D8B3096006D7593 /* CatalogViewController.swift */; };
 		08CBBF262D8B30BB006D7593 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF252D8B30B1006D7593 /* ProfileViewController.swift */; };
 		08CBBF292D8B3116006D7593 /* StatiscticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF282D8B3108006D7593 /* StatiscticsViewController.swift */; };
 		08CBBF2D2D8B45A3006D7593 /* CartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF2C2D8B459D006D7593 /* CartPresenter.swift */; };
@@ -25,6 +24,7 @@
 		08CBBF412D9C24A7006D7593 /* CartConfirmPayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF402D9C2498006D7593 /* CartConfirmPayView.swift */; };
 		08CBBF432D9D1CCC006D7593 /* PayAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF422D9D1CBD006D7593 /* PayAnswer.swift */; };
 		08CBBF452D9D1E4C006D7593 /* CartNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF442D9D1E36006D7593 /* CartNetwork.swift */; };
+		08E70BE12DA44FFA0013887F /* TestCatalogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E70BE02DA44FFA0013887F /* TestCatalogController.swift */; };
 		0C79EE612A76DCD600EE90EA /* NftByIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C79EE602A76DCD600EE90EA /* NftByIdRequest.swift */; };
 		0C79EE632A76DD1900EE90EA /* RequestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C79EE622A76DD1900EE90EA /* RequestConstants.swift */; };
 		0C79EE662A76DDFF00EE90EA /* NftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C79EE652A76DDFF00EE90EA /* NftDetailViewController.swift */; };
@@ -85,7 +85,6 @@
 		08CBBF1C2D8A09D5006D7593 /* CartDeleteConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDeleteConfirmView.swift; sourceTree = "<group>"; };
 		08CBBF1E2D8A0C14006D7593 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		08CBBF202D8A123C006D7593 /* CustomCellViewCart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellViewCart.swift; sourceTree = "<group>"; };
-		08CBBF222D8B3096006D7593 /* CatalogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		08CBBF252D8B30B1006D7593 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		08CBBF282D8B3108006D7593 /* StatiscticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatiscticsViewController.swift; sourceTree = "<group>"; };
 		08CBBF2C2D8B459D006D7593 /* CartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPresenter.swift; sourceTree = "<group>"; };
@@ -100,6 +99,7 @@
 		08CBBF402D9C2498006D7593 /* CartConfirmPayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartConfirmPayView.swift; sourceTree = "<group>"; };
 		08CBBF422D9D1CBD006D7593 /* PayAnswer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAnswer.swift; sourceTree = "<group>"; };
 		08CBBF442D9D1E36006D7593 /* CartNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartNetwork.swift; sourceTree = "<group>"; };
+		08E70BE02DA44FFA0013887F /* TestCatalogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCatalogController.swift; sourceTree = "<group>"; };
 		0C79EE602A76DCD600EE90EA /* NftByIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftByIdRequest.swift; sourceTree = "<group>"; };
 		0C79EE622A76DD1900EE90EA /* RequestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestConstants.swift; sourceTree = "<group>"; };
 		0C79EE652A76DDFF00EE90EA /* NftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftDetailViewController.swift; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 		0CFCB7472A7808870009A829 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
-				08CBBF222D8B3096006D7593 /* CatalogViewController.swift */,
+				08E70BE02DA44FFA0013887F /* TestCatalogController.swift */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -579,6 +579,7 @@
 				E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */,
 				3F478ED129DB476500F6D39E /* Fonts.swift in Sources */,
 				08CBBF412D9C24A7006D7593 /* CartConfirmPayView.swift in Sources */,
+				08E70BE12DA44FFA0013887F /* TestCatalogController.swift in Sources */,
 				0C79EE6A2A76DE1000EE90EA /* NftDetailAssembly.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				08CBBF212D8A1248006D7593 /* CustomCellViewCart.swift in Sources */,
@@ -594,7 +595,6 @@
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				08CBBF352D92C5EF006D7593 /* CartPayViewController.swift in Sources */,
-				08CBBF232D8B30A1006D7593 /* CatalogViewController.swift in Sources */,
 				558E39E72C68CE0A00FB86AC /* NftService.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
 				08CBBF3B2D932199006D7593 /* WebViewController.swift in Sources */,

@@ -113,7 +113,6 @@
     },
     "Catalog.openNft" : {
       "comment" : "Открыть Nft",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

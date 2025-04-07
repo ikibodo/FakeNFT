@@ -12,6 +12,8 @@ protocol CartViewControllerProtocol: AnyObject {
 }
 
 final class CartViewController: UIViewController & CartViewControllerProtocol {
+    
+    let servicesAssembly: ServicesAssembly
     var presenter: CartPresenterProtocol? = CartPresenter()
     private let refreshControl = UIRefreshControl()
     private static var window: UIWindow? {
@@ -89,6 +91,15 @@ final class CartViewController: UIViewController & CartViewControllerProtocol {
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return label
     }()
+    
+    init(servicesAssembly: ServicesAssembly) {
+        self.servicesAssembly = servicesAssembly
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
