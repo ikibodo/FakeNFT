@@ -12,7 +12,9 @@ final class CartConfirmPayView: UIViewController {
     }()
     private let payConfirmLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Cart.confirmPage.confirmLabel", comment: "Успех! Оплата прошла, \n поздравляем с покупкой!")
+        let cartConfirmText1 = NSLocalizedString("Cart.confirmPage.confirmLabel1", comment: "Успех! Оплата прошла,")
+        let cartConfirmText2 = NSLocalizedString("Cart.confirmPage.confirmLabel2", comment: "поздравляем с покупкой!")
+        label.text = "\(cartConfirmText1)" + "\n" + "\(cartConfirmText2)"
         label.textColor = .blackDayText
         label.textAlignment = .center
         label.numberOfLines = 2

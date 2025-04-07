@@ -12,13 +12,25 @@
         }
       }
     },
-    "Cart.confirmPage.confirmLabel" : {
-      "comment" : "Успех! Оплата прошла, \n поздравляем с покупкой!",
+    "Cart.confirmPage.confirmLabel1" : {
+      "comment" : "Успех! Оплата прошла,",
+      "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Успех! Оплата прошла, поздравляем с покупкой!"
+            "value" : "Успех! Оплата прошла,"
+          }
+        }
+      }
+    },
+    "Cart.confirmPage.confirmLabel2" : {
+      "comment" : "поздравляем с покупкой!",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "поздравляем с покупкой!"
           }
         }
       }
