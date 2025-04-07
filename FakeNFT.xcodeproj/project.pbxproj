@@ -25,6 +25,7 @@
 		08CBBF432D9D1CCC006D7593 /* PayAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF422D9D1CBD006D7593 /* PayAnswer.swift */; };
 		08CBBF452D9D1E4C006D7593 /* CartNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CBBF442D9D1E36006D7593 /* CartNetwork.swift */; };
 		08E70BE12DA44FFA0013887F /* TestCatalogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E70BE02DA44FFA0013887F /* TestCatalogController.swift */; };
+		08E70BE52DA45D0F0013887F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08E70BE42DA45D0F0013887F /* Main.storyboard */; };
 		0C79EE612A76DCD600EE90EA /* NftByIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C79EE602A76DCD600EE90EA /* NftByIdRequest.swift */; };
 		0C79EE632A76DD1900EE90EA /* RequestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C79EE622A76DD1900EE90EA /* RequestConstants.swift */; };
 		0C79EE662A76DDFF00EE90EA /* NftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C79EE652A76DDFF00EE90EA /* NftDetailViewController.swift */; };
@@ -47,7 +48,6 @@
 		3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F68069629CBBAF100B4F915 /* AppDelegate.swift */; };
 		3F68069929CBBAF100B4F915 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F68069829CBBAF100B4F915 /* SceneDelegate.swift */; };
 		3F68069B29CBBAF100B4F915 /* ProductDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F68069A29CBBAF100B4F915 /* ProductDetailsTableViewController.swift */; };
-		3F68069E29CBBAF100B4F915 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F68069C29CBBAF100B4F915 /* Main.storyboard */; };
 		3F6806A029CBBAF200B4F915 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F68069F29CBBAF200B4F915 /* Assets.xcassets */; };
 		3F6806A329CBBAF200B4F915 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F6806A129CBBAF200B4F915 /* LaunchScreen.storyboard */; };
 		3F6806AE29CBBAF200B4F915 /* ExampleUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6806AD29CBBAF200B4F915 /* ExampleUnitTests.swift */; };
@@ -79,7 +79,6 @@
 		61D345742D877DB500CB0128 /* ProfileByldRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D345732D877DB500CB0128 /* ProfileByldRequest.swift */; };
 		61E067832D8A06BC00D51099 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E067822D8A06BC00D51099 /* ProfilePresenter.swift */; };
 		61E067852D8A0CE300D51099 /* EditProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E067842D8A0CE300D51099 /* EditProfilePresenter.swift */; };
-		61E067892D8CB64B00D51099 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 61E067882D8CB64B00D51099 /* Localizable.xcstrings */; };
 		6C6411D52D91B45C00529103 /* StatisticsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411D42D91B45B00529103 /* StatisticsWebViewController.swift */; };
 		6C6411D72D91B59300529103 /* StatisticsWebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411D62D91B59100529103 /* StatisticsWebViewPresenter.swift */; };
 		6C6411D92D92A4F600529103 /* StatisticsUserCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6411D82D92A4F400529103 /* StatisticsUserCollectionViewController.swift */; };
@@ -139,6 +138,7 @@
 		08CBBF422D9D1CBD006D7593 /* PayAnswer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAnswer.swift; sourceTree = "<group>"; };
 		08CBBF442D9D1E36006D7593 /* CartNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartNetwork.swift; sourceTree = "<group>"; };
 		08E70BE02DA44FFA0013887F /* TestCatalogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCatalogController.swift; sourceTree = "<group>"; };
+		08E70BE42DA45D0F0013887F /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0C79EE602A76DCD600EE90EA /* NftByIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftByIdRequest.swift; sourceTree = "<group>"; };
 		0C79EE622A76DD1900EE90EA /* RequestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestConstants.swift; sourceTree = "<group>"; };
 		0C79EE652A76DDFF00EE90EA /* NftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftDetailViewController.swift; sourceTree = "<group>"; };
@@ -160,7 +160,6 @@
 		3F68069629CBBAF100B4F915 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F68069829CBBAF100B4F915 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3F68069A29CBBAF100B4F915 /* ProductDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsTableViewController.swift; sourceTree = "<group>"; };
-		3F68069D29CBBAF100B4F915 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3F68069F29CBBAF200B4F915 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F6806A229CBBAF200B4F915 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3F6806A429CBBAF200B4F915 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -195,7 +194,6 @@
 		61D345732D877DB500CB0128 /* ProfileByldRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileByldRequest.swift; sourceTree = "<group>"; };
 		61E067822D8A06BC00D51099 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		61E067842D8A0CE300D51099 /* EditProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfilePresenter.swift; sourceTree = "<group>"; };
-		61E067882D8CB64B00D51099 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		6C6411D42D91B45B00529103 /* StatisticsWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsWebViewController.swift; sourceTree = "<group>"; };
 		6C6411D62D91B59100529103 /* StatisticsWebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsWebViewPresenter.swift; sourceTree = "<group>"; };
 		6C6411D82D92A4F400529103 /* StatisticsUserCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsUserCollectionViewController.swift; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 		6CE4E7662D90593B006C4284 /* StatisticsUserPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsUserPresenter.swift; sourceTree = "<group>"; };
 		E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		E1CD40D82A96BE7D00BE7FE8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		E1CD40D92A96BE7D00BE7FE8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		E1CD40DB2A96BECC00BE7FE8 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -248,39 +245,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		08CBBF1B2D8A06C3006D7593 /* Cart */ = {
+		08E70BE32DA459E30013887F /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				08CBBF442D9D1E36006D7593 /* CartNetwork.swift */,
-				08CBBF402D9C2498006D7593 /* CartConfirmPayView.swift */,
 				08CBBF3E2D935213006D7593 /* CartGetNftsRequest.swift */,
-				08CBBF3A2D93218C006D7593 /* WebViewController.swift */,
-				08CBBF382D931D86006D7593 /* CustomCellCollectionViewCart.swift */,
-				08CBBF362D931B4B006D7593 /* CartRequest.swift */,
-				08CBBF342D92C5C9006D7593 /* CartPayViewController.swift */,
-				08CBBF302D92C171006D7593 /* CartPayPresenter.swift */,
-				08CBBF2C2D8B459D006D7593 /* CartPresenter.swift */,
+				08CBBF402D9C2498006D7593 /* CartConfirmPayView.swift */,
 				08CBBF202D8A123C006D7593 /* CustomCellViewCart.swift */,
+				08CBBF382D931D86006D7593 /* CustomCellCollectionViewCart.swift */,
+				08CBBF2C2D8B459D006D7593 /* CartPresenter.swift */,
 				08CBBF1E2D8A0C14006D7593 /* CartViewController.swift */,
+				08CBBF442D9D1E36006D7593 /* CartNetwork.swift */,
+				08CBBF342D92C5C9006D7593 /* CartPayViewController.swift */,
+				08CBBF3A2D93218C006D7593 /* WebViewController.swift */,
+				08CBBF282D8B3108006D7593 /* StatiscticsViewController.swift */,
+				08CBBF302D92C171006D7593 /* CartPayPresenter.swift */,
+				08CBBF362D931B4B006D7593 /* CartRequest.swift */,
 				08CBBF1C2D8A09D5006D7593 /* CartDeleteConfirmView.swift */,
-			);
-			path = Cart;
-			sourceTree = "<group>";
-		};
-		08CBBF242D8B30A9006D7593 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
 				08CBBF252D8B30B1006D7593 /* ProfileViewController.swift */,
 			);
-			path = Profile;
-			sourceTree = "<group>";
-		};
-		08CBBF272D8B30FD006D7593 /* Statistics */ = {
-			isa = PBXGroup;
-			children = (
-				08CBBF282D8B3108006D7593 /* StatiscticsViewController.swift */,
-			);
-			path = Statistics;
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		0C79EE642A76DDCF00EE90EA /* NftDetails */ = {
@@ -355,6 +338,7 @@
 				3F6806AC29CBBAF200B4F915 /* FakeNFTTests */,
 				3F6806B629CBBAF200B4F915 /* FakeNFTUITests */,
 				3F68069429CBBAF100B4F915 /* Products */,
+				08E70BE32DA459E30013887F /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -634,7 +618,7 @@
 		E1CD40DA2A96BE9B00BE7FE8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3F68069C29CBBAF100B4F915 /* Main.storyboard */,
+				08E70BE42DA45D0F0013887F /* Main.storyboard */,
 				3F68069F29CBBAF200B4F915 /* Assets.xcassets */,
 				3F6806A129CBBAF200B4F915 /* LaunchScreen.storyboard */,
 				E1CD40DB2A96BECC00BE7FE8 /* Localizable.xcstrings */,
@@ -756,9 +740,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F6806A329CBBAF200B4F915 /* LaunchScreen.storyboard in Resources */,
+				08E70BE52DA45D0F0013887F /* Main.storyboard in Resources */,
 				E1CD40DC2A96BECC00BE7FE8 /* Localizable.xcstrings in Resources */,
 				3F6806A029CBBAF200B4F915 /* Assets.xcassets in Resources */,
-				3F68069E29CBBAF100B4F915 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -860,7 +844,6 @@
 				6CADF4092D8EBC47002B4780 /* StatisticsUserService.swift in Sources */,
 				6CADF40B2D8EDF9C002B4780 /* StatisticsUserViewController.swift in Sources */,
 				3F6806D329CBBE9600B4F915 /* NetworkRequest.swift in Sources */,
-				0CFCB7492A7808900009A829 /* TestCatalogController.swift in Sources */,
 				613395F12D95F296007CEE82 /* FavoriteNFTCell.swift in Sources */,
 				61D345722D877ADA00CB0128 /* ProfileService.swift in Sources */,
 				3F6806D129CBBE6B00B4F915 /* NetworkClient.swift in Sources */,
@@ -904,15 +887,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3F68069C29CBBAF100B4F915 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3F68069D29CBBAF100B4F915 /* Base */,
-				E1CD40D82A96BE7D00BE7FE8 /* ru */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		3F6806A129CBBAF200B4F915 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
