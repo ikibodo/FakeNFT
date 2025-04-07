@@ -41,14 +41,29 @@ final class TabBarController: UITabBarController {
         )
         catalogController.tabBarItem = catalogTabBarItem
         
+        let statisticsController = StatisticsViewController(
+            servicesAssembly: servicesAssembly
+        )
+        statisticsController.tabBarItem = statisticsTabBarItem
+        let statisticsNavController = UINavigationController(rootViewController: statisticsController)
+        
+        let profileController = ProfileController(servicesAssembly: servicesAssembly)
+        let profilePresenter = ProfilePresenter(
+            view: profileController,
+            profileService: servicesAssembly.profileService
+        )
+        profileController.setPresenter(presenter: profilePresenter)
+        profileController.tabBarItem = profileTabBarItem
+
         let cartController = CartViewController(
             servicesAssembly: servicesAssembly
         )
         cartController.tabBarItem = cartTabBarItem
         
         viewControllers = [
-            UINavigationController(rootViewController: cartController),
+            UINavigationController(rootViewController: profileController),
             catalogController,
+            statisticsNavController
             cartController
         ]
     }
