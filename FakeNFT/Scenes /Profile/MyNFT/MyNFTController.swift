@@ -47,7 +47,7 @@ final class MyNFTController: UIViewController {
     
     private lazy var sortButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "sort"), for: .normal)
+        button.setImage(UIImage(named: "Sort"), for: .normal)
         button.tintColor = UIColor.black
         button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
         button.addSubview(sortIndicator)
