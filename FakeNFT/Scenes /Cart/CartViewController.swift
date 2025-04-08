@@ -254,7 +254,9 @@ extension CartViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.backgroundColor = .clear
         cell.delegate = self
-        guard let data = presenter?.visibleNft[indexPath.row] else { return UITableViewCell() }
+        guard let visibleNft = presenter?.visibleNft, indexPath.row < visibleNft.count else { return UITableViewCell() }
+            
+        let data = visibleNft[indexPath.row]
         let url = data.images.first
         let processor = RoundCornerImageProcessor(cornerRadius: 12)
         cell.imageViews.kf.setImage(with: url, placeholder: nil, options: [.processor(processor)])
