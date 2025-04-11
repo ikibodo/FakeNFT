@@ -1,0 +1,315 @@
+{
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "Cart.cancelButton" : {
+      "comment" : "Вернуться",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться"
+          }
+        }
+      }
+    },
+    "Cart.confirmPage.confirmLabel1" : {
+      "comment" : "Успех! Оплата прошла,",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успех! Оплата прошла,"
+          }
+        }
+      }
+    },
+    "Cart.confirmPage.confirmLabel2" : {
+      "comment" : "поздравляем с покупкой!",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "поздравляем с покупкой!"
+          }
+        }
+      }
+    },
+    "Cart.confirmPage.continue" : {
+      "comment" : "Вернуться в каталог",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться в каталог"
+          }
+        }
+      }
+    },
+    "Cart.deleteButton" : {
+      "comment" : "Удалить",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Cart.payButton" : {
+      "comment" : "К оплате",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "К оплате"
+          }
+        }
+      }
+    },
+    "Cart.payPage.payButton" : {
+      "comment" : "Оплатить",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оплатить"
+          }
+        }
+      }
+    },
+    "Cart.price" : {
+      "comment" : "Цена",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цена"
+          }
+        }
+      }
+    },
+    "Cart.sortByName" : {
+      "comment" : "По имени",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По имени"
+          }
+        }
+      }
+    },
+    "Cart.sortByPrice" : {
+      "comment" : "По цене",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По цене"
+          }
+        }
+      }
+    },
+    "Cart.sortByRating" : {
+      "comment" : "По рейтингу",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По рейтингу"
+          }
+        }
+      }
+    },
+    "Catalog.openNft" : {
+      "comment" : "Открыть Nft",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Nft"
+          }
+        }
+      }
+    },
+    "Collection.Nft" : {
+      "comment" : "Коллекция NFT",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коллекция NFT"
+          }
+        }
+      }
+    },
+    "Error.network" : {
+      "comment" : "Произошла ошибка сети",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Произошла ошибка сети"
+          }
+        }
+      }
+    },
+    "Error.repeat" : {
+      "comment" : "Повторить",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторить"
+          }
+        }
+      }
+    },
+    "Error.title" : {
+      "comment" : "Ошибка",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка"
+          }
+        }
+      }
+    },
+    "Error.unknown" : {
+      "comment" : "Произошла неизвестная ошибка",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Произошла неизвестная ошибка"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.changeFoto" : {
+      "comment" : "Сменить фото",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сменить фото"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.description" : {
+      "comment" : "Описание",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.name" : {
+      "comment" : "Имя",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
+          }
+        }
+      }
+    },
+    "Profile.EditProfile.website" : {
+      "comment" : "Сайт",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сайт"
+          }
+        }
+      }
+    },
+    "Profile.FavoritesNFT.title" : {
+      "comment" : "Избранные NFT",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранные NFT"
+          }
+        }
+      }
+    },
+    "Profile.MyNFT.title" : {
+      "comment" : "Мои NFT",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои NFT"
+          }
+        }
+      }
+    },
+    "Tab.cart" : {
+      "comment" : "Корзина",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Корзина"
+          }
+        }
+      }
+    },
+    "Tab.catalog" : {
+      "comment" : "Каталог",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каталог"
+          }
+        }
+      }
+    },
+    "Tab.profile" : {
+      "comment" : "Профиль",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Профиль"
+          }
+        }
+      }
+    },
+    "Tab.statistics" : {
+      "comment" : "Статистика",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статистика"
+          }
+        }
+      }
+    },
+    "User.site" : {
+      "comment" : "Перейти на сайт пользователя",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти на сайт пользователя"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
