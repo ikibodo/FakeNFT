@@ -1,14 +1,17 @@
+[Read in English](./README.md)
+
+
 # ТЗ мобильного приложения FakeNFT
 
 # Ссылки
 
 [Дизайн Figma](https://www.figma.com/file/k1LcgXHGTHIeiCv4XuPbND/FakeNFT-(YP)?node-id=96-5542&t=YdNbOI8EcqdYmDeg-0)
 
-[Скринкаст Профиль](https://vkvideo.ru/video-230044598_456239023?list=ln-RvM2QLiMABAGFDpEvP)
+[Скринкаст Профиль](https://youtube.com/shorts/fDB_H58HZeo?feature=shared)
 
-[Скринкаст Корзина](https://vkvideo.ru/video-230044598_456239024?list=ln-57LTOfm0ivBA0MJmxE)
+[Скринкаст Корзина](https://youtube.com/shorts/QWTx-O4-NNM?feature=shared)
 
-[Скринкаст Статистика](https://vkvideo.ru/@club230044598?z=clip-230044598_456239022%2Fclub230044598)
+[Скринкаст Статистика](https://youtube.com/shorts/pOBJhAXQD3U?feature=shared)
 
 # Назначение и цели приложения
 
